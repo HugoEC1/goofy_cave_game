@@ -34,7 +34,7 @@ class Main{
             }
         }
 
-        System.out.println("Have a nice day!");
+        System.out.println("Kill yourself");
     }
 
     private static void demo(){
@@ -58,9 +58,9 @@ class Main{
         int numberOfEnemies;
         while(true){
             try {
-                System.out.print("World size (400 recomneded): ");
+                System.out.print("World size (400 recommended): ");
                 size = Integer.parseInt(input.nextLine());
-                System.out.print("Minumum cave area (50000 recomneded): ");
+                System.out.print("Minimum cave area (50000 recommended): ");
                 area = Integer.parseInt(input.nextLine());
                 System.out.println("Enemies: ");
                 numberOfEnemies = Integer.parseInt(input.nextLine());

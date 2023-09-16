@@ -1,8 +1,13 @@
 public class EnemyManager{
     Enemy[] enemyList;
+    Enemy[] enemyTypes;
+    
+
+    int totalSpawnWeight = 0;
 
     public EnemyManager(int numberOfEnemies, String[][] grid){
         enemyList = new Enemy[numberOfEnemies];
+
 
         for (int i = 0; i < enemyList.length; i++) {
             int spawnPosition[];
@@ -12,6 +17,7 @@ public class EnemyManager{
                     break;
                 }
             }
+
             enemyList[i] = new Swarmer(spawnPosition, grid);
         }
     }
@@ -72,6 +78,7 @@ public class EnemyManager{
         public int hp;
         protected int speed;
         protected int damage;
+        protected int spawnWeight;
 
         public int[] position;
 
@@ -99,10 +106,11 @@ public class EnemyManager{
         int turnsStuck;
 
         public Swarmer(int[] spawnPosition, String[][] grid){
-            this.maxHealth = 20;
+            this.maxHealth = 10;
             this.hp = maxHealth;
             this.speed = 3;
-            this.damage = 15;
+            this.damage = 10;
+            this.spawnWeight = 10;
             this.position = spawnPosition;
             this.targetPosition = chooseWanderSpot(grid);
             pathfind(position, targetPosition, grid);
@@ -119,9 +127,11 @@ public class EnemyManager{
                 pathfind(position, targetPosition, grid);
             }
             if(Vision.hasSightline(player.position[0], player.position[1], position, grid)){
-                targetPosition = Hutil.copy(player.position);
-
-                pathfind(position, targetPosition, grid);
+                //as long as player is in sight swarmer tells all other swarmers where the player is
+                for (Enemy swarmer : enemyList) {
+                    ((Swarmer)swarmer).targetPosition = Hutil.copy(player.position);
+                    ((Swarmer)swarmer).pathfind(position, targetPosition, grid);
+                }
             }
 
             if(turnsStuck >= 3){
@@ -184,6 +194,31 @@ public class EnemyManager{
 
         public String toString(){
             return colour.RED + "*" + colour.RESET;
+        }
+
+    }
+    class SwarmerNest extends Enemy{
+        public SwarmerNest(int[] spawnPosition, String[][] grid){
+            this.maxHealth = 100;
+            this.hp = maxHealth;
+            this.spawnWeight = 1;
+            this.position = spawnPosition;
+            this.swarmersLeft = Hutil.random(10, 30);
+        }
+
+        public void turn(Player player, String[][] grid){
+
+            if(Vision.hasSightline(player.position[0], player.position[1], position, grid)){
+                //as long as player is in sight swarmer nest spawns swarmers until it runs out
+                for (Enemy swarmer : enemyList) {
+                    ((Swarmer)swarmer).targetPosition = Hutil.copy(player.position);
+                    ((Swarmer)swarmer).pathfind(position, targetPosition, grid);
+                }
+            }
+        }
+
+        public String toString(){
+            return colour.RED + "0" + colour.RESET;
         }
 
     }
