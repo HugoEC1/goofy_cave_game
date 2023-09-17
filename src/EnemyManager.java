@@ -1,14 +1,13 @@
-import java.util.*;
 public class EnemyManager{
     Enemy[] enemyList;
-    Enemy[] enemyTypes = new Enemy[2];
+    Enemy[] enemyInit = {new Swarmer(), new SwarmerNest(), new GoldenFreddy()};
+    int turnSpeed = Main.TURN_SPEED;
     int totalSpawnWeight = 0;
 
     public EnemyManager(int numberOfEnemies, String[][] grid){
         enemyList = new Enemy[numberOfEnemies];
-
-        for (int weight : enemyWeights) {
-            totalSpawnWeight += weight;
+        for (Enemy enemy : enemyInit) {
+            totalSpawnWeight += enemy.spawnWeight;
         }
 
         for (int i = 0; i < enemyList.length; i++) {
@@ -20,11 +19,14 @@ public class EnemyManager{
                 }
             }
             int j = 0;
-            for (int rand = Hutil.random(0, totalSpawnWeight); j < enemyWeights.length - 1; j++) {
-                rand -=
+            for (int rand = Hutil.random(0, totalSpawnWeight); j < enemyInit.length - 1; j++) {
+                rand -= enemyInit[j].spawnWeight;
+                if (rand <= 0) {
+                    break;
+                }
             }
-
-            enemyList[i] = new Swarmer(spawnPosition, grid);
+            enemyList[i] = enemyInit[j].copy(); //enemyList won't just refer to objects in enemyInit but copies of them
+            enemyList[i].spawn(spawnPosition);
         }
     }
 
@@ -78,27 +80,22 @@ public class EnemyManager{
         enemyList = new_list;
     }
 
-    public class Enemy {
+    public abstract class Enemy {
         public int maxHealth;
         public int hp;
         protected int speed;
         protected int damage;
         protected int spawnWeight;
         public int[] position;
-
-        public void turn(Player player, String[][] grid){
-            if(Vision.hasSightline(player.position[0], player.position[1], position, grid)){
-                // do something
-            }
-        }
-
+        public abstract void turn(Player player, String[][] grid);
+        public abstract void spawn(int[] spawnPosition);
+        public abstract Enemy copy();
         public void takeDamage(int x){
             hp -= x;
             if(hp <= 0){
                 die();
             }
         }
-
         protected void die(){
             removeEnemy(this);
         }
@@ -107,53 +104,61 @@ public class EnemyManager{
     class Swarmer extends Enemy{
         int[] targetPosition;
         int[][] path;
+        int turnIndex;
         int turnsStuck;
 
-        public Swarmer(String[][] grid){
+        public Swarmer(){
             this.maxHealth = 10;
             this.hp = maxHealth;
-            this.speed = 3;
+            this.speed = 10;
             this.damage = 10;
             this.spawnWeight = 10;
-            this.targetPosition = chooseWanderSpot(grid);
-            pathfind(position, targetPosition, grid);
+            turnIndex = 0;
             turnsStuck = 0;
         }
 
-        public int getSpawnWeight() {
-            return spawnWeight;
-        }
-
-        public void setSpawn(int[] spawnPosition) {
+        public void spawn(int[] spawnPosition) {
             this.position = spawnPosition;
+            this.targetPosition = position; //this just makes the target position its current position so on the next turn it starts wandering.
+            // this is to make the spawn method only need the one param
+        }
+        public Swarmer copy() {
+            return new Swarmer();
         }
         public void turn(Player player, String[][] grid){
-            if (position == null) {
-                return;
-            }
+            turnIndex += speed;
 
-            if(path == null){
-                pathfind(position, targetPosition, grid);
-            }
-
-            if(Hutil.equals(targetPosition, position)){
-                targetPosition = chooseWanderSpot(grid);
-                pathfind(position, targetPosition, grid);
-            }
-            if(Vision.hasSightline(player.position[0], player.position[1], position, grid)){
-                //as long as player is in sight swarmer tells all other swarmers where the player is
-                for (Enemy swarmer : enemyList) {
-                    ((Swarmer)swarmer).targetPosition = Hutil.copy(player.position);
-                    ((Swarmer)swarmer).pathfind(position, targetPosition, grid);
+            while (turnIndex >= turnSpeed) {
+                turnIndex -= turnSpeed;
+                if (position == null) {
+                    return;
                 }
-            }
 
-            if(turnsStuck >= 3){
-                pathfind(position, targetPosition, grid, enemyList);
-            }
+                if (path == null) {
+                    pathfind(position, targetPosition, grid);
+                }
 
-            if(path != null){
-                move(path[path.length-1], player, grid);
+                if (Hutil.equals(targetPosition, position)) {
+                    targetPosition = chooseWanderSpot(grid);
+                    pathfind(position, targetPosition, grid);
+                }
+                if (Vision.hasSightline(player.position[0], player.position[1], position, grid)) {
+                    //as long as player is in sight swarmer tells all other swarmers where the player is
+                    for (Enemy swarmer : enemyList) {
+                        if (swarmer instanceof Swarmer) {
+                            ((Swarmer) swarmer).targetPosition = Hutil.copy(player.position);
+                            ((Swarmer) swarmer).pathfind(position, targetPosition, grid);
+                        }
+                    }
+                }
+
+                if (turnsStuck >= 3) {
+                    pathfind(position, targetPosition, grid, enemyList);
+                }
+
+                if (path != null) {
+                    move(path[path.length - 1], player, grid);
+                }
             }
         }
 
@@ -212,31 +217,36 @@ public class EnemyManager{
 
     }
     class SwarmerNest extends Enemy {
+        int turnIndex;
         int swarmersLeft;
 
-        public SwarmerNest(String[][] grid){
+        public SwarmerNest(){
             this.maxHealth = 100;
             this.hp = maxHealth;
+            this.speed = Hutil.random(8, 12);
             this.spawnWeight = 1;
-            this.position = spawnPosition;
-            this.swarmersLeft = Hutil.random(10, 30);
+            swarmersLeft = Hutil.random(10, 30);
+            turnIndex = 0;
         }
-
-        public int getSpawnWeight() {
-            return spawnWeight;
-        }
-        public void setSpawn(int[] spawnPosition) {
+        public void spawn(int[] spawnPosition) {
             this.position = spawnPosition;
         }
-
+        public SwarmerNest copy() {
+            return new SwarmerNest();
+        }
         public void turn(Player player, String[][] grid){
-            if (position == null) {
-                return;
-            }
+            turnIndex += speed;
 
-            if(Vision.hasSightline(player.position[0], player.position[1], position, grid)){
-                //as long as player is in sight swarmer nest spawns swarmers until it runs out
+            if (turnIndex >= turnSpeed) {
+                turnIndex = 0;
+                if (position == null) {
+                    return;
+                }
 
+                if (Vision.hasSightline(player.position[0], player.position[1], position, grid)) {
+                    //as long as player is in sight swarmer nest spawns swarmers until it runs out
+
+                }
             }
         }
 
@@ -244,5 +254,119 @@ public class EnemyManager{
             return colour.RED + "0" + colour.RESET;
         }
 
+    }
+    class GoldenFreddy extends Enemy {
+        int[] targetPosition;
+        int[][] path;
+        int turnIndex;
+        int turnsStuck;
+
+        public Swarmer(){
+            this.maxHealth = 10;
+            this.hp = maxHealth;
+            this.speed = 10;
+            this.damage = 10;
+            this.spawnWeight = 10;
+            turnIndex = 0;
+            turnsStuck = 0;
+        }
+
+        public void spawn(int[] spawnPosition) {
+            this.position = spawnPosition;
+            this.targetPosition = position; //this just makes the target position its current position so on the next turn it starts wandering.
+            // this is to make the spawn method only need the one param
+        }
+        public Swarmer copy() {
+            return new Swarmer();
+        }
+        public void turn(Player player, String[][] grid){
+            turnIndex += speed;
+
+            if (turnIndex >= turnSpeed) {
+                turnIndex = 0;
+                if (position == null) {
+                    return;
+                }
+
+                if (path == null) {
+                    pathfind(position, targetPosition, grid);
+                }
+
+                if (Hutil.equals(targetPosition, position)) {
+                    targetPosition = chooseWanderSpot(grid);
+                    pathfind(position, targetPosition, grid);
+                }
+                if (Vision.hasSightline(player.position[0], player.position[1], position, grid)) {
+                    //as long as player is in sight swarmer tells all other swarmers where the player is
+                    for (Enemy swarmer : enemyList) {
+                        if (swarmer instanceof Swarmer) {
+                            ((Swarmer) swarmer).targetPosition = Hutil.copy(player.position);
+                            ((Swarmer) swarmer).pathfind(position, targetPosition, grid);
+                        }
+                    }
+                }
+
+                if (turnsStuck >= 3) {
+                    pathfind(position, targetPosition, grid, enemyList);
+                }
+
+                if (path != null) {
+                    move(path[path.length - 1], player, grid);
+                }
+            }
+        }
+
+        private void move(int[] desiredPosition, Player player, String[][] grid){
+            boolean onGrid = (Hutil.inRange(desiredPosition[0], 0, grid.length - 1) && Hutil.inRange(desiredPosition[1], 0, grid.length - 1));
+            if(onGrid){
+                if(Hutil.equals(desiredPosition, player.position)){
+                    attack(player);
+                    return;
+                }
+                if(!tileOccupied(desiredPosition, player.position, grid)){
+                    position = desiredPosition;
+                    turnsStuck = 0;
+                    path = Hutil.removeEnd(path);
+                    return;
+                }
+            }
+            turnsStuck += 1;
+        }
+
+        private void pathfind(int[] start, int[] end, String[][] grid){
+            Pathfinding pathfinding = new Pathfinding();
+            boolean[][] walls = Hutil.stringMapToBool(grid);
+            path = pathfinding.findPath(start, end, walls);
+        }
+        private void pathfind(int[] start, int[] end, String[][] grid, Enemy[] enemies){
+            Pathfinding pathfinding = new Pathfinding();
+            boolean[][] walls = Hutil.stringMapToBool(grid);
+            for (Enemy enemy : enemies) {
+                walls[enemy.position[0]][enemy.position[1]] = true;
+            }
+            path = pathfinding.findPath(start, end, walls);
+        }
+
+        private void attack(Player player){
+            player.takeDamage(damage);
+        }
+
+        private int[] chooseWanderSpot(String[][] grid){
+            int y;
+            int x;
+            while(true){
+                y = Hutil.random(0, grid.length - 1);
+                x = Hutil.random(0, grid.length - 1);
+                if(grid[y][x] != "X"){
+                    break;
+                }
+            }
+
+            return new int[]{y, x};
+        }
+
+        public String toString(){
+            return colour.RED + "*" + colour.RESET;
+        }
     }
 }

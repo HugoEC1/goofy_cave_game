@@ -1,10 +1,11 @@
 
 import java.util.Scanner;
-// 👍
+// :3
 class Main{
     public static final Scanner input = new Scanner(System.in);
     public static String[][] grid;
     public static final int RENDER_DISTANCE = 30;
+    public static final int TURN_SPEED = 10;
     
     public static void main(String[] args) {
         while(true){

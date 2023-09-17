@@ -2,21 +2,26 @@ import java.util.Scanner;
 
 class Player{
     final Scanner input = new Scanner(System.in);
+    int turnSpeed = Main.TURN_SPEED;
 
     String[][] grid = Main.grid;
 
     int maxHealth = 100;
     int hp;
+    int speed;
     int hunger;
     int fuel;
+    int turnIndex;
 
     public int[] position = {-1, -1};
     
     public Player(int y, int x){
         this.hp = this.maxHealth;
+        this.speed = 10;
         this.hunger = 100;
         this.fuel = 100;
         this.position = new int[]{y, x};
+        turnIndex = 0;
     }
 
     public String toString(){
@@ -24,7 +29,7 @@ class Player{
     }
 
     public void takeDamage(int x){
-        this.hp -= x;
+        //this.hp -= x; invincibility
         if(this.hp <= 0){
             die();
         }
@@ -36,46 +41,46 @@ class Player{
     }
 
     public void turn(EnemyManager enemyManager){
-        if(hp < 100){
-            hp += 1;
-        }
+        turnIndex += speed;
 
-        this.grid = Main.grid;
-        String move = null;
-        String action = "";
-        move = input.nextLine().toLowerCase();
-        int[] direction = {0, 0};
-
-        if(move.equals("w")){
-            action = "walk";
-            direction = new int[]{-1, 0};
-        }
-        else if(move.equals("a")){
-            action = "walk";
-            direction = new int[]{0, -1};
-        }
-        else if(move.equals("s")){
-            action = "walk";
-            direction = new int[]{1, 0};
-        }
-        else if(move.equals("d")){
-            action = "walk";
-            direction = new int[]{0, 1};
-        }
-        else if(move.equals("f")){
-            action = "shoot";
-        }
-        
-        if(action.equals("walk")){
-            int[] wantedPosition = {position[0] + direction[0], position[1] + direction[1]};
-            if(Hutil.inRange(wantedPosition[0], 0, grid.length) && Hutil.inRange(wantedPosition[1], 0, grid.length)){
-                if(grid[wantedPosition[0]][wantedPosition[1]] != "X" && !enemyManager.tileOccupied(wantedPosition, position, grid)){
-                    this.position = wantedPosition;
-                }
+        if (turnIndex >= turnSpeed) {
+            turnIndex = 0;
+            if (hp < 100) {
+                hp += 1;
             }
-        }
-        else if(action.equals("shoot")){
-            shoot(enemyManager);
+
+            this.grid = Main.grid;
+            String move = null;
+            String action = "";
+            move = input.nextLine().toLowerCase();
+            int[] direction = {0, 0};
+
+            if (move.equals("w")) {
+                action = "walk";
+                direction = new int[]{-1, 0};
+            } else if (move.equals("a")) {
+                action = "walk";
+                direction = new int[]{0, -1};
+            } else if (move.equals("s")) {
+                action = "walk";
+                direction = new int[]{1, 0};
+            } else if (move.equals("d")) {
+                action = "walk";
+                direction = new int[]{0, 1};
+            } else if (move.equals("f")) {
+                action = "shoot";
+            }
+
+            if (action.equals("walk")) {
+                int[] wantedPosition = {position[0] + direction[0], position[1] + direction[1]};
+                if (Hutil.inRange(wantedPosition[0], 0, grid.length) && Hutil.inRange(wantedPosition[1], 0, grid.length)) {
+                    if (grid[wantedPosition[0]][wantedPosition[1]] != "X" && !enemyManager.tileOccupied(wantedPosition, position, grid)) {
+                        this.position = wantedPosition;
+                    }
+                }
+            } else if (action.equals("shoot")) {
+                shoot(enemyManager);
+            }
         }
     }
 
