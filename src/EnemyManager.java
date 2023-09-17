@@ -1,14 +1,15 @@
 import java.util.*;
 public class EnemyManager{
     Enemy[] enemyList;
-    int[] enemyWeights = {Swarmer.spawnWeight, };
-    
-
+    Enemy[] enemyTypes = new Enemy[2];
     int totalSpawnWeight = 0;
 
     public EnemyManager(int numberOfEnemies, String[][] grid){
         enemyList = new Enemy[numberOfEnemies];
 
+        for (int weight : enemyWeights) {
+            totalSpawnWeight += weight;
+        }
 
         for (int i = 0; i < enemyList.length; i++) {
             int[] spawnPosition;
@@ -17,6 +18,10 @@ public class EnemyManager{
                 if(grid[spawnPosition[0]][spawnPosition[1]] != "X"){
                     break;
                 }
+            }
+            int j = 0;
+            for (int rand = Hutil.random(0, totalSpawnWeight); j < enemyWeights.length - 1; j++) {
+                rand -=
             }
 
             enemyList[i] = new Swarmer(spawnPosition, grid);
@@ -78,6 +83,7 @@ public class EnemyManager{
         public int hp;
         protected int speed;
         protected int damage;
+        protected int spawnWeight;
         public int[] position;
 
         public void turn(Player player, String[][] grid){
@@ -102,20 +108,30 @@ public class EnemyManager{
         int[] targetPosition;
         int[][] path;
         int turnsStuck;
-        static int spawnWeight = 10;
 
-        public Swarmer(int[] spawnPosition, String[][] grid){
+        public Swarmer(String[][] grid){
             this.maxHealth = 10;
             this.hp = maxHealth;
             this.speed = 3;
             this.damage = 10;
-            this.position = spawnPosition;
+            this.spawnWeight = 10;
             this.targetPosition = chooseWanderSpot(grid);
             pathfind(position, targetPosition, grid);
             turnsStuck = 0;
         }
 
+        public int getSpawnWeight() {
+            return spawnWeight;
+        }
+
+        public void setSpawn(int[] spawnPosition) {
+            this.position = spawnPosition;
+        }
         public void turn(Player player, String[][] grid){
+            if (position == null) {
+                return;
+            }
+
             if(path == null){
                 pathfind(position, targetPosition, grid);
             }
@@ -197,16 +213,26 @@ public class EnemyManager{
     }
     class SwarmerNest extends Enemy {
         int swarmersLeft;
-        int spawnWeight = 1;
 
-        public SwarmerNest(int[] spawnPosition, String[][] grid){
+        public SwarmerNest(String[][] grid){
             this.maxHealth = 100;
             this.hp = maxHealth;
+            this.spawnWeight = 1;
             this.position = spawnPosition;
             this.swarmersLeft = Hutil.random(10, 30);
         }
 
+        public int getSpawnWeight() {
+            return spawnWeight;
+        }
+        public void setSpawn(int[] spawnPosition) {
+            this.position = spawnPosition;
+        }
+
         public void turn(Player player, String[][] grid){
+            if (position == null) {
+                return;
+            }
 
             if(Vision.hasSightline(player.position[0], player.position[1], position, grid)){
                 //as long as player is in sight swarmer nest spawns swarmers until it runs out
