@@ -28,15 +28,23 @@ class Player{
         return colour.BLUE + "@" + colour.RESET;
     }
 
-    public void takeDamage(int x){
+    public void takeDamage(int x, String enemy){
         //this.hp -= x; invincibility
         if(this.hp <= 0){
-            die();
+            die(enemy);
         }
     }
 
-    private void die(){
-        System.out.println("you died");
+    private void die(String enemy){
+        switch (enemy) {
+            case "swarmer":
+                System.out.println("You were torn apart by a swarmer.");
+                break;
+            case "goldenFreddy":
+                System.out.println("WAS THAT THE BITE OF 87???");
+                break;
+        }
+
         Main.onEnter();
     }
 

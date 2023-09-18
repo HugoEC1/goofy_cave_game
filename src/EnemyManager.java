@@ -2,7 +2,7 @@ public class EnemyManager{
     Enemy[] enemyList;
     Enemy[] enemyInit = {new Swarmer(), new SwarmerNest(), new GoldenFreddy()};
     int turnSpeed = Main.TURN_SPEED;
-    int totalSpawnWeight = 0;
+    double totalSpawnWeight = 0;
 
     public EnemyManager(int numberOfEnemies, String[][] grid){
         enemyList = new Enemy[numberOfEnemies];
@@ -19,7 +19,7 @@ public class EnemyManager{
                 }
             }
             int j = 0;
-            for (int rand = Hutil.random(0, totalSpawnWeight); j < enemyInit.length - 1; j++) {
+            for (double rand = Math.random() * totalSpawnWeight; j < enemyInit.length - 1; j++) {
                 rand -= enemyInit[j].spawnWeight;
                 if (rand <= 0) {
                     break;
@@ -85,7 +85,7 @@ public class EnemyManager{
         public int hp;
         protected int speed;
         protected int damage;
-        protected int spawnWeight;
+        protected double spawnWeight;
         public int[] position;
         public abstract void turn(Player player, String[][] grid);
         public abstract void spawn(int[] spawnPosition);
@@ -112,7 +112,7 @@ public class EnemyManager{
             this.hp = maxHealth;
             this.speed = 10;
             this.damage = 10;
-            this.spawnWeight = 10;
+            this.spawnWeight = 10.0;
             turnIndex = 0;
             turnsStuck = 0;
         }
@@ -194,7 +194,7 @@ public class EnemyManager{
         }
 
         private void attack(Player player){
-            player.takeDamage(damage);
+            player.takeDamage(damage, "swarmer");
         }
 
         private int[] chooseWanderSpot(String[][] grid){
@@ -224,7 +224,7 @@ public class EnemyManager{
             this.maxHealth = 100;
             this.hp = maxHealth;
             this.speed = Hutil.random(8, 12);
-            this.spawnWeight = 1;
+            this.spawnWeight = 1.0;
             swarmersLeft = Hutil.random(10, 30);
             turnIndex = 0;
         }
@@ -237,8 +237,8 @@ public class EnemyManager{
         public void turn(Player player, String[][] grid){
             turnIndex += speed;
 
-            if (turnIndex >= turnSpeed) {
-                turnIndex = 0;
+            while (turnIndex >= turnSpeed) {
+                turnIndex -= turnSpeed;
                 if (position == null) {
                     return;
                 }
@@ -261,12 +261,12 @@ public class EnemyManager{
         int turnIndex;
         int turnsStuck;
 
-        public Swarmer(){
-            this.maxHealth = 10;
+        public GoldenFreddy(){
+            this.maxHealth = 100;
             this.hp = maxHealth;
-            this.speed = 10;
-            this.damage = 10;
-            this.spawnWeight = 10;
+            this.speed = 100;
+            this.damage = 100;
+            this.spawnWeight = 0.01;
             turnIndex = 0;
             turnsStuck = 0;
         }
@@ -282,8 +282,8 @@ public class EnemyManager{
         public void turn(Player player, String[][] grid){
             turnIndex += speed;
 
-            if (turnIndex >= turnSpeed) {
-                turnIndex = 0;
+            while (turnIndex >= turnSpeed) {
+                turnIndex -= turnSpeed;
                 if (position == null) {
                     return;
                 }
@@ -297,13 +297,9 @@ public class EnemyManager{
                     pathfind(position, targetPosition, grid);
                 }
                 if (Vision.hasSightline(player.position[0], player.position[1], position, grid)) {
-                    //as long as player is in sight swarmer tells all other swarmers where the player is
-                    for (Enemy swarmer : enemyList) {
-                        if (swarmer instanceof Swarmer) {
-                            ((Swarmer) swarmer).targetPosition = Hutil.copy(player.position);
-                            ((Swarmer) swarmer).pathfind(position, targetPosition, grid);
-                        }
-                    }
+                    //golden freddy :ooo
+                    targetPosition = Hutil.copy(player.position);
+                    pathfind(position, targetPosition, grid);
                 }
 
                 if (turnsStuck >= 3) {
@@ -348,7 +344,7 @@ public class EnemyManager{
         }
 
         private void attack(Player player){
-            player.takeDamage(damage);
+            player.takeDamage(damage, "goldenFreddy");
         }
 
         private int[] chooseWanderSpot(String[][] grid){
@@ -366,7 +362,7 @@ public class EnemyManager{
         }
 
         public String toString(){
-            return colour.RED + "*" + colour.RESET;
+            return colour.YELLOW + "F" + colour.RESET;
         }
     }
 }

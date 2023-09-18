@@ -58,8 +58,8 @@ public class pathfindtest {
         for (int[] node : path) {
             grid[node[0]][node[1]] = colour.BLUE + "O" + colour.RESET;
         }
-        grid[targetY][targetX] = colour.GRENN + "@" + colour.RESET;
-        grid[startY][startX] = colour.GRENN + "@" + colour.RESET;
+        grid[targetY][targetX] = colour.GREEN + "@" + colour.RESET;
+        grid[startY][startX] = colour.GREEN + "@" + colour.RESET;
 
         printTest(grid);
     }

@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 // :3
 class Main{
