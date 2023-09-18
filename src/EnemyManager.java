@@ -1,16 +1,18 @@
+import java.lang.reflect.Array;
+import java.util.*;
 public class EnemyManager{
-    Enemy[] enemyList;
+    ArrayList<Enemy> enemyList = new ArrayList<>();
+    ArrayList<Enemy> spawnQueue = new ArrayList<>();
     Enemy[] enemyInit = {new Swarmer(), new SwarmerNest(), new GoldenFreddy()};
     int turnSpeed = Main.TURN_SPEED;
     double totalSpawnWeight = 0;
 
     public EnemyManager(int numberOfEnemies, String[][] grid){
-        enemyList = new Enemy[numberOfEnemies];
         for (Enemy enemy : enemyInit) {
             totalSpawnWeight += enemy.spawnWeight;
         }
 
-        for (int i = 0; i < enemyList.length; i++) {
+        for (int i = 0; i < numberOfEnemies; i++) {
             int[] spawnPosition;
             while(true){
                 spawnPosition = new int[] {Hutil.random(0, grid.length - 1), Hutil.random(0, grid.length - 1)};
@@ -25,11 +27,17 @@ public class EnemyManager{
                     break;
                 }
             }
-            enemyList[i] = enemyInit[j].copy(); //enemyList won't just refer to objects in enemyInit but copies of them
-            enemyList[i].spawn(spawnPosition);
+            Enemy spawnedEnemy = enemyInit[j].copy(); //enemyList won't just refer to objects in enemyInit but copies of them
+            spawnQueue.add(spawnedEnemy);
+            spawnedEnemy.spawn(spawnPosition);
         }
-    }
 
+        spawnEnemies();
+    }
+    public void spawnEnemies() {
+        enemyList.addAll(spawnQueue);
+        spawnQueue.clear();
+    }
     public boolean tileOccupied(int[] position, int[] playerPosition, String[][] grid){
         for (Enemy enemy : enemyList) {
             if(Hutil.equals(position, enemy.position)){
@@ -57,27 +65,7 @@ public class EnemyManager{
     }
 
     protected void removeEnemy(Enemy enemy){
-        int index = -1;
-        for (int i = 0; i < enemyList.length; i++) {
-            if(enemyList[i] == enemy){
-                index = i;
-                break;
-            }
-        }
-
-        Enemy[] new_list = new Enemy[enemyList.length - 1];
-
-        int indexSkipper = 0;
-        for (int i = 0; i < enemyList.length; i++) {
-            if(i == index){
-                indexSkipper += 1;
-            }
-            else{
-                new_list[i - indexSkipper] = enemyList[i];
-            }
-        }
-
-        enemyList = new_list;
+        enemyList.remove(enemy);
     }
 
     public abstract class Enemy {
@@ -111,7 +99,7 @@ public class EnemyManager{
             this.maxHealth = 10;
             this.hp = maxHealth;
             this.speed = 10;
-            this.damage = 10;
+            this.damage = 5;
             this.spawnWeight = 10.0;
             turnIndex = 0;
             turnsStuck = 0;
@@ -184,7 +172,7 @@ public class EnemyManager{
             boolean[][] walls = Hutil.stringMapToBool(grid);
             path = pathfinding.findPath(start, end, walls);
         }
-        private void pathfind(int[] start, int[] end, String[][] grid, Enemy[] enemies){
+        private void pathfind(int[] start, int[] end, String[][] grid, ArrayList<Enemy> enemies){
             Pathfinding pathfinding = new Pathfinding();
             boolean[][] walls = Hutil.stringMapToBool(grid);
             for (Enemy enemy : enemies) {
@@ -223,9 +211,9 @@ public class EnemyManager{
         public SwarmerNest(){
             this.maxHealth = 100;
             this.hp = maxHealth;
-            this.speed = Hutil.random(8, 12);
-            this.spawnWeight = 1.0;
-            swarmersLeft = Hutil.random(10, 30);
+            this.speed = Hutil.random(4, 12);
+            this.spawnWeight = 2.0;
+            swarmersLeft = Hutil.random(3, 8);
             turnIndex = 0;
         }
         public void spawn(int[] spawnPosition) {
@@ -245,7 +233,28 @@ public class EnemyManager{
 
                 if (Vision.hasSightline(player.position[0], player.position[1], position, grid)) {
                     //as long as player is in sight swarmer nest spawns swarmers until it runs out
-
+                    if (swarmersLeft > 0) {
+                        spawnSwarmer(grid);
+                    }
+                }
+            }
+        }
+        private void spawnSwarmer(String[][] grid) {
+            int y;
+            int x;
+            boolean[][] occupiedTiles = Hutil.stringMapToBool(grid);
+            for (Enemy enemy : enemyList) {
+                occupiedTiles[enemy.position[0]][enemy.position[1]] = true;
+            }
+            for (int i = 0; i < swarmersLeft; i++) {
+                y = Hutil.random(position[0] - 1, position[0] + 1);
+                x = Hutil.random(position[1] - 1, position[1] + 1);
+                if(Hutil.random(0, 5) != 5 && (y >= 0 && y < grid[0].length) && (x >= 0 && x < grid[1].length) && !occupiedTiles[y][x]){
+                    Swarmer spawnedSwarmer = new Swarmer();
+                    spawnQueue.add(spawnedSwarmer);
+                    spawnedSwarmer.spawn(new int[]{y, x});
+                    swarmersLeft -= 1;
+                    return;
                 }
             }
         }
@@ -261,7 +270,7 @@ public class EnemyManager{
         int turnIndex;
         int turnsStuck;
 
-        public GoldenFreddy(){
+        public GoldenFreddy() {
             this.maxHealth = 100;
             this.hp = maxHealth;
             this.speed = 100;
@@ -273,13 +282,12 @@ public class EnemyManager{
 
         public void spawn(int[] spawnPosition) {
             this.position = spawnPosition;
-            this.targetPosition = position; //this just makes the target position its current position so on the next turn it starts wandering.
-            // this is to make the spawn method only need the one param
+            this.targetPosition = position;
         }
-        public Swarmer copy() {
-            return new Swarmer();
+        public GoldenFreddy copy() {
+            return new GoldenFreddy();
         }
-        public void turn(Player player, String[][] grid){
+        public void turn(Player player, String[][] grid) {
             turnIndex += speed;
 
             while (turnIndex >= turnSpeed) {
@@ -288,17 +296,16 @@ public class EnemyManager{
                     return;
                 }
 
+                //golden freddy jumpscare!!!!!!!!!
+                targetPosition = Hutil.copy(player.position);
+                pathfind(position, targetPosition, grid);
+
                 if (path == null) {
                     pathfind(position, targetPosition, grid);
                 }
 
                 if (Hutil.equals(targetPosition, position)) {
                     targetPosition = chooseWanderSpot(grid);
-                    pathfind(position, targetPosition, grid);
-                }
-                if (Vision.hasSightline(player.position[0], player.position[1], position, grid)) {
-                    //golden freddy :ooo
-                    targetPosition = Hutil.copy(player.position);
                     pathfind(position, targetPosition, grid);
                 }
 
@@ -334,7 +341,7 @@ public class EnemyManager{
             boolean[][] walls = Hutil.stringMapToBool(grid);
             path = pathfinding.findPath(start, end, walls);
         }
-        private void pathfind(int[] start, int[] end, String[][] grid, Enemy[] enemies){
+        private void pathfind(int[] start, int[] end, String[][] grid, ArrayList<Enemy> enemies){
             Pathfinding pathfinding = new Pathfinding();
             boolean[][] walls = Hutil.stringMapToBool(grid);
             for (Enemy enemy : enemies) {

@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 // :3
 class Main{
     public static final Scanner input = new Scanner(System.in);
@@ -29,8 +29,9 @@ class Main{
                 else if (choice == 3){
                     break;
                 }
-            } catch (Exception e) {
-                // literally do nothing
+            } catch (Exception error) {
+                error.printStackTrace();
+                onEnter();
             }
         }
 
@@ -100,13 +101,14 @@ class Main{
             for (EnemyManager.Enemy enemy : enemyManager.enemyList) {
                 enemy.turn(player, grid);
             }
+            enemyManager.spawnEnemies();
             if(player.hp <= 0){
                 return;
             }
         }
     }
 
-    public static String[][] renderGame(Player player, EnemyManager.Enemy[] enemyList){
+    public static String[][] renderGame(Player player, ArrayList<EnemyManager.Enemy> enemyList){
         String[][] render = new String[RENDER_DISTANCE*2+1][RENDER_DISTANCE*2+1];
 
         // copies part of grid into render
