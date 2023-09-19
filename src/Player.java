@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Player{
+public class Player{
     final Scanner input = new Scanner(System.in);
     int turnSpeed = Main.TURN_SPEED;
 
@@ -29,8 +29,7 @@ class Player{
     }
 
     public void takeDamage(int x, String enemy){
-        this.hp -= x;
-	    //Main.printGame(Main.updateRender(Main.currentRender, position, colour.RED + "@" + colour.RESET), hp);
+        //this.hp -= x;
         if(this.hp <= 0){
             die(enemy);
         }
@@ -86,7 +85,7 @@ class Player{
 		        case "walk" -> {
 			        int[] wantedPosition = {position[0] + direction[0], position[1] + direction[1]};
 			        if (Hutil.inRange(wantedPosition[0], 0, grid.length) && Hutil.inRange(wantedPosition[1], 0, grid.length)) {
-				        if (grid[wantedPosition[0]][wantedPosition[1]] != "X" && !enemyManager.tileOccupied(wantedPosition, position, grid)) {
+				        if (grid[wantedPosition[0]][wantedPosition[1]] != "X" && enemyManager.tileEmpty(wantedPosition, position, grid)) {
 					        this.position = wantedPosition;
 				        }
 			        }
@@ -103,7 +102,7 @@ class Player{
         boolean aim = true;
 	    label:
 	    while(true){
-	        String[][] render = Main.renderGame(this, enemyManager.enemyList);
+			String[][] render = Main.currentRender;
 	        render[aimPosition[0]][aimPosition[1]] = colour.BLUE + "X" + colour.RESET;
 	        Main.printGame(render, hp);
 	        String move = input.nextLine().toLowerCase();
@@ -122,11 +121,14 @@ class Player{
 				    direction = new int[]{0, 1};
 				    break;
 			    case "f":
-				    int[] aimGridPosition = {Main.toGrid(aimPosition[0], position[0]), Main.toGrid(aimPosition[1], position[1])};
+				    int[] aimGridPosition = {0, 0};
+					for (int i = 0; i < aimGridPosition.length; i++) {
+						aimGridPosition[i] = Main.toGrid(aimPosition[i], position[i]);
+					}
 				    boolean notPlayer = !Hutil.equals(aimPosition, position);
-				    boolean hitEnemy = enemyManager.tileOccupied(aimGridPosition, position, grid);
-				    if (notPlayer && hitEnemy) {
-					    enemyManager.takeDamage(aimGridPosition, 20);
+				    EnemyManager.Enemy hitEnemy = enemyManager.getEnemyFromLocation(aimGridPosition);
+				    if (notPlayer && hitEnemy != null) {
+					    hitEnemy.takeDamage(20);
 					    System.out.println("hit");
 					    Main.onEnter();
 					    break label;

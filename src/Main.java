@@ -112,61 +112,44 @@ class Main{
 
     public static String[][] renderGame(Player player, ArrayList<EnemyManager.Enemy> enemyList){
         String[][] render = new String[RENDER_DISTANCE*2+1][RENDER_DISTANCE*2+1];
-
-        // copies part of grid into render
-        for (int y = 0; y < render.length; y++) {
-            for (int x = 0; x < render.length; x++) {
-                int gridY = toGrid(y, player.position[0]);
-                int gridX = toGrid(x, player.position[1]);
-
-                boolean onGrid = (Hutil.inRange(gridY, 0, grid.length-1) && Hutil.inRange(gridX, 0, grid.length-1));
-                if(onGrid){
-                    render[y][x] = grid[gridY][gridX];
-                }
-                else{
-                    render[y][x] = " ";
-                }
-            }
-        }
-
         // puts enemies on screen
         for (EnemyManager.Enemy enemy : enemyList) {
             int renderY = toRender(enemy.position[0], player.position[0]);
             int renderX = toRender(enemy.position[1], player.position[1]);
             boolean onRender = Hutil.inRange(renderY, 0, render.length-1) && Hutil.inRange(renderX, 0, render.length-1);
-            if(onRender){
+            if (onRender) {
                 render[renderY][renderX] = enemy.toString();
             }
         }
-
-        // checks point on screen to see if visible
+        // copies part of grid into render & checks point on screen to see if visible
         for (int y = 0; y < render.length; y++) {
             for (int x = 0; x < render.length; x++) {
                 int gridY = toGrid(y, player.position[0]);
                 int gridX = toGrid(x, player.position[1]);
                 boolean onGrid = (Hutil.inRange(gridY, 0, grid.length-1) && Hutil.inRange(gridX, 0, grid.length-1));
-                if(onGrid){
-                    if (!Vision.canSee(gridY, gridX, player.position, grid, RENDER_DISTANCE)){
+                // make sure render isn't already displaying something (i.e. enemy)
+                if (render[y][x] == null) {
+                    if (onGrid) {
+                        render[y][x] = grid[gridY][gridX];
+                        // puts walls on screen
+                        if (grid[gridY][gridX] == "X") {
+                            render[y][x] = "" + "#" + colour.RESET;
+                        }
+                    }
+                    // removes if out of boundary
+                    else {
                         render[y][x] = " ";
                     }
                 }
-            }
-        }
-        for (int y = 0; y < render.length; y++) {
-            for (int x = 0; x < render.length; x++) {
-                if(render[y][x] == "X"){
-                    render[y][x] = "" + "#" + colour.RESET;
+                // removes if not in sightline
+                if (onGrid && !Vision.canSee(gridY, gridX, player.position, grid, RENDER_DISTANCE)) {
+                    render[y][x] = " ";
                 }
             }
         }
         render[RENDER_DISTANCE][RENDER_DISTANCE] = player.toString();
         return render;
     }
-
-    public static String[][] updateRender(String[][] render, int[] position, String newRender) {
-
-    }
-
     // converts coordinates to Grid --> relative to player and vice versa
     public static int toGrid(int coord, int cameraCoord){
         return (cameraCoord - RENDER_DISTANCE) + coord;

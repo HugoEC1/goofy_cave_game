@@ -11,12 +11,13 @@ public class EnemyManager{
         for (Enemy enemy : enemyInit) {
             totalSpawnWeight += enemy.spawnWeight;
         }
-
+        boolean[][] occupiedTiles = Hutil.stringMapToBool(grid);
         for (int i = 0; i < numberOfEnemies; i++) {
             int[] spawnPosition;
             while(true){
                 spawnPosition = new int[] {Hutil.random(0, grid.length - 1), Hutil.random(0, grid.length - 1)};
-                if(grid[spawnPosition[0]][spawnPosition[1]] != "X"){
+                if(!occupiedTiles[spawnPosition[0]][spawnPosition[1]]) {
+                    occupiedTiles[spawnPosition[0]][spawnPosition[1]] = true;
                     break;
                 }
             }
@@ -38,32 +39,30 @@ public class EnemyManager{
         enemyList.addAll(spawnQueue);
         spawnQueue.clear();
     }
-    public boolean tileOccupied(int[] position, int[] playerPosition, String[][] grid){
+    public boolean tileEmpty(int[] position, int[] playerPosition, String[][] grid){
         for (Enemy enemy : enemyList) {
             if(Hutil.equals(position, enemy.position)){
-                return true;
+                return false;
             }
         }
 
         if(Hutil.equals(position, playerPosition)){
-            return true;
+            return false;
         }
         if(grid[position[0]][position[1]] == "X"){
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
-
-    public void takeDamage(int[] position, int x){
+    public Enemy getEnemyFromLocation(int[] position) {
         for (Enemy enemy : enemyList) {
-            if(Hutil.equals(enemy.position, position)){
-                enemy.takeDamage(x);
-                break;
+            if(Hutil.equals(position, enemy.position)){
+                return enemy;
             }
         }
+        return null;
     }
-
     protected void removeEnemy(Enemy enemy){
         enemyList.remove(enemy);
     }
@@ -157,7 +156,7 @@ public class EnemyManager{
                     attack(player);
                     return;
                 }
-                if(!tileOccupied(desiredPosition, player.position, grid)){
+                if(tileEmpty(desiredPosition, player.position, grid)){
                     position = desiredPosition;
                     turnsStuck = 0;
                     path = Hutil.removeEnd(path);
@@ -326,7 +325,7 @@ public class EnemyManager{
                     attack(player);
                     return;
                 }
-                if(!tileOccupied(desiredPosition, player.position, grid)){
+                if(tileEmpty(desiredPosition, player.position, grid)){
                     position = desiredPosition;
                     turnsStuck = 0;
                     path = Hutil.removeEnd(path);
