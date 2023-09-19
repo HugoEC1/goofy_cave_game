@@ -3,6 +3,7 @@ import java.util.*;
 class Main{
     public static final Scanner input = new Scanner(System.in);
     public static String[][] grid;
+    public static String[][] currentRender;
     public static final int RENDER_DISTANCE = 30;
     public static final int TURN_SPEED = 10;
     
@@ -96,7 +97,8 @@ class Main{
         EnemyManager enemyManager = new EnemyManager(numberOfEnemies, grid);
 
         while(true){
-            printGame(renderGame(player, enemyManager.enemyList), player.hp);
+            currentRender = renderGame(player, enemyManager.enemyList);
+            printGame(currentRender, player.hp);
             player.turn(enemyManager);
             for (EnemyManager.Enemy enemy : enemyManager.enemyList) {
                 enemy.turn(player, grid);
@@ -161,6 +163,10 @@ class Main{
         return render;
     }
 
+    public static String[][] updateRender(String[][] render, int[] position, String newRender) {
+
+    }
+
     // converts coordinates to Grid --> relative to player and vice versa
     public static int toGrid(int coord, int cameraCoord){
         return (cameraCoord - RENDER_DISTANCE) + coord;
@@ -171,6 +177,7 @@ class Main{
 
     public static void printGame(String[][] render, int hp){
         clear();
+        System.out.print("\r");
         for (String[] y : render) {
             for (String x : y) {
                 System.out.print(x + " ");
