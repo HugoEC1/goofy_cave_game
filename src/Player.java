@@ -100,11 +100,12 @@ public class Player{
     private void shoot(EnemyManager enemyManager){
         int[] aimPosition = {Main.RENDER_DISTANCE, Main.RENDER_DISTANCE};
         boolean aim = true;
+		String[][] render = Main.getCurrentRender();
 	    label:
 	    while(true){
-			String[][] render = Main.currentRender.clone();
 	        render[aimPosition[0]][aimPosition[1]] = colour.BLUE + "X" + colour.RESET;
 	        Main.printGame(render, hp);
+			render[aimPosition[0]][aimPosition[1]] = Main.currentRender[aimPosition[0]][aimPosition[1]];
 	        String move = input.nextLine().toLowerCase();
 	        int[] direction = {0, 0};
 		    switch (move) {

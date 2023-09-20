@@ -96,11 +96,11 @@ class Main{
 
         EnemyManager enemyManager = new EnemyManager(numberOfEnemies, grid);
 
+        currentRender = new String[RENDER_DISTANCE*2+1][RENDER_DISTANCE*2+1];
+        // main game loop
         while(true){
-            currentRender = renderGame(player, enemyManager.enemyList);
-            printGame(currentRender, player.hp);
+            printGame(renderGame(player, enemyManager.enemyList), player.hp);
             player.turn(enemyManager);
-            System.out.println("ag");
             for (EnemyManager.Enemy enemy : enemyManager.enemyList) {
                 enemy.turn(player, grid);
             }
@@ -111,7 +111,7 @@ class Main{
         }
     }
 
-    public static String[][] renderGame(Player player, ArrayList<EnemyManager.Enemy> enemyList){
+    public static String[][] renderGame(Player player, ArrayList<EnemyManager.Enemy> enemyList) {
         String[][] render = new String[RENDER_DISTANCE*2+1][RENDER_DISTANCE*2+1];
         // puts enemies on screen
         for (EnemyManager.Enemy enemy : enemyList) {
@@ -149,17 +149,20 @@ class Main{
             }
         }
         render[RENDER_DISTANCE][RENDER_DISTANCE] = player.toString();
+        for (int i = 0; i < render.length; i++) {
+            currentRender[i] = Arrays.copyOf(render[i], render[i].length);
+        }
         return render;
     }
     // converts coordinates to Grid --> relative to player and vice versa
-    public static int toGrid(int coord, int cameraCoord){
+    public static int toGrid(int coord, int cameraCoord) {
         return (cameraCoord - RENDER_DISTANCE) + coord;
     }
-    public static int toRender(int coord, int cameraCoord){
+    public static int toRender(int coord, int cameraCoord) {
         return coord - (cameraCoord - RENDER_DISTANCE);
     }
 
-    public static void printGame(String[][] render, int hp){
+    public static void printGame(String[][] render, int hp) {
         clear();
         System.out.print("\r");
         for (String[] y : render) {
@@ -171,12 +174,19 @@ class Main{
         System.out.println(hp + " hp");
     }
 
-    public static void clear(){
+    public static void clear() {
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
     }
-    public static void onEnter(){
+    public static void onEnter() {
         System.out.println("Any key to continue");
         input.nextLine();
+    }
+    public static String[][] getCurrentRender() {
+        String[][] render = new String[Main.RENDER_DISTANCE*2+1][Main.RENDER_DISTANCE*2+1];
+        for (int i = 0; i < Main.currentRender.length; i++) {
+            render[i] = Arrays.copyOf(Main.currentRender[i], Main.currentRender[i].length);
+        }
+        return render;
     }
 }
