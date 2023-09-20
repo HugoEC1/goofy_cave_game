@@ -100,6 +100,7 @@ class Main{
             currentRender = renderGame(player, enemyManager.enemyList);
             printGame(currentRender, player.hp);
             player.turn(enemyManager);
+            System.out.println("ag");
             for (EnemyManager.Enemy enemy : enemyManager.enemyList) {
                 enemy.turn(player, grid);
             }

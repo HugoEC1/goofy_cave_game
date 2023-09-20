@@ -102,7 +102,7 @@ public class Player{
         boolean aim = true;
 	    label:
 	    while(true){
-			String[][] render = Main.currentRender;
+			String[][] render = Main.currentRender.clone();
 	        render[aimPosition[0]][aimPosition[1]] = colour.BLUE + "X" + colour.RESET;
 	        Main.printGame(render, hp);
 	        String move = input.nextLine().toLowerCase();
