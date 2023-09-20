@@ -83,6 +83,28 @@ public class EnemyManager{
                 die();
             }
         }
+        protected int[][] pathfind(int[] start, int[] end, String[][] grid, ArrayList<Enemy> enemies) {
+            Pathfinding pathfinding = new Pathfinding();
+            boolean[][] occupiedTiles = Hutil.stringMapToBool(grid);
+            if (enemies != null) {
+                for (Enemy enemy : enemies) {
+                    occupiedTiles[enemy.position[0]][enemy.position[1]] = true;
+                }
+            }
+            return pathfinding.findPath(start, end, occupiedTiles);
+        }
+        protected int[] chooseWanderSpot(String[][] grid) {
+            int y;
+            int x;
+            while(true){
+                y = Hutil.random(0, grid.length - 1);
+                x = Hutil.random(0, grid.length - 1);
+                if(grid[y][x] != "X"){
+                    break;
+                }
+            }
+            return new int[]{y, x};
+        }
         protected void die(){
             removeEnemy(this);
         }
@@ -122,25 +144,25 @@ public class EnemyManager{
                 }
 
                 if (path == null) {
-                    pathfind(position, targetPosition, grid);
+                    path = pathfind(position, targetPosition, grid, null);
                 }
 
                 if (Hutil.equals(targetPosition, position)) {
                     targetPosition = chooseWanderSpot(grid);
-                    pathfind(position, targetPosition, grid);
+                    path = pathfind(position, targetPosition, grid, null);
                 }
                 if (Vision.hasSightline(player.position[0], player.position[1], position, grid)) {
                     //as long as player is in sight swarmer tells all other swarmers where the player is
                     for (Enemy swarmer : enemyList) {
                         if (swarmer instanceof Swarmer) {
                             ((Swarmer) swarmer).targetPosition = Hutil.copy(player.position);
-                            ((Swarmer) swarmer).pathfind(position, targetPosition, grid);
+                            swarmer.pathfind(position, targetPosition, grid, null);
                         }
                     }
                 }
 
                 if (turnsStuck >= 3) {
-                    pathfind(position, targetPosition, grid, enemyList);
+                    path = pathfind(position, targetPosition, grid, enemyList);
                 }
 
                 if (path != null) {
@@ -148,8 +170,7 @@ public class EnemyManager{
                 }
             }
         }
-
-        private void move(int[] desiredPosition, Player player, String[][] grid){
+        private void move(int[] desiredPosition, Player player, String[][] grid) {
             boolean onGrid = (Hutil.inRange(desiredPosition[0], 0, grid.length - 1) && Hutil.inRange(desiredPosition[1], 0, grid.length - 1));
             if(onGrid){
                 if(Hutil.equals(desiredPosition, player.position)){
@@ -165,39 +186,9 @@ public class EnemyManager{
             }
             turnsStuck += 1;
         }
-
-        private void pathfind(int[] start, int[] end, String[][] grid){
-            Pathfinding pathfinding = new Pathfinding();
-            boolean[][] walls = Hutil.stringMapToBool(grid);
-            path = pathfinding.findPath(start, end, walls);
-        }
-        private void pathfind(int[] start, int[] end, String[][] grid, ArrayList<Enemy> enemies){
-            Pathfinding pathfinding = new Pathfinding();
-            boolean[][] walls = Hutil.stringMapToBool(grid);
-            for (Enemy enemy : enemies) {
-                walls[enemy.position[0]][enemy.position[1]] = true;
-            }
-            path = pathfinding.findPath(start, end, walls);
-        }
-
         private void attack(Player player){
             player.takeDamage(damage, "swarmer");
         }
-
-        private int[] chooseWanderSpot(String[][] grid){
-            int y;
-            int x;
-            while(true){
-                y = Hutil.random(0, grid.length - 1);
-                x = Hutil.random(0, grid.length - 1);
-                if(grid[y][x] != "X"){
-                    break;
-                }
-            }
-
-            return new int[]{y, x};
-        }
-
         public String toString(){
             return colour.RED + "*" + colour.RESET;
         }
@@ -297,16 +288,7 @@ public class EnemyManager{
 
                 //golden freddy jumpscare!!!!!!!!!
                 targetPosition = Hutil.copy(player.position);
-                pathfind(position, targetPosition, grid);
-
-                if (path == null) {
-                    pathfind(position, targetPosition, grid);
-                }
-
-                if (Hutil.equals(targetPosition, position)) {
-                    targetPosition = chooseWanderSpot(grid);
-                    pathfind(position, targetPosition, grid);
-                }
+                path = pathfind(position, targetPosition, grid, null);
 
                 if (turnsStuck >= 3) {
                     pathfind(position, targetPosition, grid, enemyList);
@@ -334,39 +316,9 @@ public class EnemyManager{
             }
             turnsStuck += 1;
         }
-
-        private void pathfind(int[] start, int[] end, String[][] grid){
-            Pathfinding pathfinding = new Pathfinding();
-            boolean[][] walls = Hutil.stringMapToBool(grid);
-            path = pathfinding.findPath(start, end, walls);
-        }
-        private void pathfind(int[] start, int[] end, String[][] grid, ArrayList<Enemy> enemies){
-            Pathfinding pathfinding = new Pathfinding();
-            boolean[][] walls = Hutil.stringMapToBool(grid);
-            for (Enemy enemy : enemies) {
-                walls[enemy.position[0]][enemy.position[1]] = true;
-            }
-            path = pathfinding.findPath(start, end, walls);
-        }
-
         private void attack(Player player){
             player.takeDamage(damage, "goldenFreddy");
         }
-
-        private int[] chooseWanderSpot(String[][] grid){
-            int y;
-            int x;
-            while(true){
-                y = Hutil.random(0, grid.length - 1);
-                x = Hutil.random(0, grid.length - 1);
-                if(grid[y][x] != "X"){
-                    break;
-                }
-            }
-
-            return new int[]{y, x};
-        }
-
         public String toString(){
             return colour.YELLOW + "F" + colour.RESET;
         }

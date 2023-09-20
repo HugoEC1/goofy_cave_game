@@ -100,7 +100,7 @@ public class Player{
     private void shoot(EnemyManager enemyManager){
         int[] aimPosition = {Main.RENDER_DISTANCE, Main.RENDER_DISTANCE};
         boolean aim = true;
-		String[][] render = Main.getCurrentRender();
+		String[][] render = Hutil.copy(Main.currentRender);
 	    label:
 	    while(true){
 	        render[aimPosition[0]][aimPosition[1]] = colour.BLUE + "X" + colour.RESET;

@@ -149,9 +149,7 @@ class Main{
             }
         }
         render[RENDER_DISTANCE][RENDER_DISTANCE] = player.toString();
-        for (int i = 0; i < render.length; i++) {
-            currentRender[i] = Arrays.copyOf(render[i], render[i].length);
-        }
+        currentRender = Hutil.copy(render);
         return render;
     }
     // converts coordinates to Grid --> relative to player and vice versa
@@ -181,12 +179,5 @@ class Main{
     public static void onEnter() {
         System.out.println("Any key to continue");
         input.nextLine();
-    }
-    public static String[][] getCurrentRender() {
-        String[][] render = new String[Main.RENDER_DISTANCE*2+1][Main.RENDER_DISTANCE*2+1];
-        for (int i = 0; i < Main.currentRender.length; i++) {
-            render[i] = Arrays.copyOf(Main.currentRender[i], Main.currentRender[i].length);
-        }
-        return render;
     }
 }
