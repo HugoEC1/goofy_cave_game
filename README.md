@@ -1,0 +1,1 @@
+This is the orginal code for the project when it was first created for grade 10 computer science class.
