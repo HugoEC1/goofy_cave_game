@@ -21,7 +21,7 @@ namespace CaveGame
 
         private static void Update(object? sender, GameHost e)
         {
-            System.Console.WriteLine(e);
+            //System.Console.WriteLine(e);
         }
     }
 }

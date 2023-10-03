@@ -28,3 +28,5 @@ D:\Github Repos\CaveGame\obj\Debug\net6.0\refint\CaveGame.dll
 D:\Github Repos\CaveGame\obj\Debug\net6.0\CaveGame.pdb
 D:\Github Repos\CaveGame\obj\Debug\net6.0\CaveGame.genruntimeconfig.cache
 D:\Github Repos\CaveGame\obj\Debug\net6.0\ref\CaveGame.dll
+D:\Github Repos\CaveGame\bin\Debug\net6.0\Art\nuts.ans
+D:\Github Repos\CaveGame\bin\Debug\net6.0\Art\goofy.ans

@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <Using Include="SadConsole" />
-    <Using Include="SadConsole.Extended" />
     <Using Include="SadRogue.Primitives" />
     <Using Include="SadConsole.Console" Alias="Console" />
   </ItemGroup>
@@ -19,7 +18,15 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="SadConsole.Host.MonoGame" Version="10.0.0-alpha4-debug" />
-    <PackageReference Include="SadConsole.Extended" Version="10.0.0-alpha4-debug" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Art\nuts.ans">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Art\goofy.ans">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
