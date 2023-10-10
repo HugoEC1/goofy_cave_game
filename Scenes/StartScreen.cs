@@ -5,23 +5,23 @@ using static CaveGame.GameSettings;
 
 namespace CaveGame.Scenes;
 
-class StartScreen : ScreenObject
+public class StartScreen : ScreenObject
 {
     private ScreenSurface _title;
 
     public StartScreen()
     {
         // create a screen for title art
-        _title = new ScreenSurface(GAME_WIDTH, GAME_HEIGHT);
+        _title = new ScreenSurface(TITLE_WIDTH, TITLE_HEIGHT);
         
-        var doc = new Document($"Art/god.ans");
+        var doc = new Document($"Art/goofy.ans");
         var writer = new AnsiWriter(doc, _title.Surface);
         writer.ReadEntireDocument();
         Children.Add(_title);
         
-        //Children.Add(new StartMenu() { Position = new Point(0, GAME_HEIGHT - STARTMENU_HEIGHT)});
+        Children.Add(new StartMenu() { Position = new Point(0, GAME_HEIGHT - STARTMENU_HEIGHT)});
     }
-    internal class StartMenu : SadConsole.UI.ControlsConsole
+    public class StartMenu : SadConsole.UI.ControlsConsole
     {
         public StartMenu() : base(STARTMENU_WIDTH, STARTMENU_HEIGHT)
         {
@@ -35,6 +35,7 @@ class StartScreen : ScreenObject
                 Text = "Exit",
                 Position = new Point(HorCentered(this, 10), 6)
             };
+            exitButton.Click += (s, a) => CaveGame.Program.ExitAnim();
             Controls.Add(startButton);
             Controls.Add(exitButton);
         }

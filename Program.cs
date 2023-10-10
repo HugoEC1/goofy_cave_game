@@ -1,27 +1,30 @@
-﻿// :3
+﻿using CaveGame.Scenes;
 
-namespace CaveGame
+// :3
+
+namespace CaveGame;
+static class Program
 {
-    internal class Program
+    private static void Main(string[] args)
     {
-        private static void Main(string[] args)
-        {
-            Settings.WindowTitle = "Goofy Cave Game";
+        Settings.WindowTitle = "Goofy Cave Game";
 
-            Game.Configuration gameStartup = new Game.Configuration()
-                .SetScreenSize(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT)
-                .SetStartingScreen<CaveGame.Scenes.StartScreen>();
+        var gameStartup = new Game.Configuration()
+            .SetScreenSize(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT)
+            .SetStartingScreen<CaveGame.Scenes.StartScreen>();
 
-            Game.Create(gameStartup);
-            Game.Instance.FrameUpdate += Update;
-            Game.Instance.Run();
-            Game.Instance.Dispose();
+        Game.Create(gameStartup);
+        Game.Instance.FrameUpdate += Update;
+        Game.Instance.Run();
+        Game.Instance.Dispose();
 
-        }
-
-        private static void Update(object? sender, GameHost e)
-        {
-            //System.Console.WriteLine(e);
-        }
+    }
+    private static void Update(object? sender, GameHost e)
+    {
+        
+    }
+    public static void ExitAnim()
+    {
+        Game.Instance.Screen = new ExitScreen();
     }
 }
