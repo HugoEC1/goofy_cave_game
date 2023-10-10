@@ -23,7 +23,11 @@ static class Program
     {
         
     }
-    public static void ExitAnim()
+    public static void Start()
+    {
+        Game.Instance.Screen = new StartConfigScreen();
+    }
+    public static void Exit()
     {
         Game.Instance.Screen = new ExitScreen();
     }

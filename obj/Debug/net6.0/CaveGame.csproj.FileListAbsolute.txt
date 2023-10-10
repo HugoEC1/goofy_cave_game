@@ -64,3 +64,5 @@ C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\obj\Debug\net6.0\Cave
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\obj\Debug\net6.0\CaveGame.genruntimeconfig.cache
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\obj\Debug\net6.0\ref\CaveGame.dll
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\Art\god.ans
+C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\ColorMineStandard.dll
+C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\SadConsole.Extended.dll
