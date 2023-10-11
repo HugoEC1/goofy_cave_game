@@ -1,4 +1,5 @@
 ﻿using CaveGame.Scenes;
+using SadRogue.Primitives.GridViews;
 
 // :3
 
@@ -17,7 +18,6 @@ static class Program
         Game.Instance.FrameUpdate += Update;
         Game.Instance.Run();
         Game.Instance.Dispose();
-
     }
     private static void Update(object? sender, GameHost e)
     {
@@ -26,6 +26,11 @@ static class Program
     public static void Start()
     {
         Game.Instance.Screen = new StartConfigScreen();
+    }
+    public static void GenerateWorld(int size, int minArea, int enemyCount)
+    {
+        WorldGeneration.Generate(size, minArea, new Random().Next(0, 1000000));
+        System.Console.WriteLine("dayum");
     }
     public static void Exit()
     {

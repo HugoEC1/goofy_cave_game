@@ -30,13 +30,13 @@ public class StartScreen : ScreenObject
                 Text = "Play",
                 Position = new Point(HorCentered(this, 10), 3)
             };
-            startButton.Click += (s, a) => CaveGame.Program.Start();
+            startButton.Click += (s, a) => Program.Start();
             var exitButton = new Button(10, 1)
             {
                 Text = "Exit",
                 Position = new Point(HorCentered(this, 10), 6)
             };
-            exitButton.Click += (s, a) => CaveGame.Program.Exit();
+            exitButton.Click += (s, a) => Program.Exit();
             Controls.Add(startButton);
             Controls.Add(exitButton);
         }
