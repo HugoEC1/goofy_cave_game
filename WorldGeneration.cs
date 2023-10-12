@@ -41,6 +41,18 @@ public static class WorldGeneration
                 walls[size-1,x] = true;
             }
 
+            int startY;
+            int startX;
+            while (true)
+            {
+                startY = SHutil.Random(0, size - 1);
+                startX = SHutil.Random(0, size - 1);
+                if (walls[startY,startX] == false)
+                {
+                    break;
+                }
+            }
+            
             for (var y = 0; y < size; y++)
             {
                 for (var x = 0; x < size; x++)
@@ -57,17 +69,7 @@ public static class WorldGeneration
                 System.Console.WriteLine("");
             }
 
-            int startY;
-            int startX;
-            while (true)
-            {
-                startY = SHutil.Random(0, size - 1);
-                startX = SHutil.Random(0, size - 1);
-                if (walls[startY,startX] == false)
-                {
-                    break;
-                }
-            }
+            break;
             
             var visited = new bool[size,size];
 
@@ -81,18 +83,18 @@ public static class WorldGeneration
                     {
                         if (visited[y,x])
                         {
-                            cave[y,x] = "·";
+                            cave[y,x] = "air";
                         }
                         else
                         {
-                            cave[y,x] = "X";
+                            cave[y,x] = "stone";
                         }
                     }
                 }
                 break;
             }
             System.Console.WriteLine("cave rejected");
-            seed = new Random().Next(-2147483648, 2147483647);
+            seed = new Random().Next(int.MinValue, int.MaxValue);
         }
         System.Console.WriteLine("Region Generated");
         System.Console.WriteLine("Seed: " + seed);
@@ -101,10 +103,10 @@ public static class WorldGeneration
     
     private static int FillCount(int y, int x, bool[,] visited, bool[,] walls) 
     {
-        var count = 1;
+        if (visited[y,x] || walls[y,x]) { return 0; }
         var onGrid = (0 <= y && y <= walls.GetLength(0) - 1 && 0 <= x && x <= walls.GetLength(1) - 1);
         if (!onGrid) { return 0; }
-        if (visited[y,x] || walls[y,x]) { return 0; }
+        var count = 1;
         visited[y,x] = true;
         count += FillCount(y+1, x, visited, walls);
         count += FillCount(y-1, x, visited, walls);

@@ -30,13 +30,15 @@ static class Program
     {
         if (seed == null)
         {
-            seed = new Random().Next(-2147483648, 2147483647);
+            seed = new Random().Next(int.MinValue, int.MaxValue);
         }
         else
         {
             minArea = 0; // ignore minArea if seed is entered
         }
-        WorldGeneration.Generate(size, minArea, seed.GetValueOrDefault());
+        var idGrid = WorldGeneration.Generate(size, minArea, seed.GetValueOrDefault());
+        
+        
     }
     public static void Exit()
     {

@@ -1,6 +1,10 @@
 ﻿namespace CaveGame;
 public static class GameSettings
 {
+    // game settings
+    public const int TURN_SPEED = 10;
+    
+    // screen size settings
     public const int GAME_WIDTH = 80;
     public const int GAME_HEIGHT = 25;
     public const int TITLE_WIDTH = 80;
