@@ -1,18 +1,17 @@
 ﻿using CaveGame.Scenes;
-using SadRogue.Primitives.GridViews;
 
 // :3
 
 namespace CaveGame;
 static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Settings.WindowTitle = "Goofy Cave Game";
 
         var gameStartup = new Game.Configuration()
             .SetScreenSize(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT)
-            .SetStartingScreen<CaveGame.Scenes.StartScreen>();
+            .SetStartingScreen<StartScreen>();
 
         Game.Create(gameStartup);
         Game.Instance.FrameUpdate += Update;
@@ -27,10 +26,17 @@ static class Program
     {
         Game.Instance.Screen = new StartConfigScreen();
     }
-    public static void GenerateWorld(int size, int minArea, int enemyCount)
+    public static void GenerateWorld(int size, int minArea, int enemyCount, int? seed)
     {
-        WorldGeneration.Generate(size, minArea, new Random().Next(0, 1000000));
-        System.Console.WriteLine("dayum");
+        if (seed == null)
+        {
+            seed = new Random().Next(-2147483648, 2147483647);
+        }
+        else
+        {
+            minArea = 0; // ignore minArea if seed is entered
+        }
+        WorldGeneration.Generate(size, minArea, seed.GetValueOrDefault());
     }
     public static void Exit()
     {

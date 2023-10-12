@@ -25,18 +25,19 @@ public class StartScreen : ScreenObject
     {
         public StartMenu() : base(STARTMENU_WIDTH, STARTMENU_HEIGHT)
         {
-            var startButton = new Button(10, 1)
+            var startButton = new Button(10)
             {
                 Text = "Play",
                 Position = new Point(HorCentered(this, 10), 3)
             };
-            startButton.Click += (s, a) => Program.Start();
-            var exitButton = new Button(10, 1)
+            startButton.Click += (_, _) => Program.Start();
+            var exitButton = new Button(10)
             {
                 Text = "Exit",
                 Position = new Point(HorCentered(this, 10), 6)
             };
-            exitButton.Click += (s, a) => Program.Exit();
+            exitButton.Click += (_, _) => Program.Exit();
+            
             Controls.Add(startButton);
             Controls.Add(exitButton);
         }
