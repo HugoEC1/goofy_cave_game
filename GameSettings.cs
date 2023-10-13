@@ -3,6 +3,9 @@ public static class GameSettings
 {
     // game settings
     public const int TURN_SPEED = 10;
+    public const int CHUNK_HEIGHT = 128;
+    public const int CHUNK_WIDTH = 128;
+    public const int MINAREA_CHECK = 8000;
     
     // screen size settings
     public const int GAME_WIDTH = 80;
@@ -13,4 +16,6 @@ public static class GameSettings
     public const int STARTMENU_HEIGHT = 10;
     public const int STARTCONFIGMENU_WIDTH = 60;
     public const int STARTCONFIGMENU_HEIGHT = 20;
+    public const int CUSTOMCONFIGMENU_WIDTH = 60;
+    public const int CUSTOMCONFIGMENU_HEIGHT = 20;
 }

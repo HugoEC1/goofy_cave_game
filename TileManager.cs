@@ -1,4 +1,5 @@
 using static SadRogue.Primitives.Color;
+using static CaveGame.GameSettings;
 
 namespace CaveGame;
 
@@ -11,19 +12,17 @@ public class TileManager
         
     }
 
-    public static ColoredGlyph[,] GetGlyphGrid(string[,] idGrid, Point position, int width, int height = -1)
+    public static ColoredGlyph[,] GetGlyphChunk(string[,] idGrid, int chunkX, int chunkY)
     {
-        if (height == -1) { height = width; }
-
-        var glyphGrid = new ColoredGlyph[height,width];
+        var glyphGrid = new ColoredGlyph[CHUNK_HEIGHT,CHUNK_WIDTH];
         
-        for (var y = 0; y < height; y++)
+        for (var y = 0; y < CHUNK_HEIGHT; y++)
         {
-            for (var x = 0; x < width; x++)
+            for (var x = 0; x < CHUNK_WIDTH; x++)
             {
                 foreach (var tile in TileInit)
                 {
-                    if (tile.ID == idGrid[y + position.Y, x + position.X]) { glyphGrid[y, x] = tile.TileGlyph; }
+                    if (tile.ID == idGrid[y + chunkY * CHUNK_HEIGHT,x + chunkX * CHUNK_WIDTH]) { glyphGrid[y, x] = tile.TileGlyph; }
                 }
             }
         }

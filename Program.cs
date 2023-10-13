@@ -1,4 +1,5 @@
 ﻿using CaveGame.Scenes;
+using static CaveGame.GameSettings;
 
 // :3
 
@@ -24,22 +25,12 @@ static class Program
     }
     public static void Start()
     {
-        Game.Instance.Screen = new StartConfigScreen();
-    }
-    public static void GenerateWorld(int size, int minArea, int enemyCount, int? seed)
-    {
-        if (seed == null)
-        {
-            seed = new Random().Next(int.MinValue, int.MaxValue);
-        }
-        else
-        {
-            minArea = 0; // ignore minArea if seed is entered
-        }
-        var idGrid = WorldGeneration.Generate(size, minArea, seed.GetValueOrDefault());
+        // uncomment to enable custom config
+        // Game.Instance.Screen = new CustomConfigScreen();
         
-        
+        Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, MINAREA_CHECK);
     }
+
     public static void Exit()
     {
         Game.Instance.Screen = new ExitScreen();

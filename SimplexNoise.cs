@@ -22,12 +22,12 @@ public static class SimplexNoise
         return values;
     }
 
-    public static float[,] Calc2D(int width, int height, float scale)
+    public static float[,] Calc2D(int width, int height, int xOffset, int yOffset, float scale)
     {
-        var values = new float[width, height];
-        for (var i = 0; i < width; i++)
-            for (var j = 0; j < height; j++)
-                values[i, j] = Generate(i * scale, j * scale) * 128 + 128;
+        var values = new float[height, width];
+        for (var y = 0; y < height; y++)
+            for (var x = 0; x < width; x++)
+                values[y, x] = Generate((x + xOffset) * scale, (y + yOffset) * scale) * 128 + 128;
         return values;
     }
 
