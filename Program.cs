@@ -8,14 +8,20 @@ using static CaveGame.GenerationManager;
 namespace CaveGame;
 static class Program
 {
-    private static int seed;
+    private static int _seed;
+    private static BiomeManager.Biome _biome;
+    
     private static void Main()
     {
         Settings.WindowTitle = "Goofy Cave Game";
 
         var gameStartup = new Game.Configuration()
-            .SetScreenSize(GAME_WIDTH, GAME_HEIGHT)
-            .SetStartingScreen<StartScreen>();
+            .SetScreenSize(START_WIDTH, START_HEIGHT)
+            .SetStartingScreen<StartScreen>()
+            .ConfigureFonts((f) =>
+            {
+                f.AddExtraFonts("Fonts/mdcurses16.font");
+            });
 
         Game.Create(gameStartup);
         Game.Instance.FrameUpdate += Update;
@@ -30,8 +36,9 @@ static class Program
     {
         // uncomment to enable custom config
         // Game.Instance.Screen = new CustomConfigScreen();
-        seed = new Random().Next(int.MinValue, int.MaxValue);
-        var idChunk = Generate(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, new Cave(), seed);
+        _seed = new Random().Next(int.MinValue, int.MaxValue);
+        _biome = new Cave();
+        var idChunk = Generate(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, _biome, _seed);
         
     }
 

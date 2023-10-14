@@ -16,7 +16,7 @@ public class CustomConfigScreen : ScreenObject
     public CustomConfigScreen()
     {
         // create a screen for config background
-        _customConfig = new ScreenSurface(GAME_WIDTH, GAME_HEIGHT);
+        _customConfig = new ScreenSurface(START_WIDTH, START_HEIGHT);
         // add config background
         Children.Add(_customConfig);
         

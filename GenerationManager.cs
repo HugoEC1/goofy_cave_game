@@ -1,4 +1,5 @@
 using static CaveGame.BiomeManager;
+using static CaveGame.GameSettings;
 
 namespace CaveGame;
 
@@ -9,10 +10,23 @@ public static class GenerationManager
         return biome.GenerateChunk(width, height, chunkX, chunkY, seed);
     }
 
-    public static Dictionary<int[,], string[,]> GenerateSurroundings(int width, int height, int chunkX, int chunkY, Biome biome, int seed)
+    /*public static Task<Dictionary<int[], string[,]>> GenerateSurroundings(int width, int height, int chunkX, int chunkY, Biome biome, int seed)
     {
-        
-    }
+        var SurroundingChunks = new Dictionary<int[], string[,]>();
+        for (var x = -1 * LOAD_DISTANCE; x <= LOAD_DISTANCE; x++)
+        {
+            for (var y = -1 * LOAD_DISTANCE; y <= LOAD_DISTANCE; y++)
+            {
+                if (x == 0 && y == 0)
+                {
+                    continue;
+                }
+                SurroundingChunks.Add(new[] {x,y}, Generate(width, height, chunkX, chunkY, biome, seed));
+            }
+        }
+
+        return SurroundingChunks;
+    }*/
     public static bool[,] GenerateSimplex(int width, int height, int chunkX, int chunkY, int seed)
     {
         var xOffset = chunkX * width;

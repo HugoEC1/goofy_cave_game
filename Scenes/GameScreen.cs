@@ -1,25 +1,29 @@
-﻿using SadConsole.Ansi;
 using SadConsole.UI.Controls;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
 
 namespace CaveGame.Scenes;
 
-public class StartScreen : ScreenObject
+public class GameScreen : ScreenObject
 {
-    private ScreenSurface _title;
+    private Console _gameView;
 
-    public StartScreen()
+    public GameScreen()
     {
-        // create a screen for title art
-        _title = new ScreenSurface(TITLE_WIDTH, TITLE_HEIGHT);
+        _gameView = new Console(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT);
         
-        var doc = new Document($"Art/goofy.ans");
-        var writer = new AnsiWriter(doc, _title.Surface);
         writer.ReadEntireDocument();
         Children.Add(_title);
         
         Children.Add(new StartMenu() { Position = new Point(0, START_HEIGHT - STARTMENU_HEIGHT)});
+    }
+    
+    public class GameView : Console
+    {
+        public GameView() : base(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT)
+        {
+            
+        }
     }
     public class StartMenu : SadConsole.UI.ControlsConsole
     {
