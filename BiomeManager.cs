@@ -1,13 +1,15 @@
+using System.CodeDom.Compiler;
 using static CaveGame.GameSettings;
 
 namespace CaveGame;
 
-public class BiomeManager
+public static class BiomeManager
 {
-    abstract class Biome
+    public abstract class Biome
     {
         public string ID = "";
         public string Name = "";
-        public abstract 
+        public string Description = "";
+        public abstract string[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed);
     }
 }

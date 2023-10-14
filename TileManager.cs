@@ -12,7 +12,7 @@ public class TileManager
         
     }
 
-    public static ColoredGlyph[,] GetGlyphChunk(string[,] idGrid, int chunkX, int chunkY)
+    public static ColoredGlyph[,] GetGlyphChunk(string[,] idChunk)
     {
         var glyphGrid = new ColoredGlyph[CHUNK_HEIGHT,CHUNK_WIDTH];
         
@@ -22,7 +22,7 @@ public class TileManager
             {
                 foreach (var tile in TileInit)
                 {
-                    if (tile.ID == idGrid[y + chunkY * CHUNK_HEIGHT,x + chunkX * CHUNK_WIDTH]) { glyphGrid[y, x] = tile.TileGlyph; }
+                    if (tile.ID == idChunk[y,x]) { glyphGrid[y, x] = tile.TileGlyph; }
                 }
             }
         }

@@ -11,7 +11,7 @@ static class Program
         Settings.WindowTitle = "Goofy Cave Game";
 
         var gameStartup = new Game.Configuration()
-            .SetScreenSize(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT)
+            .SetScreenSize(GAME_WIDTH, GAME_HEIGHT)
             .SetStartingScreen<StartScreen>();
 
         Game.Create(gameStartup);
@@ -28,7 +28,16 @@ static class Program
         // uncomment to enable custom config
         // Game.Instance.Screen = new CustomConfigScreen();
         
-        Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, -1, 1, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 1, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 1, 1, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, -1, 0, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 1, 0, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, -1, -1, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, -1, MINAREA_CHECK);
+        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 1, -1, MINAREA_CHECK);
+        
     }
 
     public static void Exit()

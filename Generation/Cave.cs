@@ -1,131 +1,41 @@
-namespace CaveGame;
+using static CaveGame.BiomeManager;
 
-public static class Cave
+namespace CaveGame.Generation;
+
+public class Cave : Biome
 {
-    public static void GenerateChunk(int width, int height, int chunkX, int chunkY, int minArea, int? seed = null)
+    public Cave()
     {
-        if (seed == null)
-        {
-            seed = new Random().Next(int.MinValue, int.MaxValue);
-        }
-        else
-        {
-            minArea = 0; // ignore minArea if seed is entered
-        }
-        var walls = GenerateWalls(width, height, chunkX, chunkY, seed.GetValueOrDefault());
-        
-        
+        ID = "cave";
+        Name = "Cave";
+        Description = "Default biome";
     }
-    private static bool[,] GenerateWalls(int width, int height, int chunkX, int chunkY, int seed)
+    public override string[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed)
     {
-        var xOffset = chunkX * width;
-        var yOffset = chunkY * height;
+        var walls = General.GenerateSimplex(width, height, chunkX, chunkY, seed);
+
+        return GenerateBiome(walls);
+    }
+
+    private static string[,] GenerateBiome(bool[,] walls)
+    {
+        var idChunk = new string[walls.GetLength(0), walls.GetLength(1)];
         
-        var walls = new bool[height,width];
-        
-        while(true)
+        for (var y = 0; y < walls.GetLength(0); y++)
         {
-            SimplexNoise.Seed = seed;
-            var noiseGrid = SimplexNoise.Calc2D(width, height, xOffset, yOffset, 0.10f);
-            
-            for (var y = 0; y < height; y++)
+            for (var x = 0; x < walls.GetLength(1); x++)
             {
-                for (var x = 0; x < width; x++)
+                if (walls[y,x])
                 {
-                    if (noiseGrid[y,x] > 100) // making this number smaller will make more walls as noise outputs number from 0 - 128
-                    {
-                        walls[y,x] = false;
-                    }
-                    else
-                    {
-                        walls[y,x] = true;
-                    }
+                    idChunk[y, x] = "stone";
+                }
+                else
+                {
+                    idChunk[y, x] = "air";
                 }
             }
-            
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
-                {
-                    if (walls[y,x])
-                    {
-                        System.Console.Write("X");
-                    }
-                    else
-                    {
-                        System.Console.Write(" ");
-                    }
-                }
-                System.Console.WriteLine("");
-            }
-    
-            for (var y = 0; y < height; y++) {
-                walls[y,0] = true;
-            }
-            for (var y = 0; y < height; y++) {
-                walls[y,width-1] = true;
-            }
-            for (var x = 0; x < width; x++) {
-                walls[0,x] = true;
-            }
-            for (var x = 0; x < width; x++) {
-                walls[height-1,x] = true;
-            }
-
-            break;
         }
-        System.Console.WriteLine("Region Generated");
-        System.Console.WriteLine("Seed: " + seed);
-        return walls;
-    }
 
-    // bad at method names
-    // example use: find large enough area to spawn player/staircase
-    // TODO: make the method that finds starting coords recursive and to keep finding coords from unvisited tiles until entire chunk has been checked
-    // TODO: also find all empty tiles and randomly select from an array of them instead of randomly brute forcing all tiles (while excluding already visited tiles)
-    public static bool[,]? FindAreaThatIsOfProvidedArea(bool[,] walls, int area)
-    {
-        var height = walls.GetLength(0);
-        var width = walls.GetLength(1);
-        int startY;
-        int startX;
-        
-        while (true)
-        {
-            startY = SHutil.Random(0, height - 1);
-            startX = SHutil.Random(0, width - 1);
-            if (walls[startY,startX] == false)
-            {
-                break;
-            }
-        }
-            
-        var visited = new bool[height,width];
-
-        var areaCheckResult = AreaCheck(startY, startX, visited, walls, area);
-        _visitedArea = 0;
-
-        if (areaCheckResult)
-        {
-            return visited;
-        }
-        return null;
-    }
-    
-    private static int _visitedArea;
-    
-    private static bool AreaCheck(int y, int x, bool[,] visited, bool[,] walls, int area) 
-    {
-        if (_visitedArea >= area) { return true; }
-        if (visited[y,x] || walls[y,x]) { return false; }
-        var onGrid = (0 <= y && y <= walls.GetLength(0) - 1 && 0 <= x && x <= walls.GetLength(1) - 1);
-        if (!onGrid) { return false; }
-        _visitedArea++;
-        visited[y,x] = true;
-        if (AreaCheck(y + 1, x, visited, walls, area) || AreaCheck(y-1, x, visited, walls, area) || AreaCheck(y, x+1, visited, walls, area) || AreaCheck(y, x-1, visited, walls, area))
-        {
-            return true;
-        }
-        return false;
+        return idChunk;
     }
 }
