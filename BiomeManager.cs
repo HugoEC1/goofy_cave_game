@@ -1,4 +1,3 @@
-using System.CodeDom.Compiler;
 using static CaveGame.GameSettings;
 
 namespace CaveGame;

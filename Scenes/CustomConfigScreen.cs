@@ -1,8 +1,10 @@
+using CaveGame.Generation;
 using SadConsole.Ansi;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
+using static CaveGame.GenerationManager;
 
 namespace CaveGame.Scenes;
 
@@ -80,11 +82,11 @@ public class CustomConfigScreen : ScreenObject
                     // also enemyCount is unused currently
                     if (seed.Text == "")
                     {
-                        Cave.GenerateChunk(i, i, 0, 0, j, null);
+                        var chunk = Generate(i, i, 0, 0, new Cave(), new Random().Next(int.MinValue, int.MaxValue));
                     }
                     else if (int.TryParse(seed.Text, out var l))
                     {
-                        Cave.GenerateChunk(i, i, 0, 0, j, l);
+                        Generate(i, i, 0, 0, new Cave(), l);
                     }
                     else
                     {

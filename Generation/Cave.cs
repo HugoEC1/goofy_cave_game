@@ -12,7 +12,7 @@ public class Cave : Biome
     }
     public override string[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed)
     {
-        var walls = General.GenerateSimplex(width, height, chunkX, chunkY, seed);
+        var walls = GenerationManager.GenerateSimplex(width, height, chunkX, chunkY, seed);
 
         return GenerateBiome(walls);
     }

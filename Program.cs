@@ -1,11 +1,14 @@
-﻿using CaveGame.Scenes;
+﻿using CaveGame.Generation;
+using CaveGame.Scenes;
 using static CaveGame.GameSettings;
+using static CaveGame.GenerationManager;
 
 // :3
 
 namespace CaveGame;
 static class Program
 {
+    private static int seed;
     private static void Main()
     {
         Settings.WindowTitle = "Goofy Cave Game";
@@ -27,16 +30,8 @@ static class Program
     {
         // uncomment to enable custom config
         // Game.Instance.Screen = new CustomConfigScreen();
-        
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, -1, 1, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 1, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 1, 1, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, -1, 0, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 1, 0, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, -1, -1, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, -1, MINAREA_CHECK);
-        var idChunk = Cave.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 1, -1, MINAREA_CHECK);
+        seed = new Random().Next(int.MinValue, int.MaxValue);
+        var idChunk = Generate(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, new Cave(), seed);
         
     }
 

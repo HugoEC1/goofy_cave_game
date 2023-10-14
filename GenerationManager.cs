@@ -1,13 +1,17 @@
-namespace CaveGame.Generation;
+using static CaveGame.BiomeManager;
 
-public static class General
+namespace CaveGame;
+
+public static class GenerationManager
 {
-    public static string[,] GenerateBiomeChunk(int width, int height, int chunkX, int chunkY, string biome, int? seed = null)
+    public static string[,] Generate(int width, int height, int chunkX, int chunkY, Biome biome, int seed)
     {
-        if (seed == null)
-        {
-            seed = new Random().Next(int.MinValue, int.MaxValue);
-        }
+        return biome.GenerateChunk(width, height, chunkX, chunkY, seed);
+    }
+
+    public static Dictionary<int[,], string[,]> GenerateSurroundings(int width, int height, int chunkX, int chunkY, Biome biome, int seed)
+    {
+        
     }
     public static bool[,] GenerateSimplex(int width, int height, int chunkX, int chunkY, int seed)
     {
@@ -16,57 +20,53 @@ public static class General
         
         var walls = new bool[height,width];
         
-        while(true)
+        SimplexNoise.Seed = seed;
+        var noiseGrid = SimplexNoise.Calc2D(width, height, xOffset, yOffset, 0.10f);
+        
+        for (var y = 0; y < height; y++)
         {
-            SimplexNoise.Seed = seed;
-            var noiseGrid = SimplexNoise.Calc2D(width, height, xOffset, yOffset, 0.10f);
-            
-            for (var y = 0; y < height; y++)
+            for (var x = 0; x < width; x++)
             {
-                for (var x = 0; x < width; x++)
+                if (noiseGrid[y,x] > 100) // making this number smaller will make more walls as noise outputs number from 0 - 128
                 {
-                    if (noiseGrid[y,x] > 100) // making this number smaller will make more walls as noise outputs number from 0 - 128
-                    {
-                        walls[y,x] = false;
-                    }
-                    else
-                    {
-                        walls[y,x] = true;
-                    }
+                    walls[y,x] = false;
+                }
+                else
+                {
+                    walls[y,x] = true;
                 }
             }
-            
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
-                {
-                    if (walls[y,x])
-                    {
-                        System.Console.Write("X");
-                    }
-                    else
-                    {
-                        System.Console.Write(" ");
-                    }
-                }
-                System.Console.WriteLine("");
-            }
-    
-            for (var y = 0; y < height; y++) {
-                walls[y,0] = true;
-            }
-            for (var y = 0; y < height; y++) {
-                walls[y,width-1] = true;
-            }
-            for (var x = 0; x < width; x++) {
-                walls[0,x] = true;
-            }
-            for (var x = 0; x < width; x++) {
-                walls[height-1,x] = true;
-            }
-
-            break;
         }
+        
+        for (var y = 0; y < height; y++)
+        {
+            for (var x = 0; x < width; x++)
+            {
+                if (walls[y,x])
+                {
+                    System.Console.Write("X");
+                }
+                else
+                {
+                    System.Console.Write(" ");
+                }
+            }
+            System.Console.WriteLine("");
+        }
+
+        for (var y = 0; y < height; y++) {
+            walls[y,0] = true;
+        }
+        for (var y = 0; y < height; y++) {
+            walls[y,width-1] = true;
+        }
+        for (var x = 0; x < width; x++) {
+            walls[0,x] = true;
+        }
+        for (var x = 0; x < width; x++) {
+            walls[height-1,x] = true;
+        }
+
         System.Console.WriteLine("Region Generated");
         System.Console.WriteLine("Seed: " + seed);
         return walls;
