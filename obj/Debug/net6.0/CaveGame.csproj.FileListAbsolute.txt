@@ -8,7 +8,6 @@ D:\Github Repos\CaveGame\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\Github Repos\CaveGame\bin\Debug\net6.0\SadConsole.dll
 D:\Github Repos\CaveGame\bin\Debug\net6.0\SadConsole.Host.MonoGame.dll
 D:\Github Repos\CaveGame\bin\Debug\net6.0\TheSadRogue.Primitives.dll
-D:\Github Repos\CaveGame\bin\Debug\net6.0\TheSadRogue.Primitives.MonoGame.dll
 D:\Github Repos\CaveGame\bin\Debug\net6.0\runtimes\linux-x64\native\libSDL2-2.0.so.0
 D:\Github Repos\CaveGame\bin\Debug\net6.0\runtimes\linux-x64\native\libopenal.so.1
 D:\Github Repos\CaveGame\bin\Debug\net6.0\runtimes\osx\native\libSDL2.dylib
@@ -69,3 +68,5 @@ C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\SadC
 D:\Github Repos\CaveGame\bin\Debug\net6.0\Art\god.ans
 D:\Github Repos\CaveGame\bin\Debug\net6.0\ColorMineStandard.dll
 D:\Github Repos\CaveGame\bin\Debug\net6.0\SadConsole.Extended.dll
+D:\Github Repos\CaveGame\bin\Debug\net6.0\Fonts\mdcurses16.font
+D:\Github Repos\CaveGame\bin\Debug\net6.0\Fonts\Md_curses_16x16.png

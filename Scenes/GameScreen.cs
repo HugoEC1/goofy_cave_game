@@ -12,32 +12,29 @@ public class GameScreen : ScreenObject
     public GameScreen()
     {
         // add game display console
-        _gameView = new Console(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT);
+        _gameView = new GameView();
         
         Children.Add(_gameView);
         
+        
     }
-    
     public class GameView : Console
     {
-        private IFont _font = Game.Instance.Fonts["mdcurses16.font"];
-        public GameView() : base(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT)
+        public GameView() : base(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT, CHUNK_WIDTH, CHUNK_HEIGHT)
         {
-            Font = _font;
+            var font = Game.Instance.Fonts["mdcurses16"];
+            Font = font;
             Game.Instance.FocusedScreenObjects.Push(this);
         }
-
-        public static void UpdateView(ColoredGlyph[,] view)
-        {
-            
-        } 
     }
-
-    public class SkillMenu : ControlsConsole
+    public void UpdateChunk(ColoredGlyph[,] glyphChunk)
     {
-        public SkillMenu() : base()
+        for (var y = 0; y < glyphChunk.GetLength(0); y++)
         {
-            
+            for (var x = 0; x < glyphChunk.GetLength(1); x++)
+            {
+                glyphChunk[y,x].CopyAppearanceTo(_gameView.Surface[x,y]);
+            }
         }
-    }
+    } 
 }

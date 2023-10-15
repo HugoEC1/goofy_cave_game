@@ -1,5 +1,6 @@
 ﻿using CaveGame.Generation;
 using CaveGame.Scenes;
+using SadConsole.Configuration;
 using static CaveGame.GameSettings;
 using static CaveGame.GenerationManager;
 
@@ -15,10 +16,10 @@ static class Program
     {
         Settings.WindowTitle = "Goofy Cave Game";
 
-        var gameStartup = new Game.Configuration()
+        var gameStartup = new Builder()
             .SetScreenSize(START_WIDTH, START_HEIGHT)
             .SetStartingScreen<StartScreen>()
-            .ConfigureFonts((f) =>
+            .ConfigureFonts((f, g) =>
             {
                 f.AddExtraFonts("Fonts/mdcurses16.font");
             });
@@ -39,8 +40,9 @@ static class Program
         _seed = new Random().Next(int.MinValue, int.MaxValue);
         _biome = new Cave();
         var idChunk = Generate(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, _biome, _seed);
-        Game.Instance.Screen = new GameScreen();
-
+        var gameScreen = new GameScreen();
+        Game.Instance.Screen = gameScreen;
+        gameScreen.UpdateChunk(TileManager.GetGlyphChunk(idChunk));
     }
 
     public static void Exit()

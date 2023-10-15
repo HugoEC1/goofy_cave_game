@@ -68,19 +68,6 @@ public static class GenerationManager
             System.Console.WriteLine("");
         }
 
-        for (var y = 0; y < height; y++) {
-            walls[y,0] = true;
-        }
-        for (var y = 0; y < height; y++) {
-            walls[y,width-1] = true;
-        }
-        for (var x = 0; x < width; x++) {
-            walls[0,x] = true;
-        }
-        for (var x = 0; x < width; x++) {
-            walls[height-1,x] = true;
-        }
-
         System.Console.WriteLine("Region Generated");
         System.Console.WriteLine("Seed: " + seed);
         return walls;

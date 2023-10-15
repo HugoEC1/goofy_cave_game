@@ -45,7 +45,7 @@ public class TileManager
         public Air()
         {
             ID = "air";
-            TileGlyph = new ColoredGlyph(White, Transparent, '·');
+            TileGlyph = new ColoredGlyph(White, Transparent, ' ');
             Name = "Air";
             Description = "";
             MaxHealth = -1;

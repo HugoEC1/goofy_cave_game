@@ -70,11 +70,11 @@
           }
         }
       },
-      "SadConsole/10.0.0-alpha4-debug": {
+      "SadConsole/10.0.0-beta3-debug": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3",
-          "TheSadRogue.Primitives": "1.6.0-rc3-debug"
+          "TheSadRogue.Primitives": "1.6.0-rc3"
         },
         "compile": {
           "lib/net6.0/SadConsole.dll": {
@@ -87,11 +87,11 @@
           }
         }
       },
-      "SadConsole.Extended/10.0.0-alpha4-debug": {
+      "SadConsole.Extended/10.0.0-beta3-debug": {
         "type": "package",
         "dependencies": {
           "ColorMineStandard": "1.0.0",
-          "SadConsole": "10.0.0-alpha4-debug",
+          "SadConsole": "10.0.0-beta3-debug",
           "System.Text.Encoding.CodePages": "6.0.0"
         },
         "compile": {
@@ -105,11 +105,10 @@
           }
         }
       },
-      "SadConsole.Host.MonoGame/10.0.0-alpha4-debug": {
+      "SadConsole.Host.MonoGame/10.0.0-beta3-debug": {
         "type": "package",
         "dependencies": {
-          "SadConsole": "10.0.0-alpha4-debug",
-          "TheSadRogue.Primitives.MonoGame": "1.1.1"
+          "SadConsole": "10.0.0-beta3-debug"
         },
         "compile": {
           "lib/net6.0/SadConsole.Host.MonoGame.dll": {
@@ -163,7 +162,7 @@
           }
         }
       },
-      "TheSadRogue.Primitives/1.6.0-rc3-debug": {
+      "TheSadRogue.Primitives/1.6.0-rc3": {
         "type": "package",
         "compile": {
           "lib/net6.0/TheSadRogue.Primitives.dll": {
@@ -172,22 +171,6 @@
         },
         "runtime": {
           "lib/net6.0/TheSadRogue.Primitives.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "TheSadRogue.Primitives.MonoGame/1.1.1": {
-        "type": "package",
-        "dependencies": {
-          "TheSadRogue.Primitives": "1.5.0"
-        },
-        "compile": {
-          "lib/net6.0/TheSadRogue.Primitives.MonoGame.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/TheSadRogue.Primitives.MonoGame.dll": {
             "related": ".xml"
           }
         }
@@ -259,10 +242,10 @@
         "packageIcon.png"
       ]
     },
-    "SadConsole/10.0.0-alpha4-debug": {
-      "sha512": "mu5nIFYCiLMQOMisfaQ0JhV6P8+REE6JbYrRmQf/q00DXgIjsit6GllcfTE36UA0A902TF7ESp1RBkyeM6wMNg==",
+    "SadConsole/10.0.0-beta3-debug": {
+      "sha512": "0f+Ik3ZZNrzG1QNLRF+8M4myKcMM0TVm/ueGeCms19K5Nj6Y8SSdMMq6ZENVYZy1n6EDWXkn9mdouYUJ8FneNA==",
       "type": "package",
-      "path": "sadconsole/10.0.0-alpha4-debug",
+      "path": "sadconsole/10.0.0-beta3-debug",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -273,14 +256,14 @@
         "lib/net7.0/SadConsole.xml",
         "nugeticon.png",
         "readme.txt",
-        "sadconsole.10.0.0-alpha4-debug.nupkg.sha512",
+        "sadconsole.10.0.0-beta3-debug.nupkg.sha512",
         "sadconsole.nuspec"
       ]
     },
-    "SadConsole.Extended/10.0.0-alpha4-debug": {
-      "sha512": "FM4cjHaMTaAfWuAoQjFvg9AOd+3on0Qnc7cpTp6IAnAYc5qVEtj9PFc3T886Uly0BspowPdXrOIkECHWbNgKnw==",
+    "SadConsole.Extended/10.0.0-beta3-debug": {
+      "sha512": "WhP5mCC9mJl3hbwVVS7NxUJzPm2KVXnpr2IDu8nphl8nqJM/w36+cGD/Tao6XxCou90FEhSzYdTuYWSy5iBEkw==",
       "type": "package",
-      "path": "sadconsole.extended/10.0.0-alpha4-debug",
+      "path": "sadconsole.extended/10.0.0-beta3-debug",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -289,14 +272,14 @@
         "lib/net7.0/SadConsole.Extended.dll",
         "lib/net7.0/SadConsole.Extended.xml",
         "nugeticon.png",
-        "sadconsole.extended.10.0.0-alpha4-debug.nupkg.sha512",
+        "sadconsole.extended.10.0.0-beta3-debug.nupkg.sha512",
         "sadconsole.extended.nuspec"
       ]
     },
-    "SadConsole.Host.MonoGame/10.0.0-alpha4-debug": {
-      "sha512": "Xn1y8OG56HRHquWxhO36ZaW0PU7fUwxCQUBcCWvRQyfeZPPTOyeUk+0Edz6TyyGYq/TAXf72JTMoyKmEFSdH4Q==",
+    "SadConsole.Host.MonoGame/10.0.0-beta3-debug": {
+      "sha512": "6OBrWoBrnECkhD28Ayybv1d7s7QCOAgbtHotvRq+QfL5tjtN4j6gw7aSMctZuFZJvTV2ZJLf2mh33y3oFYentg==",
       "type": "package",
-      "path": "sadconsole.host.monogame/10.0.0-alpha4-debug",
+      "path": "sadconsole.host.monogame/10.0.0-beta3-debug",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -306,7 +289,7 @@
         "lib/net7.0/SadConsole.Host.MonoGame.xml",
         "nugeticon.png",
         "readme.txt",
-        "sadconsole.host.monogame.10.0.0-alpha4-debug.nupkg.sha512",
+        "sadconsole.host.monogame.10.0.0-beta3-debug.nupkg.sha512",
         "sadconsole.host.monogame.nuspec"
       ]
     },
@@ -374,10 +357,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "TheSadRogue.Primitives/1.6.0-rc3-debug": {
-      "sha512": "fj/QWumxpP2JANpwXkdidpHEzPcKdL2bxXdEc8vRB8i3VymLoJu9BE+eDuD2uUu/TmgdgXU1rlbW3tyQqZHrAw==",
+    "TheSadRogue.Primitives/1.6.0-rc3": {
+      "sha512": "w+822nVlmmcKTAl8YFMA9THxz9mCRDWjs3f2jRrHPHSvpmTllt2TJAYDgmMCkSYQpg9PAaKTBBV/x7OH6fqhHQ==",
       "type": "package",
-      "path": "thesadrogue.primitives/1.6.0-rc3-debug",
+      "path": "thesadrogue.primitives/1.6.0-rc3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -391,37 +374,16 @@
         "lib/netcoreapp3.1/TheSadRogue.Primitives.xml",
         "lib/netstandard2.1/TheSadRogue.Primitives.dll",
         "lib/netstandard2.1/TheSadRogue.Primitives.xml",
-        "thesadrogue.primitives.1.6.0-rc3-debug.nupkg.sha512",
+        "thesadrogue.primitives.1.6.0-rc3.nupkg.sha512",
         "thesadrogue.primitives.nuspec"
-      ]
-    },
-    "TheSadRogue.Primitives.MonoGame/1.1.1": {
-      "sha512": "ruFRk7NDmhi0qGjk8OOw6CtdO3VKjQiCGnMeGzNPCDHmUvaGGg+b2qZXU3H5mJBomBwMUjtRam9ju8M1HcbWMg==",
-      "type": "package",
-      "path": "thesadrogue.primitives.monogame/1.1.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net5.0/TheSadRogue.Primitives.MonoGame.dll",
-        "lib/net5.0/TheSadRogue.Primitives.MonoGame.xml",
-        "lib/net6.0/TheSadRogue.Primitives.MonoGame.dll",
-        "lib/net6.0/TheSadRogue.Primitives.MonoGame.xml",
-        "lib/net7.0/TheSadRogue.Primitives.MonoGame.dll",
-        "lib/net7.0/TheSadRogue.Primitives.MonoGame.xml",
-        "lib/netcoreapp3.1/TheSadRogue.Primitives.MonoGame.dll",
-        "lib/netcoreapp3.1/TheSadRogue.Primitives.MonoGame.xml",
-        "lib/netstandard2.1/TheSadRogue.Primitives.MonoGame.dll",
-        "lib/netstandard2.1/TheSadRogue.Primitives.MonoGame.xml",
-        "thesadrogue.primitives.monogame.1.1.1.nupkg.sha512",
-        "thesadrogue.primitives.monogame.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "MonoGame.Framework.DesktopGL >= 3.8.1.303",
-      "SadConsole.Extended >= 10.0.0-alpha4-debug",
-      "SadConsole.Host.MonoGame >= 10.0.0-alpha4-debug"
+      "SadConsole.Extended >= 10.0.0-beta3-debug",
+      "SadConsole.Host.MonoGame >= 10.0.0-beta3-debug"
     ]
   },
   "packageFolders": {
@@ -430,11 +392,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sdwdr\\Documents\\Rider Projects\\goofy_cave_game_cs\\CaveGame.csproj",
+      "projectUniqueName": "D:\\Github Repos\\CaveGame\\CaveGame.csproj",
       "projectName": "CaveGame",
-      "projectPath": "C:\\Users\\sdwdr\\Documents\\Rider Projects\\goofy_cave_game_cs\\CaveGame.csproj",
+      "projectPath": "D:\\Github Repos\\CaveGame\\CaveGame.csproj",
       "packagesPath": "C:\\Users\\sdwdr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sdwdr\\Documents\\Rider Projects\\goofy_cave_game_cs\\obj\\",
+      "outputPath": "D:\\Github Repos\\CaveGame\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sdwdr\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -467,11 +429,11 @@
           },
           "SadConsole.Extended": {
             "target": "Package",
-            "version": "[10.0.0-alpha4-debug, )"
+            "version": "[10.0.0-beta3-debug, )"
           },
           "SadConsole.Host.MonoGame": {
             "target": "Package",
-            "version": "[10.0.0-alpha4-debug, )"
+            "version": "[10.0.0-beta3-debug, )"
           }
         },
         "imports": [
@@ -485,12 +447,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.22, 6.0.22]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.22, 6.0.22]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.22, 6.0.22]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.22, 6.0.22]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.1.23463.5\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
