@@ -1,3 +1,4 @@
+using SadConsole.UI;
 using SadConsole.UI.Controls;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
@@ -10,40 +11,33 @@ public class GameScreen : ScreenObject
 
     public GameScreen()
     {
+        // add game display console
         _gameView = new Console(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT);
         
-        writer.ReadEntireDocument();
-        Children.Add(_title);
+        Children.Add(_gameView);
         
-        Children.Add(new StartMenu() { Position = new Point(0, START_HEIGHT - STARTMENU_HEIGHT)});
     }
     
     public class GameView : Console
     {
+        private IFont _font = Game.Instance.Fonts["mdcurses16.font"];
         public GameView() : base(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT)
         {
-            
+            Font = _font;
+            Game.Instance.FocusedScreenObjects.Push(this);
         }
-    }
-    public class StartMenu : SadConsole.UI.ControlsConsole
-    {
-        public StartMenu() : base(STARTMENU_WIDTH, STARTMENU_HEIGHT)
+
+        public static void UpdateView(ColoredGlyph[,] view)
         {
-            var startButton = new Button(10)
-            {
-                Text = "Play",
-                Position = new Point(HorCentered(this, 10), 3)
-            };
-            startButton.Click += (_, _) => Program.Start();
-            var exitButton = new Button(10)
-            {
-                Text = "Exit",
-                Position = new Point(HorCentered(this, 10), 6)
-            };
-            exitButton.Click += (_, _) => Program.Exit();
             
-            Controls.Add(startButton);
-            Controls.Add(exitButton);
+        } 
+    }
+
+    public class SkillMenu : ControlsConsole
+    {
+        public SkillMenu() : base()
+        {
+            
         }
     }
 }

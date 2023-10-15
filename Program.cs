@@ -39,7 +39,8 @@ static class Program
         _seed = new Random().Next(int.MinValue, int.MaxValue);
         _biome = new Cave();
         var idChunk = Generate(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, _biome, _seed);
-        
+        Game.Instance.Screen = new GameScreen();
+
     }
 
     public static void Exit()
