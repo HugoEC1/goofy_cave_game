@@ -5,7 +5,7 @@ namespace CaveGame;
 public class Player
 {
     protected int TurnSpeed = TURN_SPEED;
-    private readonly int _maxHealth = 100;
+    private const int MaxHealth = 100;
 
     public int Health;
     public int Hunger; 
@@ -15,7 +15,7 @@ public class Player
     
     public Player (int y, int x)
     {
-        Health = _maxHealth;
+        Health = MaxHealth;
         Speed = 10;
         Hunger = 100;
         Position = new []{y, x};
