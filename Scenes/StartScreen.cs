@@ -19,7 +19,7 @@ public class StartScreen : ScreenObject
         writer.ReadEntireDocument();
         Children.Add(_title);
         
-        Children.Add(new StartMenu() { Position = new Point(0, START_HEIGHT - STARTMENU_HEIGHT)});
+        Children.Add(new StartMenu() { Position = new Point(0, GAME_HEIGHT - STARTMENU_HEIGHT)});
     }
     public class StartMenu : SadConsole.UI.ControlsConsole
     {

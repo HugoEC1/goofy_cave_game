@@ -1,5 +1,4 @@
 using CaveGame.Generation;
-using SadConsole.Ansi;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
 using static CaveGame.GraphicsUtil;
@@ -16,7 +15,7 @@ public class CustomConfigScreen : ScreenObject
     public CustomConfigScreen()
     {
         // create a screen for config background
-        _customConfig = new ScreenSurface(START_WIDTH, START_HEIGHT);
+        _customConfig = new ScreenSurface(GAME_WIDTH, GAME_HEIGHT);
         // add config background
         Children.Add(_customConfig);
         
@@ -82,7 +81,10 @@ public class CustomConfigScreen : ScreenObject
                     // also enemyCount is unused currently
                     if (seed.Text == "")
                     {
-                        var chunk = Generate(i, i, 0, 0, new Cave(), new Random().Next(int.MinValue, int.MaxValue));
+                        var idChunk = Generate(i, i, 0, 0, new Cave(), new Random().Next(int.MinValue, int.MaxValue));
+                        var gameScreen = new GameScreen();
+                        Game.Instance.Screen = gameScreen;
+                        gameScreen.UpdateChunk(TileManager.GetGlyphChunk(idChunk));
                     }
                     else if (int.TryParse(seed.Text, out var l))
                     {

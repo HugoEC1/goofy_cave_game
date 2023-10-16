@@ -16,9 +16,12 @@ static class Program
     {
         Settings.WindowTitle = "Goofy Cave Game";
 
+        Settings.ResizeMode = Settings.WindowResizeOptions.None;
+        
         var gameStartup = new Builder()
-            .SetScreenSize(START_WIDTH, START_HEIGHT)
+            .SetScreenSize(GAME_WIDTH, GAME_HEIGHT)
             .SetStartingScreen<StartScreen>()
+            .OnStart(Init)
             .ConfigureFonts((f, g) =>
             {
                 f.AddExtraFonts("Fonts/mdcurses16.font");
@@ -32,6 +35,17 @@ static class Program
     private static void Update(object? sender, GameHost e)
     {
         
+    }
+    private static void Init(object? sender, GameHost e)
+    {
+        SadConsole.Host.Global.GraphicsDeviceManager.PreferredBackBufferWidth =
+            Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+        SadConsole.Host.Global.GraphicsDeviceManager.PreferredBackBufferHeight =
+            Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+        SadConsole.Host.Global.GraphicsDeviceManager.ApplyChanges();
+        
+        Game.Instance.ToggleFullScreen();
     }
     public static void Start()
     {

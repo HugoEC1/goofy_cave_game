@@ -41,7 +41,6 @@ C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\Newt
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\SadConsole.dll
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\SadConsole.Host.MonoGame.dll
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\TheSadRogue.Primitives.dll
-C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\TheSadRogue.Primitives.MonoGame.dll
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\runtimes\linux-x64\native\libSDL2-2.0.so.0
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\runtimes\linux-x64\native\libopenal.so.1
 C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\runtimes\osx\native\libSDL2.dylib
@@ -70,3 +69,5 @@ D:\Github Repos\CaveGame\bin\Debug\net6.0\ColorMineStandard.dll
 D:\Github Repos\CaveGame\bin\Debug\net6.0\SadConsole.Extended.dll
 D:\Github Repos\CaveGame\bin\Debug\net6.0\Fonts\mdcurses16.font
 D:\Github Repos\CaveGame\bin\Debug\net6.0\Fonts\Md_curses_16x16.png
+C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\Fonts\mdcurses16.font
+C:\Users\sdwdr\Documents\Rider Projects\goofy_cave_game_cs\bin\Debug\net6.0\Fonts\Md_curses_16x16.png

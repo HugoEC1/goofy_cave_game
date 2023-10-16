@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CaveGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81c977e44709b717ee7ea2641df3cc55877d450d")]
 [assembly: System.Reflection.AssemblyProductAttribute("CaveGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CaveGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
