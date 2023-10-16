@@ -34,13 +34,13 @@ public class Player
     {
         switch (causeId) {
             case "swarmer":
-                System.out.println(colour.RED + "You were torn apart by a swarmer." + colour.RESET);
+                //System.out.println(colour.RED + "You were torn apart by a swarmer." + colour.RESET);
                 break;
             case "goldenFreddy":
-                System.out.println(colour.RED + "WAS THAT THE BITE OF 87???" + colour.RESET);
+                //System.out.println(colour.RED + "WAS THAT THE BITE OF 87???" + colour.RESET);
                 break;
         }
 
-        System.out.println("\n--- YOU DIED ---");
+        //System.out.println("\n--- YOU DIED ---");
     }
 }
