@@ -3,66 +3,59 @@ using static CaveGame.GameSettings;
 
 namespace CaveGame;
 
-public class TileManager
+public static class TileManager
 {
-    static readonly Tile[] TileInit = {new Air(), new Stone()};
-    
-    public TileManager()
+    public static bool[,] ToBlocking(Tile[,] idChunk)
     {
-        
-    }
+        var blocking = new bool[idChunk.GetLength(0), idChunk.GetLength(1)];
 
-    public static ColoredGlyph[,] GetGlyphChunk(string[,] idChunk)
-    {
-        var glyphGrid = new ColoredGlyph[CHUNK_HEIGHT,CHUNK_WIDTH];
-        
-        for (var y = 0; y < CHUNK_HEIGHT; y++)
+        for (var y = 0; y < idChunk.GetLength(0); y++)
         {
-            for (var x = 0; x < CHUNK_WIDTH; x++)
+            for (var x = 0; x < idChunk.GetLength(1); x++)
             {
-                foreach (var tile in TileInit)
-                {
-                    if (tile.Id == idChunk[y,x]) { glyphGrid[y, x] = tile.TileGlyph; }
-                }
+                blocking[y,x] = idChunk[y,x].Blocking;
             }
         }
 
-        return glyphGrid;
+        return blocking;
     }
-    
-    abstract class Tile
+    public class Tile
     {
         public string Id = "";
-        public ColoredGlyph TileGlyph = new ColoredGlyph();
+        public ColoredGlyph Glyph = new ColoredGlyph();
         public string Name = "";
         public string Description = "";
         protected int MaxHealth;
         public int Health;
+        public bool Blocking;
+        public string State = "";
     }
-
-    private class Air : Tile
+    public class Air : Tile
     {
         public Air()
         {
             Id = "air";
-            TileGlyph = new ColoredGlyph(White, Transparent, 250);
+            Glyph = new ColoredGlyph(White, Transparent, 250);
             Name = "Air";
             Description = "";
             MaxHealth = -1;
             Health = MaxHealth;
+            Blocking = false;
+            State = "gas";
         }
     }
-    
-    private class Stone : Tile
+    public class Stone : Tile
     {
         public Stone()
         {
             Id = "stone";
-            TileGlyph = new ColoredGlyph(White, Transparent, '#');
+            Glyph = new ColoredGlyph(White, Transparent, '#');
             Name = "Stone";
             Description = "Rock and stone!";
             MaxHealth = 1000;
             Health = MaxHealth;
+            Blocking = true;
+            State = "solid";
         }
     }
 }

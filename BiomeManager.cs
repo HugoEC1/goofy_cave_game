@@ -9,6 +9,6 @@ public static class BiomeManager
         public string ID = "";
         public string Name = "";
         public string Description = "";
-        public abstract string[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed);
+        public abstract TileManager.Tile[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed);
     }
 }

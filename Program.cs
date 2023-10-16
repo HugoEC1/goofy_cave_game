@@ -7,10 +7,12 @@ using static CaveGame.GenerationManager;
 // :3
 
 namespace CaveGame;
-static class Program
+public static class Program
 {
+    public static bool[,] blocking;
     private static int _seed;
     private static BiomeManager.Biome _biome;
+    private static GameScreen gameScreen;
     
     private static void Main()
     {
@@ -53,12 +55,15 @@ static class Program
         // Game.Instance.Screen = new CustomConfigScreen();
         _seed = new Random().Next(int.MinValue, int.MaxValue);
         _biome = new Cave();
-        var idChunk = Generate(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, _biome, _seed);
-        var gameScreen = new GameScreen();
+        var idChunk = _biome.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, _seed);
+        gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
-        gameScreen.UpdateChunk(TileManager.GetGlyphChunk(idChunk));
+        gameScreen.UpdateChunk(idChunk);
     }
-
+    public static void PrintLog(string msg, Color color)
+    {
+        gameScreen.PrintLog(msg, color);
+    }
     public static void Exit()
     {
         Game.Instance.Screen = new ExitScreen();

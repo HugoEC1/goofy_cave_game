@@ -5,11 +5,6 @@ namespace CaveGame;
 
 public static class GenerationManager
 {
-    public static string[,] Generate(int width, int height, int chunkX, int chunkY, Biome biome, int seed)
-    {
-        return biome.GenerateChunk(width, height, chunkX, chunkY, seed);
-    }
-
     /*public static Task<Dictionary<int[], string[,]>> GenerateSurroundings(int width, int height, int chunkX, int chunkY, Biome biome, int seed)
     {
         var SurroundingChunks = new Dictionary<int[], string[,]>();

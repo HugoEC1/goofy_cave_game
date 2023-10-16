@@ -1,10 +1,11 @@
+using static CaveGame.Program;
 using static CaveGame.GameSettings;
 
 namespace CaveGame;
 
 public class Player
 {
-    protected int TurnSpeed = TURN_SPEED;
+    private int _turnSpeed = TURN_SPEED;
     private const int MaxHealth = 100;
 
     public int Health;
@@ -30,17 +31,63 @@ public class Player
         }
     }
     
-    private void Die(string causeId)
+    private static void Die(string causeId)
     {
         switch (causeId) {
             case "swarmer":
-                //System.out.println(colour.RED + "You were torn apart by a swarmer." + colour.RESET);
+                PrintLog("You were torn apart by a swarmer.", Color.Red);
                 break;
             case "goldenFreddy":
-                //System.out.println(colour.RED + "WAS THAT THE BITE OF 87???" + colour.RESET);
+                PrintLog("WAS THAT THE BITE OF 87???", Color.Red);
                 break;
         }
+        PrintLog("--- YOU DIED ---", Color.Red);
+    }
+    public void Turn()
+    {
+        TurnIndex += Speed;
 
-        //System.out.println("\n--- YOU DIED ---");
+        while (TurnIndex >= _turnSpeed)
+        {
+            TurnIndex -= _turnSpeed;
+            
+            // regen 1 health per turn
+            if (Health < 100) {
+                Health += 1;
+            }
+            
+            string move = input.nextLine().toLowerCase();
+            string action;
+            int[] direction = {0, 0};
+
+            switch (move) {
+                case "w":
+                    action = "walk";
+                    direction = new []{-1, 0};
+                    break;
+                case "a":
+                    action = "walk";
+                    direction = new []{0, -1};
+                    break;
+                case "s":
+                    action = "walk";
+                    direction = new []{1, 0};
+                    break;
+                case "d":
+                    action = "walk";
+                    direction = new []{0, 1};
+                    break;
+                default:
+                    action = "wait";
+                    break;
+            }
+
+            switch (action) {
+                case "walk":
+                    int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
+                    Position = wantedPosition;
+                    break;
+            }
+        }
     }
 }

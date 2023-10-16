@@ -1,3 +1,4 @@
+using static CaveGame.TileManager;
 using static CaveGame.BiomeManager;
 
 namespace CaveGame.Generation;
@@ -10,16 +11,11 @@ public class Cave : Biome
         Name = "Cave";
         Description = "Default biome";
     }
-    public override string[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed)
+    public override Tile[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed)
     {
         var walls = GenerationManager.GenerateSimplex(width, height, chunkX, chunkY, seed);
 
-        return GenerateBiome(walls);
-    }
-
-    private static string[,] GenerateBiome(bool[,] walls)
-    {
-        var idChunk = new string[walls.GetLength(0), walls.GetLength(1)];
+        var idChunk = new Tile[walls.GetLength(0), walls.GetLength(1)];
         
         for (var y = 0; y < walls.GetLength(0); y++)
         {
@@ -27,15 +23,15 @@ public class Cave : Biome
             {
                 if (walls[y,x])
                 {
-                    idChunk[y, x] = "stone";
+                    idChunk[y, x] = new Stone();
                 }
                 else
                 {
-                    idChunk[y, x] = "air";
+                    idChunk[y, x] = new Air();
                 }
             }
         }
-
+        
         return idChunk;
     }
 }

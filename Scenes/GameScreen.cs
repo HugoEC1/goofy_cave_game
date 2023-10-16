@@ -2,6 +2,7 @@ using SadConsole.UI;
 using SadConsole.UI.Controls;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
+using static CaveGame.TileManager;
 
 namespace CaveGame.Scenes;
 
@@ -41,13 +42,13 @@ public class GameScreen : ScreenObject
             Game.Instance.FocusedScreenObjects.Push(this);
         }
     }
-    public void UpdateChunk(ColoredGlyph[,] glyphChunk)
+    public void UpdateChunk(Tile[,] glyphChunk)
     {
         for (var y = 0; y < glyphChunk.GetLength(0); y++)
         {
             for (var x = 0; x < glyphChunk.GetLength(1); x++)
             {
-                glyphChunk[y,x].CopyAppearanceTo(_gameView.Surface[x,y]);
+                glyphChunk[y,x].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
             }
         }
     }
@@ -60,10 +61,14 @@ public class GameScreen : ScreenObject
         {
             _scrollBar = new ScrollBar(Orientation.Vertical, GAMELOG_HEIGHT);
             _scrollComponent = new ControlsConsole(1, GAMELOG_HEIGHT) { Position = new Point(GAMELOG_WIDTH-1, 0) };
-            Cursor.Print("epicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepicepic");
             
             _scrollComponent.Controls.Add(_scrollBar);
             Children.Add(_scrollComponent);
         }
+    }
+    public void PrintLog(string msg, Color color)
+    {
+        _gameLog.Cursor.SetPrintAppearance(color);
+        _gameLog.Cursor.Print(msg);
     }
 }
