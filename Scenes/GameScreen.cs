@@ -18,10 +18,10 @@ public class GameScreen : ScreenObject
         _gameSurface = new ScreenSurface(GAME_WIDTH, GAME_HEIGHT);
         
         // add game display console
-        _gameView = new GameView();
+        _gameView = new GameView() { Position = new Point(1, 1) };
         
         // add scrollable log console
-        _gameLog = new GameLog() { Position = new Point(GAMEVIEW_WIDTH * 2, 0) };
+        _gameLog = new GameLog() { Position = new Point(GAMEVIEW_WIDTH * 4, 0) };
         
         // add skill menu console
         //_skillMenu = new SkillMenu();
@@ -33,10 +33,11 @@ public class GameScreen : ScreenObject
     }
     public class GameView : Console
     {
-        public GameView() : base(GAMEVIEW_WIDTH, GAMEVIEW_HEIGHT, CHUNK_WIDTH, CHUNK_HEIGHT)
+        public GameView() : base(GAMEVIEW_WIDTH - 1, GAMEVIEW_HEIGHT - 1, CHUNK_WIDTH, CHUNK_HEIGHT)
         {
             var font = Game.Instance.Fonts["mdcurses16"];
             Font = font;
+            FontSize = Font.GetFontSize(IFont.Sizes.Two);
             Game.Instance.FocusedScreenObjects.Push(this);
         }
     }

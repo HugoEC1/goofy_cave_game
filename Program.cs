@@ -19,7 +19,7 @@ static class Program
         Settings.ResizeMode = Settings.WindowResizeOptions.None;
         
         var gameStartup = new Builder()
-            .SetScreenSize(GAME_WIDTH, GAME_HEIGHT)
+            .SetScreenSize(1920 / 8, 1080 / 16)
             .SetStartingScreen<StartScreen>()
             .OnStart(Init)
             .ConfigureFonts((f, g) =>

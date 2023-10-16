@@ -22,7 +22,7 @@ public class TileManager
             {
                 foreach (var tile in TileInit)
                 {
-                    if (tile.ID == idChunk[y,x]) { glyphGrid[y, x] = tile.TileGlyph; }
+                    if (tile.Id == idChunk[y,x]) { glyphGrid[y, x] = tile.TileGlyph; }
                 }
             }
         }
@@ -32,7 +32,7 @@ public class TileManager
     
     abstract class Tile
     {
-        public string ID = "";
+        public string Id = "";
         public ColoredGlyph TileGlyph = new ColoredGlyph();
         public string Name = "";
         public string Description = "";
@@ -44,8 +44,8 @@ public class TileManager
     {
         public Air()
         {
-            ID = "air";
-            TileGlyph = new ColoredGlyph(White, Transparent, ' ');
+            Id = "air";
+            TileGlyph = new ColoredGlyph(White, Transparent, 250);
             Name = "Air";
             Description = "";
             MaxHealth = -1;
@@ -57,7 +57,7 @@ public class TileManager
     {
         public Stone()
         {
-            ID = "stone";
+            Id = "stone";
             TileGlyph = new ColoredGlyph(White, Transparent, '#');
             Name = "Stone";
             Description = "Rock and stone!";

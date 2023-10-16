@@ -9,10 +9,10 @@ public static class GameSettings
     public const int LOAD_DISTANCE = 1;
     
     // screen size settings
-    public const int GAME_WIDTH = 128;
-    public const int GAME_HEIGHT = 40;
+    public const int GAME_WIDTH = 240;
+    public const int GAME_HEIGHT = 67;
     public const int TITLE_WIDTH = GAME_WIDTH;
-    public const int TITLE_HEIGHT = 30;
+    public const int TITLE_HEIGHT = 40;
     public const int STARTMENU_WIDTH = GAME_WIDTH;
     public const int STARTMENU_HEIGHT = GAME_HEIGHT - TITLE_HEIGHT;
     public const int STARTCONFIGMENU_WIDTH = 60;
@@ -20,8 +20,8 @@ public static class GameSettings
     public const int CUSTOMCONFIGMENU_WIDTH = 60;
     public const int CUSTOMCONFIGMENU_HEIGHT = 20;
     public const int GAMEVIEW_WIDTH = 48;
-    public const int GAMEVIEW_HEIGHT = 32;
-    public const int GAMELOG_WIDTH = GAME_WIDTH - GAMEVIEW_WIDTH * 2;
+    public const int GAMEVIEW_HEIGHT = 30;
+    public const int GAMELOG_WIDTH = GAME_WIDTH - GAMEVIEW_WIDTH * 4;
     public const int GAMELOG_HEIGHT = GAME_HEIGHT;
     public const int GAMELOG_MAXHEIGHT = GAMELOG_HEIGHT * 10;
 }
