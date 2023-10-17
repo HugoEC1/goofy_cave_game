@@ -1,17 +1,21 @@
 ﻿using CaveGame.Generation;
+using CaveGame.Managers;
 using CaveGame.Scenes;
 using SadConsole.Configuration;
 using static CaveGame.GameSettings;
-using static CaveGame.GenerationManager;
+using static CaveGame.Generation.MainGeneration;
+using static CaveGame.Managers.BiomeManager;
+using static CaveGame.Managers.ChunkManager;
+using static CaveGame.Managers.TileManager;
 
 // :3
 
 namespace CaveGame;
 public static class Program
 {
-    public static bool[,] blocking;
     private static int _seed;
-    private static BiomeManager.Biome _biome;
+    private static Player player;
+    private static Chunk currentChunk;
     private static GameScreen gameScreen;
     
     private static void Main()
@@ -34,10 +38,6 @@ public static class Program
         Game.Instance.Run();
         Game.Instance.Dispose();
     }
-    private static void Update(object? sender, GameHost e)
-    {
-        
-    }
     private static void Init(object? sender, GameHost e)
     {
         SadConsole.Host.Global.GraphicsDeviceManager.PreferredBackBufferWidth =
@@ -49,20 +49,27 @@ public static class Program
         
         Game.Instance.ToggleFullScreen();
     }
+    private static void Update(object? sender, GameHost e)
+    {
+        
+    }
     public static void Start()
     {
         // uncomment to enable custom config
         // Game.Instance.Screen = new CustomConfigScreen();
         _seed = new Random().Next(int.MinValue, int.MaxValue);
-        _biome = new Cave();
-        var idChunk = _biome.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, _seed);
+        currentChunk = new Chunk(null, new []{0,0}, 0, new Cave(), _seed);
         gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
-        gameScreen.UpdateChunk(idChunk);
+        gameScreen.UpdateChunk(currentChunk);
     }
-    public static void PrintLog(string msg, Color color)
+    public static Chunk GetCurrentChunk()
     {
-        gameScreen.PrintLog(msg, color);
+        return currentChunk;
+    }
+    public static GameScreen GetGameScreen()
+    {
+        return gameScreen;
     }
     public static void Exit()
     {

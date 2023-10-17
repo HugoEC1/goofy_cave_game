@@ -1,25 +1,29 @@
 using static CaveGame.Program;
 using static CaveGame.GameSettings;
+using static CaveGame.Managers.ChunkManager;
+using static CaveGame.Managers.TileManager;
 
 namespace CaveGame;
 
 public class Player
 {
     private int _turnSpeed = TURN_SPEED;
-    private const int MaxHealth = 100;
+    private const int MAX_HEALTH = 100;
 
     public int Health;
     public int Hunger; 
     protected int Speed;
-    protected int TurnIndex;
     public int[] Position;
+    public Chunk Chunk;
+    protected int TurnIndex;
     
-    public Player (int y, int x)
+    public Player(int y, int x, Chunk chunk)
     {
-        Health = MaxHealth;
+        Health = MAX_HEALTH;
         Speed = 10;
         Hunger = 100;
         Position = new []{y, x};
+        Chunk = chunk;
         TurnIndex = 0;
     }
     
@@ -35,13 +39,13 @@ public class Player
     {
         switch (causeId) {
             case "swarmer":
-                PrintLog("You were torn apart by a swarmer.", Color.Red);
+                GetGameScreen().PrintLog("You were torn apart by a swarmer.", Color.Red);
                 break;
             case "goldenFreddy":
-                PrintLog("WAS THAT THE BITE OF 87???", Color.Red);
+                GetGameScreen().PrintLog("WAS THAT THE BITE OF 87???", Color.Red);
                 break;
         }
-        PrintLog("--- YOU DIED ---", Color.Red);
+        GetGameScreen().PrintLog("--- YOU DIED ---", Color.Red);
     }
     public void Turn()
     {
@@ -56,7 +60,6 @@ public class Player
                 Health += 1;
             }
             
-            string move = input.nextLine().toLowerCase();
             string action;
             int[] direction = {0, 0};
 
@@ -85,7 +88,10 @@ public class Player
             switch (action) {
                 case "walk":
                     int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
-                    Position = wantedPosition;
+                    if (Chunk.ToBlocking()[wantedPosition[0], wantedPosition[1]] == false)
+                    {
+                        Position = wantedPosition;
+                    }
                     break;
             }
         }

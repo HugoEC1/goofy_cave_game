@@ -2,7 +2,9 @@ using SadConsole.UI;
 using SadConsole.UI.Controls;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
-using static CaveGame.TileManager;
+using static CaveGame.Managers.ChunkManager;
+using static CaveGame.Managers.TileManager;
+using static CaveGame.Player;
 
 namespace CaveGame.Scenes;
 
@@ -31,10 +33,12 @@ public class GameScreen : ScreenObject
         Children.Add(_gameView);
         Children.Add(_gameLog);
         //Children.Add(_skillMenu);
+        
+        UseKeyboard = true;
     }
     public class GameView : Console
     {
-        public GameView() : base(GAMEVIEW_WIDTH - 1, GAMEVIEW_HEIGHT - 1, CHUNK_WIDTH, CHUNK_HEIGHT)
+        public GameView() : base(GAMEVIEW_WIDTH - 1, GAMEVIEW_HEIGHT - 1, CHUNK_WIDTH * 3, CHUNK_HEIGHT * 3)
         {
             var font = Game.Instance.Fonts["mdcurses16"];
             Font = font;
@@ -42,17 +46,16 @@ public class GameScreen : ScreenObject
             Game.Instance.FocusedScreenObjects.Push(this);
         }
     }
-    public void UpdateChunk(Tile[,] glyphChunk)
+    public void UpdateChunk(Chunk chunk)
     {
-        for (var y = 0; y < glyphChunk.GetLength(0); y++)
+        for (var y = 0; y < chunk.Height; y++)
         {
-            for (var x = 0; x < glyphChunk.GetLength(1); x++)
+            for (var x = 0; x < chunk.Width; x++)
             {
-                glyphChunk[y,x].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                chunk.Tiles[y,x].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
             }
         }
     }
-
     public class GameLog : Console
     {
         private ScrollBar _scrollBar;
@@ -70,5 +73,65 @@ public class GameScreen : ScreenObject
     {
         _gameLog.Cursor.SetPrintAppearance(color);
         _gameLog.Cursor.Print(msg);
+    }
+    public override bool ProcessKeyboard(SadConsole.Input.Keyboard info)
+    {
+        var keyHit = false;
+        Point oldPosition = player.Position;
+        Point newPosition = (0, 0);
+
+        // Toggles entity random movements
+        if (info.IsKeyPressed(Keys.Q))
+        {
+            moveEntities = !moveEntities;
+        }
+
+        // Process UP/DOWN movements
+        if (info.IsKeyPressed(Keys.Up))
+        {
+            newPosition = player.Position + (0, -1);
+            keyHit = true;
+        }
+        else if (info.IsKeyPressed(Keys.Down))
+        {
+            newPosition = player.Position + (0, 1);
+            keyHit = true;
+        }
+
+        // Process LEFT/RIGHT movements
+        if (info.IsKeyPressed(Keys.Left))
+        {
+            newPosition = player.Position + (-1, 0);
+            keyHit = true;
+        }
+        else if (info.IsKeyPressed(Keys.Right))
+        {
+            newPosition = player.Position + (1, 0);
+            keyHit = true;
+        }
+
+        if (info.IsKeyPressed(Keys.L))
+        {
+            SadConsole.Serializer.Save(this, "entity.surface", false);
+            return true;
+        }
+
+        // If a movement key was pressed
+        if (keyHit)
+        {
+            // Check if the new position is valid
+            if (Surface.Area.Contains(newPosition))
+            {
+                // Entity moved. Let's draw a trail of where they moved from.
+                Surface.SetGlyph(player.Position.X, player.Position.Y, 250);
+                player.Position = newPosition;
+
+                return true;
+            }
+        }
+
+        // You could have multiple entities in the game for example, and change
+        // which entity gets keyboard commands.
+        return false;
     }
 }

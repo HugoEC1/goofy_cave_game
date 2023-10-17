@@ -1,5 +1,7 @@
-using static CaveGame.TileManager;
-using static CaveGame.BiomeManager;
+using static CaveGame.Managers.TileManager;
+using static CaveGame.Managers.BiomeManager;
+using static CaveGame.Managers.ChunkManager;
+using static CaveGame.Generation.MainGeneration;
 
 namespace CaveGame.Generation;
 
@@ -11,27 +13,27 @@ public class Cave : Biome
         Name = "Cave";
         Description = "Default biome";
     }
-    public override Tile[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed)
+    public override Tile[,] GenerateChunk(Chunk chunk)
     {
-        var walls = GenerationManager.GenerateSimplex(width, height, chunkX, chunkY, seed);
+        var walls = GenerateSimplex(chunk.Width, chunk.Height, chunk.Position[0], chunk.Position[1], chunk.Seed);
 
-        var idChunk = new Tile[walls.GetLength(0), walls.GetLength(1)];
+        var tileChunk = new Tile[chunk.Height, chunk.Width];
         
-        for (var y = 0; y < walls.GetLength(0); y++)
+        for (var y = 0; y < chunk.Height; y++)
         {
-            for (var x = 0; x < walls.GetLength(1); x++)
+            for (var x = 0; x < chunk.Width; x++)
             {
                 if (walls[y,x])
                 {
-                    idChunk[y, x] = new Stone();
+                    tileChunk[y, x] = new Stone();
                 }
                 else
                 {
-                    idChunk[y, x] = new Air();
+                    tileChunk[y, x] = new Air();
                 }
             }
         }
         
-        return idChunk;
+        return tileChunk;
     }
 }
