@@ -121,6 +121,9 @@
           }
         }
       },
+      "scriptcs/0.17.1": {
+        "type": "package"
+      },
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {
         "type": "package",
         "compile": {
@@ -293,6 +296,44 @@
         "sadconsole.host.monogame.nuspec"
       ]
     },
+    "scriptcs/0.17.1": {
+      "sha512": "waXZFkrbUkFTAAiUBqFl/CO7lWZNZHPE7Soas4qqkYzE4Wz8XqBs0dZHQ2poXsdsolSswJ11kFY9FW99AG2WOg==",
+      "type": "package",
+      "path": "scriptcs/0.17.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "scriptcs.0.17.1.nupkg.sha512",
+        "scriptcs.nuspec",
+        "tools/Autofac.Integration.Mef.dll",
+        "tools/Autofac.dll",
+        "tools/Common.Logging.dll",
+        "tools/ICSharpCode.NRefactory.CSharp.dll",
+        "tools/ICSharpCode.NRefactory.dll",
+        "tools/Microsoft.CodeAnalysis.CSharp.dll",
+        "tools/Microsoft.CodeAnalysis.Desktop.dll",
+        "tools/Microsoft.CodeAnalysis.Scripting.CSharp.dll",
+        "tools/Microsoft.CodeAnalysis.Scripting.dll",
+        "tools/Microsoft.CodeAnalysis.dll",
+        "tools/Microsoft.Web.XmlTransform.dll",
+        "tools/Mono.CSharp.dll",
+        "tools/Mono.Cecil.dll",
+        "tools/Newtonsoft.Json.dll",
+        "tools/NuGet.Core.dll",
+        "tools/PowerArgs.dll",
+        "tools/ScriptCs.Contracts.dll",
+        "tools/ScriptCs.Core.dll",
+        "tools/ScriptCs.Engine.Mono.dll",
+        "tools/ScriptCs.Engine.Roslyn.dll",
+        "tools/ScriptCs.Hosting.dll",
+        "tools/System.Collections.Immutable.dll",
+        "tools/System.Reflection.Metadata.dll",
+        "tools/chocolateyInstall.ps1",
+        "tools/scriptcs.exe",
+        "tools/scriptcs.exe.config"
+      ]
+    },
     "System.Runtime.CompilerServices.Unsafe/6.0.0": {
       "sha512": "/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
       "type": "package",
@@ -383,23 +424,24 @@
     "net6.0": [
       "MonoGame.Framework.DesktopGL >= 3.8.1.303",
       "SadConsole.Extended >= 10.0.0-beta3-debug",
-      "SadConsole.Host.MonoGame >= 10.0.0-beta3-debug"
+      "SadConsole.Host.MonoGame >= 10.0.0-beta3-debug",
+      "scriptcs >= 0.17.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sdwdr\\.nuget\\packages\\": {}
+    "/home/codespace/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sdwdr\\Documents\\Rider Projects\\goofy_cave_game_cs\\CaveGame.csproj",
+      "projectUniqueName": "/workspaces/goofy_cave_game/CaveGame.csproj",
       "projectName": "CaveGame",
-      "projectPath": "C:\\Users\\sdwdr\\Documents\\Rider Projects\\goofy_cave_game_cs\\CaveGame.csproj",
-      "packagesPath": "C:\\Users\\sdwdr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sdwdr\\Documents\\Rider Projects\\goofy_cave_game_cs\\obj\\",
+      "projectPath": "/workspaces/goofy_cave_game/CaveGame.csproj",
+      "packagesPath": "/home/codespace/.nuget/packages/",
+      "outputPath": "/workspaces/goofy_cave_game/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\sdwdr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/codespace/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -434,6 +476,10 @@
           "SadConsole.Host.MonoGame": {
             "target": "Package",
             "version": "[10.0.0-beta3-debug, )"
+          },
+          "scriptcs": {
+            "target": "Package",
+            "version": "[0.17.1, )"
           }
         },
         "imports": [
@@ -447,12 +493,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.20, 6.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.linux-x64",
+            "version": "[6.0.20, 6.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.20, 6.0.20]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.1.23463.5\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
       }
     }
   }
