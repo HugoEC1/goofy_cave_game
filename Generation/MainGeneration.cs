@@ -1,27 +1,10 @@
-using static CaveGame.BiomeManager;
+using static CaveGame.Managers.BiomeManager;
 using static CaveGame.GameSettings;
 
-namespace CaveGame;
+namespace CaveGame.Generation;
 
-public static class GenerationManager
+public static class MainGeneration
 {
-    /*public static Task<Dictionary<int[], string[,]>> GenerateSurroundings(int width, int height, int chunkX, int chunkY, Biome biome, int seed)
-    {
-        var SurroundingChunks = new Dictionary<int[], string[,]>();
-        for (var x = -1 * LOAD_DISTANCE; x <= LOAD_DISTANCE; x++)
-        {
-            for (var y = -1 * LOAD_DISTANCE; y <= LOAD_DISTANCE; y++)
-            {
-                if (x == 0 && y == 0)
-                {
-                    continue;
-                }
-                SurroundingChunks.Add(new[] {x,y}, Generate(width, height, chunkX, chunkY, biome, seed));
-            }
-        }
-
-        return SurroundingChunks;
-    }*/
     public static bool[,] GenerateSimplex(int width, int height, int chunkX, int chunkY, int seed)
     {
         var xOffset = chunkX * width;
@@ -36,7 +19,7 @@ public static class GenerationManager
         {
             for (var x = 0; x < width; x++)
             {
-                if (noiseGrid[y,x] > 100) // making this number smaller will make more walls as noise outputs number from 0 - 128
+                if (noiseGrid[y,x] > 128) // making this number smaller will make less walls as noise outputs number from 0 - 256
                 {
                     walls[y,x] = false;
                 }

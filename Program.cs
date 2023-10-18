@@ -1,17 +1,22 @@
 ﻿using CaveGame.Generation;
+using CaveGame.Managers;
 using CaveGame.Scenes;
 using SadConsole.Configuration;
 using static CaveGame.GameSettings;
-using static CaveGame.GenerationManager;
+using static CaveGame.Generation.MainGeneration;
+using static CaveGame.Managers.BiomeManager;
+using static CaveGame.Managers.ChunkManager;
+using static CaveGame.Managers.TileManager;
 
 // :3
 
 namespace CaveGame;
 public static class Program
 {
-    public static bool[,] blocking;
     private static int _seed;
-    private static BiomeManager.Biome _biome;
+    private static Player player;
+    private static InputHandler inputHandler;
+    private static Chunk currentChunk;
     private static GameScreen gameScreen;
     
     private static void Main()
@@ -34,10 +39,6 @@ public static class Program
         Game.Instance.Run();
         Game.Instance.Dispose();
     }
-    private static void Update(object? sender, GameHost e)
-    {
-        
-    }
     private static void Init(object? sender, GameHost e)
     {
         SadConsole.Host.Global.GraphicsDeviceManager.PreferredBackBufferWidth =
@@ -45,24 +46,41 @@ public static class Program
         SadConsole.Host.Global.GraphicsDeviceManager.PreferredBackBufferHeight =
             Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
-        SadConsole.Host.Global.GraphicsDeviceManager.ApplyChanges();
+        //SadConsole.Host.Global.GraphicsDeviceManager.ApplyChanges();
         
-        Game.Instance.ToggleFullScreen();
+        //Game.Instance.ToggleFullScreen();
+    }
+    private static void Update(object? sender, GameHost e)
+    {
+        
     }
     public static void Start()
     {
         // uncomment to enable custom config
         // Game.Instance.Screen = new CustomConfigScreen();
         _seed = new Random().Next(int.MinValue, int.MaxValue);
-        _biome = new Cave();
-        var idChunk = _biome.GenerateChunk(CHUNK_WIDTH, CHUNK_HEIGHT, 0, 0, _seed);
+        currentChunk = new Chunk(null, new []{0,0}, 0, new Cave(), _seed);
         gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
-        gameScreen.UpdateChunk(idChunk);
+        gameScreen.UpdateChunk(currentChunk);
+        inputHandler = new InputHandler();
+        player = new Player(0, 0, currentChunk, inputHandler);
     }
-    public static void PrintLog(string msg, Color color)
+    public static Player GetPlayer()
     {
-        gameScreen.PrintLog(msg, color);
+        return player;
+    }
+    public static InputHandler GetInputHandler()
+    {
+        return inputHandler;
+    }
+    public static Chunk GetCurrentChunk()
+    {
+        return currentChunk;
+    }
+    public static GameScreen GetGameScreen()
+    {
+        return gameScreen;
     }
     public static void Exit()
     {

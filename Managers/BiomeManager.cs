@@ -1,6 +1,8 @@
 using static CaveGame.GameSettings;
+using static CaveGame.Managers.ChunkManager;
+using static CaveGame.Managers.TileManager;
 
-namespace CaveGame;
+namespace CaveGame.Managers;
 
 public static class BiomeManager
 {
@@ -9,6 +11,6 @@ public static class BiomeManager
         public string ID = "";
         public string Name = "";
         public string Description = "";
-        public abstract TileManager.Tile[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed);
+        public abstract Tile[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed);
     }
 }

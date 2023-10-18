@@ -1,23 +1,16 @@
 using static SadRogue.Primitives.Color;
 using static CaveGame.GameSettings;
+using static CaveGame.Managers.ChunkManager;
 
-namespace CaveGame;
+namespace CaveGame.Managers;
 
 public static class TileManager
 {
-    public static bool[,] ToBlocking(Tile[,] idChunk)
+    public enum States
     {
-        var blocking = new bool[idChunk.GetLength(0), idChunk.GetLength(1)];
-
-        for (var y = 0; y < idChunk.GetLength(0); y++)
-        {
-            for (var x = 0; x < idChunk.GetLength(1); x++)
-            {
-                blocking[y,x] = idChunk[y,x].Blocking;
-            }
-        }
-
-        return blocking;
+        Solid,
+        Liquid,
+        Gas
     }
     public class Tile
     {
@@ -28,7 +21,7 @@ public static class TileManager
         protected int MaxHealth;
         public int Health;
         public bool Blocking;
-        public string State = "";
+        public States State;
     }
     public class Air : Tile
     {
@@ -41,7 +34,7 @@ public static class TileManager
             MaxHealth = -1;
             Health = MaxHealth;
             Blocking = false;
-            State = "gas";
+            State = States.Gas;
         }
     }
     public class Stone : Tile
@@ -55,7 +48,7 @@ public static class TileManager
             MaxHealth = 1000;
             Health = MaxHealth;
             Blocking = true;
-            State = "solid";
+            State = States.Solid;
         }
     }
 }

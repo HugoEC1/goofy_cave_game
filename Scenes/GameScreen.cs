@@ -1,8 +1,12 @@
+using SadConsole.Input;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
+using static CaveGame.Program;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
-using static CaveGame.TileManager;
+using static CaveGame.Managers.ChunkManager;
+using static CaveGame.Managers.TileManager;
+using static CaveGame.Player;
 
 namespace CaveGame.Scenes;
 
@@ -12,6 +16,7 @@ public class GameScreen : ScreenObject
     private Console _gameView;
     private Console _gameLog;
     private Console _skillMenu;
+    private Console _inputConsole;
 
     public GameScreen()
     {
@@ -27,32 +32,34 @@ public class GameScreen : ScreenObject
         // add skill menu console
         //_skillMenu = new SkillMenu();
         
+        // add console to take inputs
+        _inputConsole = new InputConsole() { Position = new Point(0, 0) };
+        
         Children.Add(_gameSurface);
         Children.Add(_gameView);
         Children.Add(_gameLog);
         //Children.Add(_skillMenu);
+        Children.Add(_inputConsole);
     }
     public class GameView : Console
     {
-        public GameView() : base(GAMEVIEW_WIDTH - 1, GAMEVIEW_HEIGHT - 1, CHUNK_WIDTH, CHUNK_HEIGHT)
+        public GameView() : base(GAMEVIEW_WIDTH - 1, GAMEVIEW_HEIGHT - 1, CHUNK_WIDTH * 3, CHUNK_HEIGHT * 3)
         {
             var font = Game.Instance.Fonts["mdcurses16"];
             Font = font;
             FontSize = Font.GetFontSize(IFont.Sizes.Two);
-            Game.Instance.FocusedScreenObjects.Push(this);
         }
     }
-    public void UpdateChunk(Tile[,] glyphChunk)
+    public void UpdateChunk(Chunk chunk)
     {
-        for (var y = 0; y < glyphChunk.GetLength(0); y++)
+        for (var y = 0; y < chunk.Height; y++)
         {
-            for (var x = 0; x < glyphChunk.GetLength(1); x++)
+            for (var x = 0; x < chunk.Width; x++)
             {
-                glyphChunk[y,x].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                chunk.Tiles[y,x].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
             }
         }
     }
-
     public class GameLog : Console
     {
         private ScrollBar _scrollBar;
@@ -70,5 +77,26 @@ public class GameScreen : ScreenObject
     {
         _gameLog.Cursor.SetPrintAppearance(color);
         _gameLog.Cursor.Print(msg);
+    }
+
+    public class InputConsole : Console
+    {
+        public InputConsole() : base(1, 1)
+        {
+            Game.Instance.FocusedScreenObjects.Push(this);
+            UseKeyboard = true;
+        }
+        public override bool ProcessKeyboard(Keyboard keyboard)
+        {
+            if (keyboard.KeysPressed.Count == 0) return false;
+            
+            foreach (var asciiKey in keyboard.KeysPressed)
+            {
+                GetInputHandler().Input(asciiKey.Key);
+                return true;
+            }
+            
+            return false;
+        }
     }
 }
