@@ -1,0 +1,74 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\sunny\\OneDrive\\Desktop\\New folder\\goofy_cave_game\\CaveGame.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\sunny\\OneDrive\\Desktop\\New folder\\goofy_cave_game\\CaveGame.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\sunny\\OneDrive\\Desktop\\New folder\\goofy_cave_game\\CaveGame.csproj",
+        "projectName": "CaveGame",
+        "projectPath": "C:\\Users\\sunny\\OneDrive\\Desktop\\New folder\\goofy_cave_game\\CaveGame.csproj",
+        "packagesPath": "C:\\Users\\sunny\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sunny\\OneDrive\\Desktop\\New folder\\goofy_cave_game\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\sunny\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "MonoGame.Framework.DesktopGL": {
+              "target": "Package",
+              "version": "[3.8.1.303, )"
+            },
+            "SadConsole.Extended": {
+              "target": "Package",
+              "version": "[10.0.0-beta3-debug, )"
+            },
+            "SadConsole.Host.MonoGame": {
+              "target": "Package",
+              "version": "[10.0.0-beta3-debug, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
