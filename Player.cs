@@ -12,18 +12,20 @@ public class Player
 
     public int Health;
     public int Hunger; 
-    protected int Speed;
+    private int Speed;
     public int[] Position;
     public Chunk Chunk;
-    protected int TurnIndex;
+    public InputHandler InputHandler;
+    private int TurnIndex;
     
-    public Player(int y, int x, Chunk chunk)
+    public Player(int y, int x, Chunk chunk, InputHandler inputHandler)
     {
         Health = MAX_HEALTH;
         Speed = 10;
         Hunger = 100;
         Position = new []{y, x};
         Chunk = chunk;
+        InputHandler = inputHandler;
         TurnIndex = 0;
     }
     
@@ -47,7 +49,9 @@ public class Player
         }
         GetGameScreen().PrintLog("--- YOU DIED ---", Color.Red);
     }
-    public void Turn()
+
+    private TaskCompletionSource<bool>? _turnActionComplete;
+    public async void Turn()
     {
         TurnIndex += Speed;
 
@@ -59,41 +63,23 @@ public class Player
             if (Health < 100) {
                 Health += 1;
             }
-            
-            string action;
-            int[] direction = {0, 0};
 
-            switch (move) {
-                case "w":
-                    action = "walk";
-                    direction = new []{-1, 0};
-                    break;
-                case "a":
-                    action = "walk";
-                    direction = new []{0, -1};
-                    break;
-                case "s":
-                    action = "walk";
-                    direction = new []{1, 0};
-                    break;
-                case "d":
-                    action = "walk";
-                    direction = new []{0, 1};
-                    break;
-                default:
-                    action = "wait";
-                    break;
-            }
-
-            switch (action) {
-                case "walk":
-                    int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
-                    if (Chunk.ToBlocking()[wantedPosition[0], wantedPosition[1]] == false)
-                    {
-                        Position = wantedPosition;
-                    }
-                    break;
-            }
+            _turnActionComplete = new TaskCompletionSource<bool>();
+            InputHandler.PlayerInputEnabled = true;
+            await _turnActionComplete.Task;
+            InputHandler.PlayerInputEnabled = false;
+        }
+    }
+    public void Wait()
+    {
+        _turnActionComplete?.TrySetResult(true);
+    }
+    public void Move(int[] direction)
+    {
+        int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
+        if (Chunk.ToBlocking()[wantedPosition[0], wantedPosition[1]] == false)
+        {
+            Position = wantedPosition;
         }
     }
 }

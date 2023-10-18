@@ -15,6 +15,7 @@ public static class Program
 {
     private static int _seed;
     private static Player player;
+    private static InputHandler inputHandler;
     private static Chunk currentChunk;
     private static GameScreen gameScreen;
     
@@ -45,9 +46,9 @@ public static class Program
         SadConsole.Host.Global.GraphicsDeviceManager.PreferredBackBufferHeight =
             Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
-        SadConsole.Host.Global.GraphicsDeviceManager.ApplyChanges();
+        //SadConsole.Host.Global.GraphicsDeviceManager.ApplyChanges();
         
-        Game.Instance.ToggleFullScreen();
+        //Game.Instance.ToggleFullScreen();
     }
     private static void Update(object? sender, GameHost e)
     {
@@ -62,10 +63,16 @@ public static class Program
         gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
         gameScreen.UpdateChunk(currentChunk);
+        inputHandler = new InputHandler();
+        player = new Player(0, 0, currentChunk, inputHandler);
     }
     public static Player GetPlayer()
     {
         return player;
+    }
+    public static InputHandler GetInputHandler()
+    {
+        return inputHandler;
     }
     public static Chunk GetCurrentChunk()
     {

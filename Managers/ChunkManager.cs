@@ -21,20 +21,18 @@ public static class ChunkManager
             Width = width;
             Height = height;
             Tiles = new Tile[Height, Width];
-            
+            Position = position;
+            Layer = layer;
+            Seed = seed;
+            Biome = biome;
             if (tiles == null)
             {
-                Tiles = biome.GenerateChunk(this);
+                Tiles = biome.GenerateChunk(Width, Height, Position[0], Position[1], Seed);
             }
             else
             {
                 Tiles = tiles;
             }
-            
-            Position = position;
-            Layer = layer;
-            Seed = seed;
-            Biome = biome;
         }
         
         public bool[,] ToBlocking()

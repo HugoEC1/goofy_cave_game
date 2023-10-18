@@ -16,6 +16,7 @@ public class GameScreen : ScreenObject
     private Console _gameView;
     private Console _gameLog;
     private Console _skillMenu;
+    private Console _inputConsole;
 
     public GameScreen()
     {
@@ -31,12 +32,14 @@ public class GameScreen : ScreenObject
         // add skill menu console
         //_skillMenu = new SkillMenu();
         
+        // add console to take inputs
+        _inputConsole = new InputConsole() { Position = new Point(0, 0) };
+        
         Children.Add(_gameSurface);
         Children.Add(_gameView);
         Children.Add(_gameLog);
         //Children.Add(_skillMenu);
-        
-        UseKeyboard = true;
+        Children.Add(_inputConsole);
     }
     public class GameView : Console
     {
@@ -45,7 +48,6 @@ public class GameScreen : ScreenObject
             var font = Game.Instance.Fonts["mdcurses16"];
             Font = font;
             FontSize = Font.GetFontSize(IFont.Sizes.Two);
-            Game.Instance.FocusedScreenObjects.Push(this);
         }
     }
     public void UpdateChunk(Chunk chunk)
@@ -76,56 +78,25 @@ public class GameScreen : ScreenObject
         _gameLog.Cursor.SetPrintAppearance(color);
         _gameLog.Cursor.Print(msg);
     }
-    public override bool ProcessKeyboard(Keyboard info)
+
+    public class InputConsole : Console
     {
-        var keyHit = false;
-
-        // Process UP/DOWN movements
-        if (info.IsKeyPressed(Keys.W))
+        public InputConsole() : base(1, 1)
         {
-            GetPlayer().Action("moveUp");
-            keyHit = true;
+            Game.Instance.FocusedScreenObjects.Push(this);
+            UseKeyboard = true;
         }
-        else if (info.IsKeyPressed(Keys.S))
+        public override bool ProcessKeyboard(Keyboard keyboard)
         {
-            newPosition = player.Position + (0, 1);
-            keyHit = true;
-        }
-
-        // Process LEFT/RIGHT movements
-        if (info.IsKeyPressed(Keys.A))
-        {
-            newPosition = player.Position + (-1, 0);
-            keyHit = true;
-        }
-        else if (info.IsKeyPressed(Keys.D))
-        {
-            newPosition = player.Position + (1, 0);
-            keyHit = true;
-        }
-
-        if (info.IsKeyPressed(Keys.L))
-        {
-            SadConsole.Serializer.Save(this, "entity.surface", false);
-            return true;
-        }
-
-        // If a movement key was pressed
-        if (keyHit)
-        {
-            // Check if the new position is valid
-            if (Surface.Area.Contains(newPosition))
+            if (keyboard.KeysPressed.Count == 0) return false;
+            
+            foreach (var asciiKey in keyboard.KeysPressed)
             {
-                // Entity moved. Let's draw a trail of where they moved from.
-                Surface.SetGlyph(player.Position.X, player.Position.Y, 250);
-                player.Position = newPosition;
-
+                GetInputHandler().Input(asciiKey.Key);
                 return true;
             }
+            
+            return false;
         }
-
-        // You could have multiple entities in the game for example, and change
-        // which entity gets keyboard commands.
-        return false;
     }
 }

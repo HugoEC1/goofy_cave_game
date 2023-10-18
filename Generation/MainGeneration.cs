@@ -19,7 +19,7 @@ public static class MainGeneration
         {
             for (var x = 0; x < width; x++)
             {
-                if (noiseGrid[y,x] > 100) // making this number smaller will make more walls as noise outputs number from 0 - 128
+                if (noiseGrid[y,x] > 128) // making this number smaller will make less walls as noise outputs number from 0 - 256
                 {
                     walls[y,x] = false;
                 }

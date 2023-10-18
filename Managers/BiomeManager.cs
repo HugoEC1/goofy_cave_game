@@ -11,6 +11,6 @@ public static class BiomeManager
         public string ID = "";
         public string Name = "";
         public string Description = "";
-        public abstract Tile[,] GenerateChunk(Chunk chunk);
+        public abstract Tile[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed);
     }
 }

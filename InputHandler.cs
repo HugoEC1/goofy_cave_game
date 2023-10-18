@@ -1,9 +1,38 @@
+using SadConsole.Input;
+using static CaveGame.Program;
+
 namespace CaveGame;
 
 public class InputHandler
 {
-    public static void ()
+    public bool PlayerInputEnabled;
+    public InputHandler()
     {
+        PlayerInputEnabled = false;
+    }
+
+    public void Input(Keys key)
+    {
+        if (!PlayerInputEnabled) return;
         
+        var player = GetPlayer();
+        switch (key)
+        {
+            case Keys.W:
+                player.Move(new []{-1, 0});
+                break;
+            case Keys.S:
+                player.Move(new []{1, 0});
+                break;
+            case Keys.A:
+                player.Move(new []{0, -1});
+                break;
+            case Keys.D:
+                player.Move(new []{0, 1});
+                break;
+            case Keys.Space:
+                player.Wait();
+                break;
+        }
     }
 }
