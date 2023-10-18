@@ -1,5 +1,7 @@
+using SadConsole.Input;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
+using static CaveGame.Program;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
 using static CaveGame.Managers.ChunkManager;
@@ -74,37 +76,29 @@ public class GameScreen : ScreenObject
         _gameLog.Cursor.SetPrintAppearance(color);
         _gameLog.Cursor.Print(msg);
     }
-    public override bool ProcessKeyboard(SadConsole.Input.Keyboard info)
+    public override bool ProcessKeyboard(Keyboard info)
     {
         var keyHit = false;
-        Point oldPosition = player.Position;
-        Point newPosition = (0, 0);
-
-        // Toggles entity random movements
-        if (info.IsKeyPressed(Keys.Q))
-        {
-            moveEntities = !moveEntities;
-        }
 
         // Process UP/DOWN movements
-        if (info.IsKeyPressed(Keys.Up))
+        if (info.IsKeyPressed(Keys.W))
         {
-            newPosition = player.Position + (0, -1);
+            GetPlayer().Action("moveUp");
             keyHit = true;
         }
-        else if (info.IsKeyPressed(Keys.Down))
+        else if (info.IsKeyPressed(Keys.S))
         {
             newPosition = player.Position + (0, 1);
             keyHit = true;
         }
 
         // Process LEFT/RIGHT movements
-        if (info.IsKeyPressed(Keys.Left))
+        if (info.IsKeyPressed(Keys.A))
         {
             newPosition = player.Position + (-1, 0);
             keyHit = true;
         }
-        else if (info.IsKeyPressed(Keys.Right))
+        else if (info.IsKeyPressed(Keys.D))
         {
             newPosition = player.Position + (1, 0);
             keyHit = true;

@@ -63,6 +63,10 @@ public static class Program
         Game.Instance.Screen = gameScreen;
         gameScreen.UpdateChunk(currentChunk);
     }
+    public static Player GetPlayer()
+    {
+        return player;
+    }
     public static Chunk GetCurrentChunk()
     {
         return currentChunk;
