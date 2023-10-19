@@ -1,6 +1,6 @@
+using SadConsole.Entities;
 using static CaveGame.Program;
 using static CaveGame.GameSettings;
-using static CaveGame.Managers.ChunkManager;
 using static CaveGame.Managers.TileManager;
 
 namespace CaveGame;
@@ -14,6 +14,7 @@ public class Player
     public int Hunger; 
     private int Speed;
     public int[] Position;
+    public Entity Entity;
     public Chunk Chunk;
     public InputHandler InputHandler;
     private int TurnIndex;
@@ -24,9 +25,11 @@ public class Player
         Speed = 10;
         Hunger = 100;
         Position = new []{y, x};
+        Entity = new Entity(foreground: Color.Red, background: Color.Transparent, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2 - 1, GAMEVIEW_HEIGHT / 2 - 1) };
         Chunk = chunk;
         InputHandler = inputHandler;
         TurnIndex = 0;
+        System.Console.WriteLine(Position[0] + ", " + Position[1]);
     }
     
     public void TakeDamage(int damage, string causeId)

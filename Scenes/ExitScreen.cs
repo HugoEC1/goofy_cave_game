@@ -10,16 +10,15 @@ public class ExitScreen : ScreenObject
     public ExitScreen()
     {
         // create a screen for exit art
-        _exit = new ScreenSurface(GAME_WIDTH, GAME_HEIGHT);
+        _exit = new ScreenSurface(80, 25) { Position = new Point(GAME_WIDTH / 4 - 40, GAME_HEIGHT / 4 - 12), FontSize = Game.Instance.DefaultFont.GetFontSize(IFont.Sizes.Two) };
         
-        FontSize = Game.Instance.DefaultFont.GetFontSize(IFont.Sizes.Two);
         var doc = new Document($"Art/god.ans");
         var writer = new AnsiWriter(doc, _exit.Surface);
         writer.ReadEntireDocument();
         _exit.IsVisible = false;
         Children.Add(_exit);
 
-        InstructionSet exitAnim = new InstructionSet()
+        var exitAnim = new InstructionSet()
 
             .Wait(TimeSpan.FromSeconds(1.0d))
 

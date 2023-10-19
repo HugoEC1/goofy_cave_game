@@ -5,8 +5,9 @@ public static class GameSettings
     public const int TURN_SPEED = 10;
     public const int CHUNK_HEIGHT = 128;
     public const int CHUNK_WIDTH = 128;
-    public const int MINAREA_CHECK = 8000;
+    public const int MIN_AREA_CHECK = 8000;
     public const int LOAD_DISTANCE = 1;
+    public const int MIN_SPAWN_AREA = 5;
     
     // screen size settings
     public const int GAME_WIDTH = 240;

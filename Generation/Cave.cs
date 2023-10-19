@@ -1,6 +1,5 @@
 using static CaveGame.Managers.TileManager;
 using static CaveGame.Managers.BiomeManager;
-using static CaveGame.Managers.ChunkManager;
 using static CaveGame.Generation.MainGeneration;
 
 namespace CaveGame.Generation;

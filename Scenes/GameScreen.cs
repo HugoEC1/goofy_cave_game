@@ -1,10 +1,10 @@
+using SadConsole.Entities;
 using SadConsole.Input;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
 using static CaveGame.Program;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
-using static CaveGame.Managers.ChunkManager;
 using static CaveGame.Managers.TileManager;
 using static CaveGame.Player;
 
@@ -43,20 +43,33 @@ public class GameScreen : ScreenObject
     }
     public class GameView : Console
     {
+        private EntityManager _entityManager;
         public GameView() : base(GAMEVIEW_WIDTH - 1, GAMEVIEW_HEIGHT - 1, CHUNK_WIDTH * 3, CHUNK_HEIGHT * 3)
         {
             var font = Game.Instance.Fonts["mdcurses16"];
             Font = font;
             FontSize = Font.GetFontSize(IFont.Sizes.Two);
+
+            _entityManager = new EntityManager();
+            SadComponents.Add(_entityManager);
+            
+            _entityManager.Add(GetPlayer().Entity);
         }
     }
-    public void UpdateChunk(Chunk chunk)
+    public void UpdateView(Player player)
     {
-        for (var y = 0; y < chunk.Height; y++)
+        var chunk = player.Chunk;
+        var yOffset = player.Position[0] - GAMEVIEW_HEIGHT / 2 + 1;
+        var xOffset = player.Position[1] - GAMEVIEW_WIDTH / 2 + 1;
+        for (var y = 0; y < GAMEVIEW_HEIGHT; y++)
         {
-            for (var x = 0; x < chunk.Width; x++)
+            for (var x = 0; x < GAME_WIDTH; x++)
             {
-                chunk.Tiles[y,x].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                if (y + yOffset >= chunk.Tiles.GetLength(0) || x + xOffset >= chunk.Tiles.GetLength(1))
+                {
+                    continue;
+                }
+                chunk.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
             }
         }
     }
