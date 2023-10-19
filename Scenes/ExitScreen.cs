@@ -12,6 +12,7 @@ public class ExitScreen : ScreenObject
         // create a screen for exit art
         _exit = new ScreenSurface(GAME_WIDTH, GAME_HEIGHT);
         
+        FontSize = Game.Instance.DefaultFont.GetFontSize(IFont.Sizes.Two);
         var doc = new Document($"Art/god.ans");
         var writer = new AnsiWriter(doc, _exit.Surface);
         writer.ReadEntireDocument();

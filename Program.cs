@@ -46,9 +46,9 @@ public static class Program
         SadConsole.Host.Global.GraphicsDeviceManager.PreferredBackBufferHeight =
             Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
-        //SadConsole.Host.Global.GraphicsDeviceManager.ApplyChanges();
+        SadConsole.Host.Global.GraphicsDeviceManager.ApplyChanges();
         
-        //Game.Instance.ToggleFullScreen();
+        Game.Instance.ToggleFullScreen();
     }
     private static void Update(object? sender, GameHost e)
     {
