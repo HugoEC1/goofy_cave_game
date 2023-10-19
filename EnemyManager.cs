@@ -5,6 +5,7 @@ namespace CaveGame;
 
 public static class EnemyManager{
 
+    /*
     public static bool TileOccupied(Enemy[] enemyList, int[] position, int[] playerPosition, bool[][] blockingTile){
         foreach (Enemy enemy in enemyList) {
             if(SHutil.Equals(position, enemy.Position)){
@@ -21,6 +22,7 @@ public static class EnemyManager{
 
         return false;
     }
+    */
 
     public static void TakeDamage(Enemy[] enemyList, int[] position, int x){
         foreach (Enemy enemy in enemyList) {
@@ -57,7 +59,7 @@ public static class EnemyManager{
     }
     */
 
-    public class Enemy {
+    public abstract class Enemy {
 
         public string Id = "";
         public ColoredGlyph Glyph = new ColoredGlyph();

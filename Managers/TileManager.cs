@@ -12,7 +12,7 @@ public static class TileManager
         Liquid,
         Gas
     }
-    public class Tile
+    public abstract class Tile
     {
         public string Id = "";
         public ColoredGlyph Glyph = new ColoredGlyph();
