@@ -78,16 +78,13 @@ public static class Program
         gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
         gameScreen.UpdateView(player);
-        //CaveGame();
+        CaveGame();
     }
 
     public static void CaveGame()
     {
-        while (true)
-        {
             player.Turn();
             System.Console.WriteLine("turn");
-        }
     }
     public static Player GetPlayer()
     {

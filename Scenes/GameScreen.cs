@@ -69,7 +69,7 @@ public class GameScreen : ScreenObject
         {
             for (var x = 0; x < GAMEVIEW_WIDTH; x++)
             {
-                if (y + yOffset >= chunk.Tiles.GetLength(0) || x + xOffset >= chunk.Tiles.GetLength(1))
+                if (y + yOffset < 0 || y + yOffset >= chunk.Tiles.GetLength(0) || x + xOffset < 0 || x + xOffset >= chunk.Tiles.GetLength(1))
                 {
                     continue;
                 }

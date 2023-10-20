@@ -70,7 +70,7 @@ public class Player
 
             _turnActionComplete = new TaskCompletionSource<bool>();
             InputHandler.PlayerInputEnabled = true;
-            System.Console.WriteLine("awaitingf");
+            System.Console.WriteLine("awaiting");
             await _turnActionComplete.Task;
             System.Console.WriteLine("awaited");
             InputHandler.PlayerInputEnabled = false;
@@ -86,6 +86,7 @@ public class Player
         if (Chunk.ToBlocking()[wantedPosition[0], wantedPosition[1]] == false)
         {
             Position = wantedPosition;
+            _turnActionComplete?.TrySetResult(true);
         }
     }
 }
