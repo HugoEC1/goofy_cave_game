@@ -25,10 +25,11 @@ public class Player
         Speed = 10;
         Hunger = 100;
         Position = new []{y, x};
-        Entity = new Entity(foreground: Color.Red, background: Color.Transparent, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2 - 1, GAMEVIEW_HEIGHT / 2 - 1) };
+        Entity = new Entity(foreground: Color.Red, background: Color.Black, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2, GAMEVIEW_HEIGHT / 2) };
         Chunk = chunk;
         InputHandler = inputHandler;
         TurnIndex = 0;
+        System.Console.WriteLine(GAMEVIEW_WIDTH / 2 + ", " + GAMEVIEW_HEIGHT / 2);
         System.Console.WriteLine(Position[0] + ", " + Position[1]);
     }
     
@@ -69,7 +70,9 @@ public class Player
 
             _turnActionComplete = new TaskCompletionSource<bool>();
             InputHandler.PlayerInputEnabled = true;
+            System.Console.WriteLine("awaitingf");
             await _turnActionComplete.Task;
+            System.Console.WriteLine("awaited");
             InputHandler.PlayerInputEnabled = false;
         }
     }

@@ -14,7 +14,7 @@ public class Chunk
     public int Seed;
     public Biome Biome;
 
-    public Chunk(Tile[,]? tiles, int[] position, int layer, Biome biome, int seed, int width = GAME_WIDTH, int height = GAME_HEIGHT)
+    public Chunk(Tile[,]? tiles, int[] position, int layer, Biome biome, int seed, int width = CHUNK_WIDTH, int height = CHUNK_HEIGHT)
     {
         Width = width;
         Height = height;

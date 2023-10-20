@@ -71,12 +71,23 @@ public static class Program
                 spawnX = spawnArea[spawnIndex, 1];
                 break;
             }
+            System.Console.WriteLine("Region rejected!");
         }
         inputHandler = new InputHandler();
         player = new Player(spawnY, spawnX, currentChunk, inputHandler);
         gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
         gameScreen.UpdateView(player);
+        //CaveGame();
+    }
+
+    public static void CaveGame()
+    {
+        while (true)
+        {
+            player.Turn();
+            System.Console.WriteLine("turn");
+        }
     }
     public static Player GetPlayer()
     {

@@ -27,7 +27,7 @@ public class GameScreen : ScreenObject
         _gameView = new GameView() { Position = new Point(1, 1) };
         
         // add scrollable log console
-        _gameLog = new GameLog() { Position = new Point(GAMEVIEW_WIDTH * 4, 0) };
+        _gameLog = new GameLog() { Position = new Point(GAMEVIEW_WIDTH * 4 - 1, 0) };
         
         // add skill menu console
         //_skillMenu = new SkillMenu();
@@ -52,18 +52,22 @@ public class GameScreen : ScreenObject
 
             _entityManager = new EntityManager();
             SadComponents.Add(_entityManager);
+
+            var borderParams = Border.BorderParameters.GetDefault()
+                .ChangeBorderGlyph(ICellSurface.ConnectedLineThick, Color.White, Color.Black);
             
+            Border border = new(this, borderParams);
             _entityManager.Add(GetPlayer().Entity);
         }
     }
     public void UpdateView(Player player)
     {
         var chunk = player.Chunk;
-        var yOffset = player.Position[0] - GAMEVIEW_HEIGHT / 2 + 1;
-        var xOffset = player.Position[1] - GAMEVIEW_WIDTH / 2 + 1;
+        var yOffset = player.Position[0] - GAMEVIEW_HEIGHT / 2;
+        var xOffset = player.Position[1] - GAMEVIEW_WIDTH / 2;
         for (var y = 0; y < GAMEVIEW_HEIGHT; y++)
         {
-            for (var x = 0; x < GAME_WIDTH; x++)
+            for (var x = 0; x < GAMEVIEW_WIDTH; x++)
             {
                 if (y + yOffset >= chunk.Tiles.GetLength(0) || x + xOffset >= chunk.Tiles.GetLength(1))
                 {
