@@ -81,10 +81,12 @@ public static class Program
         CaveGame();
     }
 
-    public static void CaveGame()
+    private static async void CaveGame()
     {
-            player.Turn();
-            System.Console.WriteLine("turn");
+        while (true)
+        {
+            await player.Turn();
+        }
     }
     public static Player GetPlayer()
     {

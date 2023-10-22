@@ -49,7 +49,7 @@ public class GameScreen : ScreenObject
             var font = Game.Instance.Fonts["mdcurses16"];
             Font = font;
             FontSize = Font.GetFontSize(IFont.Sizes.Two);
-
+            
             _entityManager = new EntityManager();
             SadComponents.Add(_entityManager);
 
@@ -76,6 +76,7 @@ public class GameScreen : ScreenObject
                 chunk.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
             }
         }
+        _gameView.IsDirty = true;
     }
     public class GameLog : Console
     {
@@ -102,9 +103,12 @@ public class GameScreen : ScreenObject
         {
             Game.Instance.FocusedScreenObjects.Push(this);
             UseKeyboard = true;
+            
+            
         }
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
+            keyboard.InitialRepeatDelay = 0.3f;
             if (keyboard.KeysPressed.Count == 0) return false;
             
             foreach (var asciiKey in keyboard.KeysPressed)

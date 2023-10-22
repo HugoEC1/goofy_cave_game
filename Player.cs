@@ -1,3 +1,4 @@
+using CaveGame.Scenes;
 using SadConsole.Entities;
 using static CaveGame.Program;
 using static CaveGame.GameSettings;
@@ -55,7 +56,7 @@ public class Player
     }
 
     private TaskCompletionSource<bool>? _turnActionComplete;
-    public async void Turn()
+    public async Task Turn()
     {
         TurnIndex += Speed;
 
@@ -70,10 +71,10 @@ public class Player
 
             _turnActionComplete = new TaskCompletionSource<bool>();
             InputHandler.PlayerInputEnabled = true;
-            System.Console.WriteLine("awaiting");
             await _turnActionComplete.Task;
-            System.Console.WriteLine("awaited");
             InputHandler.PlayerInputEnabled = false;
+            System.Console.WriteLine(Position[0] + ", " + Position[1]);
+            GetGameScreen().UpdateView(this);
         }
     }
     public void Wait()
