@@ -2,7 +2,7 @@ using CaveGame.Scenes;
 using SadConsole.Entities;
 using static CaveGame.Program;
 using static CaveGame.GameSettings;
-using static CaveGame.Managers.TileManager;
+using static CaveGame.Managers.ChunkManager;
 
 namespace CaveGame;
 
@@ -15,23 +15,21 @@ public class Player
     public int Hunger; 
     private int Speed;
     public int[] Position;
+    public int Layer;
     public Entity Entity;
-    public Chunk Chunk;
     public InputHandler InputHandler;
     private int TurnIndex;
     
-    public Player(int y, int x, Chunk chunk, InputHandler inputHandler)
+    public Player(int y, int x, InputHandler inputHandler)
     {
         Health = MAX_HEALTH;
         Speed = 10;
         Hunger = 100;
         Position = new []{y, x};
+        Layer = 0;
         Entity = new Entity(foreground: Color.Red, background: Color.Black, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2, GAMEVIEW_HEIGHT / 2) };
-        Chunk = chunk;
         InputHandler = inputHandler;
         TurnIndex = 0;
-        System.Console.WriteLine(GAMEVIEW_WIDTH / 2 + ", " + GAMEVIEW_HEIGHT / 2);
-        System.Console.WriteLine(Position[0] + ", " + Position[1]);
     }
     
     public void TakeDamage(int damage, string causeId)
@@ -73,7 +71,6 @@ public class Player
             InputHandler.PlayerInputEnabled = true;
             await _turnActionComplete.Task;
             InputHandler.PlayerInputEnabled = false;
-            System.Console.WriteLine(Position[0] + ", " + Position[1]);
             GetGameScreen().UpdateView(this);
         }
     }
@@ -84,10 +81,9 @@ public class Player
     public void Move(int[] direction)
     {
         int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
-        if (Chunk.ToBlocking()[wantedPosition[0], wantedPosition[1]] == false)
-        {
-            Position = wantedPosition;
-            _turnActionComplete?.TrySetResult(true);
-        }
+        
+        if (GetChunk(Position, Layer).Blocking[wantedPosition[0], wantedPosition[1]]) return;
+        Position = wantedPosition;
+        _turnActionComplete?.TrySetResult(true);
     }
 }

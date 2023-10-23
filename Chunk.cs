@@ -7,6 +7,7 @@ namespace CaveGame;
 public class Chunk
 {
     public Tile[,] Tiles;
+    public bool[,] Blocking;
     public int Width;
     public int Height;
     public int[] Position;
@@ -26,14 +27,16 @@ public class Chunk
         if (tiles == null)
         {
             Tiles = biome.GenerateChunk(Width, Height, Position[0], Position[1], Seed);
+            
         }
         else
         {
             Tiles = tiles;
         }
+        ToBlocking();
     }
     
-    public bool[,] ToBlocking()
+    public void ToBlocking()
     {
         var blocking = new bool[Height, Width];
 
@@ -45,7 +48,7 @@ public class Chunk
             }
         }
 
-        return blocking;
+        Blocking =  blocking;
     }
     /*public Task<Dictionary<int[], string[,]>> GenerateSurroundings()
     {

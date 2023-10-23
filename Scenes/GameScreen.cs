@@ -5,7 +5,7 @@ using SadConsole.UI.Controls;
 using static CaveGame.Program;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
-using static CaveGame.Managers.TileManager;
+using static CaveGame.Managers.ChunkManager;
 using static CaveGame.Player;
 
 namespace CaveGame.Scenes;
@@ -62,7 +62,7 @@ public class GameScreen : ScreenObject
     }
     public void UpdateView(Player player)
     {
-        var chunk = player.Chunk;
+        var chunk = GetChunk(player.Position, player.Layer);
         var yOffset = player.Position[0] - GAMEVIEW_HEIGHT / 2;
         var xOffset = player.Position[1] - GAMEVIEW_WIDTH / 2;
         for (var y = 0; y < GAMEVIEW_HEIGHT; y++)

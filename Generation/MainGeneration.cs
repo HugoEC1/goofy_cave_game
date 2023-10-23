@@ -58,7 +58,7 @@ public static class MainGeneration
     // TODO: also find all empty tiles and randomly select from an array of them instead of randomly brute forcing all tiles (while excluding already visited tiles)
     public static int[,]? FindAreaThatIsOfProvidedArea(Chunk chunk, int area)
     {
-        var walls = chunk.ToBlocking();
+        var walls = chunk.Blocking;
         var height = chunk.Height;
         var width = chunk.Width;
         var startPoints = new List<int[]>();

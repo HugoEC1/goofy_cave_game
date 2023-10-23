@@ -4,7 +4,7 @@ using CaveGame.Scenes;
 using SadConsole.Configuration;
 using static CaveGame.GameSettings;
 using static CaveGame.Generation.MainGeneration;
-using static CaveGame.Managers.BiomeManager;
+using static CaveGame.Managers.ChunkManager;
 using static CaveGame.Managers.TileManager;
 
 // :3
@@ -15,7 +15,6 @@ public static class Program
     private static int _seed;
     private static Player player;
     private static InputHandler inputHandler;
-    private static Chunk currentChunk;
     private static GameScreen gameScreen;
     
     private static void Main()
@@ -34,7 +33,7 @@ public static class Program
             });
 
         Game.Create(gameStartup);
-        Game.Instance.FrameUpdate += Update;
+        //Game.Instance.FrameUpdate += Update;
         Game.Instance.Run();
         Game.Instance.Dispose();
     }
@@ -62,10 +61,11 @@ public static class Program
         while (true)
         {
             _seed = new Random().Next(int.MinValue, int.MaxValue);
-            currentChunk = new Chunk(null, new []{0,0}, 0, new Cave(), _seed);
-            var spawnArea = FindAreaThatIsOfProvidedArea(currentChunk, MIN_SPAWN_AREA);
+            var startChunk = new Chunk(null, new []{0,0}, 0, new Cave(), _seed);
+            var spawnArea = FindAreaThatIsOfProvidedArea(startChunk, MIN_SPAWN_AREA);
             if (spawnArea != null)
             {
+                AddChunk(startChunk);
                 var spawnIndex = SHutil.Random(0, spawnArea.GetLength(0));
                 spawnY = spawnArea[spawnIndex, 0];
                 spawnX = spawnArea[spawnIndex, 1];
@@ -74,7 +74,7 @@ public static class Program
             System.Console.WriteLine("Region rejected!");
         }
         inputHandler = new InputHandler();
-        player = new Player(spawnY, spawnX, currentChunk, inputHandler);
+        player = new Player(spawnY, spawnX, inputHandler);
         gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
         gameScreen.UpdateView(player);
@@ -96,13 +96,13 @@ public static class Program
     {
         return inputHandler;
     }
-    public static Chunk GetCurrentChunk()
-    {
-        return currentChunk;
-    }
     public static GameScreen GetGameScreen()
     {
         return gameScreen;
+    }
+    public static int GetSeed()
+    {
+        return _seed;
     }
     public static void Exit()
     {
