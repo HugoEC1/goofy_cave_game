@@ -62,16 +62,85 @@ public class GameScreen : ScreenObject
     }
     public void UpdateView(Player player)
     {
-        var chunk = GetChunk(player.Position, player.Layer);
+        var chunkY = player.Position[0] / CHUNK_HEIGHT;
+        var chunkX = player.Position[1] / CHUNK_WIDTH;
+        var chunk = GetChunk(chunkY, chunkX, player.Layer);
+        Chunk? chunkN = null;
+        Chunk? chunkNE = null;
+        Chunk? chunkE = null;
+        Chunk? chunkSE = null;
+        Chunk? chunkS = null;
+        Chunk? chunkSW = null;
+        Chunk? chunkW = null;
+        Chunk? chunkNW = null;
         var yOffset = player.Position[0] - GAMEVIEW_HEIGHT / 2;
         var xOffset = player.Position[1] - GAMEVIEW_WIDTH / 2;
         for (var y = 0; y < GAMEVIEW_HEIGHT; y++)
         {
             for (var x = 0; x < GAMEVIEW_WIDTH; x++)
             {
-                if (y + yOffset < 0 || y + yOffset >= chunk.Tiles.GetLength(0) || x + xOffset < 0 || x + xOffset >= chunk.Tiles.GetLength(1))
+                if (y + yOffset < 0)
                 {
-                    continue;
+                    // northwest
+                    if (x + xOffset < 0)
+                    {
+                        if (chunkNW == null) { chunkNW = GetChunk(chunkY, chunkX, player.Layer); }
+                        chunkNW.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                    }
+                    // northeast
+                    else if (x + xOffset >= CHUNK_WIDTH)
+                    {
+                        if (chunkNE == null) { chunkNE = GetChunk(chunkY, chunkX, player.Layer); }
+                        chunkNE.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                    }
+                    // north
+                    else
+                    {
+                        if (chunkN == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                        chunkN.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                    }
+                }
+                // north
+                if (y + yOffset < 0 && y + yOffset < CHUNK_HEIGHT && x + xOffset >= 0 && x + xOffset < CHUNK_WIDTH)
+                {
+                    if (chunkN == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                    chunkN.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                }
+                // northeast
+                else if (y + yOffset < 0 && y + yOffset < CHUNK_HEIGHT && x + xOffset >= 0 && x + xOffset >= CHUNK_WIDTH)
+                {
+                    if (chunkNW == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                    chunkNW.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                }
+                // east
+                else if (y + yOffset >= 0 && y + yOffset < CHUNK_HEIGHT && x + xOffset >= 0 && x + xOffset >= CHUNK_WIDTH)
+                {
+                    if (chunkNW == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                    chunkNW.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                }
+                // southeast
+                else if (y + yOffset >= 0 && y + yOffset < CHUNK_HEIGHT && x + xOffset >= 0 && x + xOffset >= CHUNK_WIDTH)
+                {
+                    if (chunkNW == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                    chunkNW.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                }
+                // northeast
+                else if (y + yOffset < 0 && y + yOffset < CHUNK_HEIGHT && x + xOffset >= 0 && x + xOffset >= CHUNK_WIDTH)
+                {
+                    if (chunkNW == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                    chunkNW.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                }
+                // northeast
+                else if (y + yOffset < 0 && y + yOffset < CHUNK_HEIGHT && x + xOffset >= 0 && x + xOffset >= CHUNK_WIDTH)
+                {
+                    if (chunkNW == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                    chunkNW.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                }
+                // northeast
+                else if (y + yOffset < 0 && y + yOffset < CHUNK_HEIGHT && x + xOffset >= 0 && x + xOffset >= CHUNK_WIDTH)
+                {
+                    if (chunkNW == null) { chunkN = GetChunk(chunkY, chunkX, player.Layer); }
+                    chunkNW.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
                 }
                 chunk.Tiles[y + yOffset,x + xOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
             }
@@ -103,12 +172,11 @@ public class GameScreen : ScreenObject
         {
             Game.Instance.FocusedScreenObjects.Push(this);
             UseKeyboard = true;
-            
-            
         }
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
             keyboard.InitialRepeatDelay = 0.3f;
+            keyboard.RepeatDelay = 0.2f;
             if (keyboard.KeysPressed.Count == 0) return false;
             
             foreach (var asciiKey in keyboard.KeysPressed)

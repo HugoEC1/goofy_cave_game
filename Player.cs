@@ -71,6 +71,7 @@ public class Player
             InputHandler.PlayerInputEnabled = true;
             await _turnActionComplete.Task;
             InputHandler.PlayerInputEnabled = false;
+            System.Console.WriteLine(Position[1] + ", " + Position[0]);
             GetGameScreen().UpdateView(this);
         }
     }
@@ -81,8 +82,9 @@ public class Player
     public void Move(int[] direction)
     {
         int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
+        var wantedChunkPosition = ToChunkPosition(wantedPosition);
         
-        if (GetChunk(Position, Layer).Blocking[wantedPosition[0], wantedPosition[1]]) return;
+        if (GetChunk(Position[0] / CHUNK_HEIGHT, Position[1] / CHUNK_WIDTH, Layer).Blocking[wantedChunkPosition[0], wantedChunkPosition[1]]) return;
         Position = wantedPosition;
         _turnActionComplete?.TrySetResult(true);
     }

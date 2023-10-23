@@ -6,23 +6,11 @@ namespace CaveGame.Managers;
 
 public static class ChunkManager
 {
-    private static List<Chunk> LoadedChunks = new List<Chunk>();
+    public static List<Chunk> LoadedChunks = new();
 
-    public static Chunk GetChunk(int[] position, int layer)
+    public static Chunk GetChunk(int chunkY, int chunkX, int layer)
     {
-        var chunkY = position[0] / CHUNK_HEIGHT;
-        var chunkX = position[1] / CHUNK_WIDTH;
-        Chunk? chunk = null;
-        
-        System.Console.WriteLine("sex");
-        
-        foreach (var loadedChunk in LoadedChunks)
-        {
-            System.Console.WriteLine(loadedChunk.Position[0] + ", " + loadedChunk.Position[1]);
-            if (loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) continue;
-            chunk = loadedChunk;
-            break;
-        }
+        var chunk = LoadedChunks.FirstOrDefault(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX);
 
         if (chunk == null)
         {
@@ -36,5 +24,22 @@ public static class ChunkManager
     public static void AddChunk(Chunk chunk)
     {
         LoadedChunks.Add(chunk);
+    }
+
+    public static int[] ToChunkPosition(int[] position)
+    {
+        var chunkPositionY = position[0] % CHUNK_HEIGHT;
+        var chunkPositionX = position[1] % CHUNK_WIDTH;
+
+        if (chunkPositionY < 0)
+        {
+            chunkPositionY = chunkPositionY + CHUNK_HEIGHT;
+        }
+        if (chunkPositionX < 0)
+        {
+            chunkPositionX = chunkPositionX + CHUNK_WIDTH;
+        }
+
+        return new[] { chunkPositionY, chunkPositionX };
     }
 }
