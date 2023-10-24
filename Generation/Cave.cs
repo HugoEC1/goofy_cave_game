@@ -1,5 +1,4 @@
-using static CaveGame.Managers.TileManager;
-using static CaveGame.Managers.BiomeManager;
+using CaveGame.Tiles;
 using static CaveGame.Generation.MainGeneration;
 
 namespace CaveGame.Generation;
@@ -8,7 +7,7 @@ public class Cave : Biome
 {
     public Cave()
     {
-        ID = "cave";
+        Id = "cave";
         Name = "Cave";
         Description = "Default biome";
     }
