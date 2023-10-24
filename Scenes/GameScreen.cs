@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework.Graphics;
+using SadConsole.Entities;
 using SadConsole.Input;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
@@ -5,7 +7,6 @@ using static CaveGame.Program;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
 using static CaveGame.Managers.ChunkManager;
-using static CaveGame.Managers.TileManager;
 using static CaveGame.Player;
 
 namespace CaveGame.Scenes;
@@ -27,7 +28,7 @@ public class GameScreen : ScreenObject
         _gameView = new GameView() { Position = new Point(1, 1) };
         
         // add scrollable log console
-        _gameLog = new GameLog() { Position = new Point(GAMEVIEW_WIDTH * 4, 0) };
+        _gameLog = new GameLog() { Position = new Point(GAMEVIEW_WIDTH * 4 - 1, 0) };
         
         // add skill menu console
         //_skillMenu = new SkillMenu();
@@ -43,22 +44,33 @@ public class GameScreen : ScreenObject
     }
     public class GameView : Console
     {
+        private EntityManager _entityManager;
         public GameView() : base(GAMEVIEW_WIDTH - 1, GAMEVIEW_HEIGHT - 1, CHUNK_WIDTH * 3, CHUNK_HEIGHT * 3)
         {
             var font = Game.Instance.Fonts["mdcurses16"];
             Font = font;
             FontSize = Font.GetFontSize(IFont.Sizes.Two);
+            
+            _entityManager = new EntityManager();
+            SadComponents.Add(_entityManager);
+
+            var borderParams = Border.BorderParameters.GetDefault()
+                .ChangeBorderGlyph(ICellSurface.ConnectedLineThick, Color.White, Color.Black);
+            
+            Border border = new(this, borderParams);
+            _entityManager.Add(GetPlayer().GlyphEntity);
         }
     }
-    public void UpdateChunk(Chunk chunk)
+    public void UpdateScreen(ColoredGlyph[,] glyphs)
     {
-        for (var y = 0; y < chunk.Height; y++)
+        for (var y = 0; y < GAMEVIEW_HEIGHT; y++)
         {
-            for (var x = 0; x < chunk.Width; x++)
+            for (var x = 0; x < GAMEVIEW_WIDTH; x++)
             {
-                chunk.Tiles[y,x].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
+                glyphs[x,y].CopyAppearanceTo(_gameView.Surface[x,y]);
             }
         }
+        _gameView.IsDirty = true;
     }
     public class GameLog : Console
     {
@@ -88,6 +100,8 @@ public class GameScreen : ScreenObject
         }
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
+            keyboard.InitialRepeatDelay = 0.3f;
+            //keyboard.RepeatDelay = 0.2f;
             if (keyboard.KeysPressed.Count == 0) return false;
             
             foreach (var asciiKey in keyboard.KeysPressed)

@@ -3,7 +3,6 @@ using SadConsole.UI;
 using SadConsole.UI.Controls;
 using static CaveGame.GraphicsUtil;
 using static CaveGame.GameSettings;
-using static CaveGame.Managers.ChunkManager;
 
 namespace CaveGame.Scenes;
 
@@ -81,17 +80,11 @@ public class CustomConfigScreen : ScreenObject
                     // also enemyCount is unused currently
                     if (seed.Text == "")
                     {
-                        var chunk = new Chunk(null, new []{0,0}, 0, new Cave(), new Random().Next(int.MinValue, int.MaxValue), i, i);
-                        var gameScreen = new GameScreen();
-                        Game.Instance.Screen = gameScreen;
-                        gameScreen.UpdateChunk(chunk);
+                        // TODO: add code to call some function in program script to generate world and player
                     }
                     else if (int.TryParse(seed.Text, out var l))
                     {
-                        var chunk = new Chunk(null, new []{0,0}, 0, new Cave(), l, i, i);
-                        var gameScreen = new GameScreen();
-                        Game.Instance.Screen = gameScreen;
-                        gameScreen.UpdateChunk(chunk);
+                        // TODO: add code to call some function in program script to generate world and player
                     }
                     else
                     {

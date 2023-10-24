@@ -1,6 +1,5 @@
 using static SadRogue.Primitives.Color;
 using static CaveGame.GameSettings;
-using static CaveGame.Managers.ChunkManager;
 
 namespace CaveGame.Managers;
 

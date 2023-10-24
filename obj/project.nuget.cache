@@ -1,18 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "bJx61z9e0wMv0xCktjQ6HWUmgGXdBt78utW4MUpNMrl1/7UPrLsjNjY7UMHDLYv8BTB4mtvgpsESwL1w1WJjbw==",
+  "dgSpecHash": "VnX7VBseMsMEsaeDgX5HIfOlksVT/ZG4YgEyQJvjjIoncA9zBYTuJCC5F76vWRiBPggBuUUSDkB2dCSSeHE/uw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sunny\\OneDrive\\Desktop\\New folder\\goofy_cave_game\\CaveGame.csproj",
+  "projectFilePath": "C:\\Users\\sdwdr\\Documents\\Rider Projects\\goofy_cave_game_cs\\CaveGame.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\sunny\\.nuget\\packages\\colorminestandard\\1.0.0\\colorminestandard.1.0.0.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\sadconsole\\10.0.0-beta3-debug\\sadconsole.10.0.0-beta3-debug.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\sadconsole.extended\\10.0.0-beta3-debug\\sadconsole.extended.10.0.0-beta3-debug.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\sadconsole.host.monogame\\10.0.0-beta3-debug\\sadconsole.host.monogame.10.0.0-beta3-debug.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512",
-    "C:\\Users\\sunny\\.nuget\\packages\\thesadrogue.primitives\\1.6.0-rc3\\thesadrogue.primitives.1.6.0-rc3.nupkg.sha512"
+    "C:\\Users\\sdwdr\\.nuget\\packages\\colorminestandard\\1.0.0\\colorminestandard.1.0.0.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\sadconsole\\10.0.0-beta3-debug\\sadconsole.10.0.0-beta3-debug.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\sadconsole.extended\\10.0.0-beta3-debug\\sadconsole.extended.10.0.0-beta3-debug.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\sadconsole.host.monogame\\10.0.0-beta3-debug\\sadconsole.host.monogame.10.0.0-beta3-debug.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512",
+    "C:\\Users\\sdwdr\\.nuget\\packages\\thesadrogue.primitives\\1.6.0-rc3\\thesadrogue.primitives.1.6.0-rc3.nupkg.sha512"
   ],
   "logs": []
 }

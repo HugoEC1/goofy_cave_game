@@ -1,6 +1,5 @@
 using static CaveGame.Managers.TileManager;
 using static CaveGame.Managers.BiomeManager;
-using static CaveGame.Managers.ChunkManager;
 using static CaveGame.Generation.MainGeneration;
 
 namespace CaveGame.Generation;
@@ -13,9 +12,9 @@ public class Cave : Biome
         Name = "Cave";
         Description = "Default biome";
     }
-    public override Tile[,] GenerateChunk(int width, int height, int chunkX, int chunkY, int seed)
+    public override Tile[,] GenerateChunk(int height, int width, int chunkY, int chunkX, int seed)
     {
-        var walls = GenerateSimplex(width, height, chunkX, chunkY, seed);
+        var walls = GenerateSimplex(height, width, chunkY, chunkX, seed);
 
         var tileChunk = new Tile[height, width];
         

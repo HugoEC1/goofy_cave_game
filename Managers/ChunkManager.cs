@@ -1,70 +1,99 @@
+using CaveGame.Generation;
 using static CaveGame.GameSettings;
-using static CaveGame.Managers.BiomeManager;
-using static CaveGame.Managers.TileManager;
+using static CaveGame.Program;
 
 namespace CaveGame.Managers;
 
 public static class ChunkManager
 {
-    public class Chunk
-    {
-        public Tile[,] Tiles;
-        public int Width;
-        public int Height;
-        public int[] Position;
-        public int Layer;
-        public int Seed;
-        public Biome Biome;
+    private static List<Chunk> _loadedChunks = new();
 
-        public Chunk(Tile[,]? tiles, int[] position, int layer, Biome biome, int seed, int width = GAME_WIDTH, int height = GAME_HEIGHT)
+    public static Chunk GetChunk(int chunkY, int chunkX, int layer)
+    {
+        var chunk = _loadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX);
+
+        if (chunk == null)
         {
-            Width = width;
-            Height = height;
-            Tiles = new Tile[Height, Width];
-            Position = position;
-            Layer = layer;
-            Seed = seed;
-            Biome = biome;
-            if (tiles == null)
-            {
-                Tiles = biome.GenerateChunk(Width, Height, Position[0], Position[1], Seed);
-            }
-            else
-            {
-                Tiles = tiles;
-            }
+            chunk = new Chunk(null, new []{chunkY, chunkX}, layer, new Cave(), GetSeed());
+            _loadedChunks.Add(chunk);
+        }
+
+        return chunk;
+    }
+
+    public static void AddChunk(Chunk chunk)
+    {
+        _loadedChunks.Add(chunk);
+    }
+
+    public static void LoadSurroundingChunks(int chunkY, int chunkX, int layer)
+    {
+        // northwest
+        _ = Task.Run(() => LoadChunk(chunkY - 1, chunkX - 1, layer));
+        // north
+        _ = Task.Run(() => LoadChunk(chunkY - 1, chunkX, layer));
+        // northeast
+        _ = Task.Run(() => LoadChunk(chunkY - 1, chunkX + 1, layer));
+        // west
+        _ = Task.Run(() => LoadChunk(chunkY, chunkX - 1, layer));
+        // east
+        _ = Task.Run(() => LoadChunk(chunkY, chunkX + 1, layer));
+        // southwest
+        _ = Task.Run(() => LoadChunk(chunkY + 1, chunkX - 1, layer));
+        // south
+        _ = Task.Run(() => LoadChunk(chunkY + 1, chunkX, layer));
+        // southeast
+        _ = Task.Run(() => LoadChunk(chunkY + 1, chunkX + 1, layer));
+    }
+    
+    public static async Task LoadChunk(int chunkY, int chunkX, int layer)
+    {
+        if (_loadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) != null) { return; }
+        var createChunkTask = Task.Run(() => new Chunk(null, new[] { chunkY, chunkX }, layer, new Cave(), GetSeed()));
+        var chunk = await createChunkTask;
+        if (_loadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) != null) { return; }
+        _loadedChunks.Add(chunk);
+    }
+
+    public static int[] ToLocalPosition(int[] position)
+    {
+        var chunkPositionY = position[0] % CHUNK_HEIGHT;
+        var chunkPositionX = position[1] % CHUNK_WIDTH;
+
+        if (chunkPositionY < 0)
+        {
+            chunkPositionY += CHUNK_HEIGHT;
+        }
+        if (chunkPositionX < 0)
+        {
+            chunkPositionX += CHUNK_WIDTH;
         }
         
-        public bool[,] ToBlocking()
+        return new[] { chunkPositionY, chunkPositionX };
+    }
+
+    public static int[] GetChunkPosition(int[] position)
+    {
+        int chunkY;
+        int chunkX;
+        if (position[0] < 0)
         {
-            var blocking = new bool[Height, Width];
-
-            for (var y = 0; y < Height; y++)
-            {
-                for (var x = 0; x < Width; x++)
-                {
-                    blocking[y,x] = Tiles[y,x].Blocking;
-                }
-            }
-
-            return blocking;
+            chunkY = (position[0] + 1) / CHUNK_HEIGHT - 1;
         }
-        /*public Task<Dictionary<int[], string[,]>> GenerateSurroundings()
+        else
         {
-            var SurroundingChunks = new Dictionary<int[], string[,]>();
-            for (var x = -1 * LOAD_DISTANCE; x <= LOAD_DISTANCE; x++)
-            {
-                for (var y = -1 * LOAD_DISTANCE; y <= LOAD_DISTANCE; y++)
-                {
-                    if (x == 0 && y == 0)
-                    {
-                        continue;
-                    }
-                    SurroundingChunks.Add(new[] {x,y}, Generate(width, height, chunkX, chunkY, biome, seed));
-                }
-            }
-
-            return SurroundingChunks;
-        }*/
+            chunkY = position[0] / CHUNK_HEIGHT;
+        }
+        if (position[1] < 0)
+        {
+            chunkX = (position[1] + 1) / CHUNK_WIDTH - 1;
+        }
+        else
+        {
+            chunkX = position[1] / CHUNK_WIDTH;
+        }
+        
+        System.Console.WriteLine("Chunk Position: " + chunkX + ", " + chunkY);
+        return new[] { chunkY, chunkX };
     }
 }
