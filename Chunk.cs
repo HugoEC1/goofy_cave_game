@@ -15,10 +15,10 @@ public class Chunk
     public int Seed;
     public Biome Biome;
 
-    public Chunk(Tile[,]? tiles, int[] position, int layer, Biome biome, int seed, int width = CHUNK_WIDTH, int height = CHUNK_HEIGHT)
+    public Chunk(Tile[,]? tiles, int[] position, int layer, Biome biome, int seed, int height = CHUNK_WIDTH, int width = CHUNK_HEIGHT)
     {
-        Width = width;
         Height = height;
+        Width = width;
         Tiles = new Tile[Height, Width];
         Position = position;
         Layer = layer;
@@ -26,8 +26,7 @@ public class Chunk
         Biome = biome;
         if (tiles == null)
         {
-            Tiles = biome.GenerateChunk(Width, Height, Position[0], Position[1], Seed);
-            
+            Tiles = biome.GenerateChunk(Height, Width, Position[0], Position[1], Seed);
         }
         else
         {

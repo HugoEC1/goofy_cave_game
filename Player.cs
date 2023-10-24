@@ -83,8 +83,9 @@ public class Player
     {
         int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
         var wantedChunkPosition = ToChunkPosition(wantedPosition);
+        var chunkPosition = GetChunkPosition(wantedPosition);
         
-        if (GetChunk(Position[0] / CHUNK_HEIGHT, Position[1] / CHUNK_WIDTH, Layer).Blocking[wantedChunkPosition[0], wantedChunkPosition[1]]) return;
+        if (GetChunk(chunkPosition[0], chunkPosition[1], Layer).Blocking[wantedChunkPosition[0], wantedChunkPosition[1]]) return;
         Position = wantedPosition;
         _turnActionComplete?.TrySetResult(true);
     }

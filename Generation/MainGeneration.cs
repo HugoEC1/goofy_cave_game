@@ -6,10 +6,10 @@ namespace CaveGame.Generation;
 
 public static class MainGeneration
 {
-    public static bool[,] GenerateSimplex(int width, int height, int chunkX, int chunkY, int seed)
+    public static bool[,] GenerateSimplex(int height, int width, int chunkY, int chunkX, int seed)
     {
-        var xOffset = chunkX * width;
         var yOffset = chunkY * height;
+        var xOffset = chunkX * width;
         
         var walls = new bool[height,width];
         
@@ -47,7 +47,7 @@ public static class MainGeneration
             System.Console.WriteLine("");
         }
 
-        System.Console.WriteLine("Region Generated");
+        System.Console.WriteLine("Region Generated: " + chunkX + ", " + chunkY);
         System.Console.WriteLine("Seed: " + seed);
         return walls;
     }

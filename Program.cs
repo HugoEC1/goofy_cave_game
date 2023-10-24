@@ -55,7 +55,7 @@ public static class Program
     public static void Start()
     {
         // uncomment to enable custom config
-        // Game.Instance.Screen = new CustomConfigScreen();
+        //Game.Instance.Screen = new CustomConfigScreen();
         int spawnY;
         int spawnX;
         while (true)
