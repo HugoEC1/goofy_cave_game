@@ -1,3 +1,4 @@
+using CaveGame.Managers;
 using CaveGame.Scenes;
 using SadConsole.Entities;
 using static CaveGame.Program;
@@ -72,7 +73,7 @@ public class Player
             await _turnActionComplete.Task;
             InputHandler.PlayerInputEnabled = false;
             System.Console.WriteLine(Position[1] + ", " + Position[0]);
-            GetGameScreen().UpdateView(this);
+            ViewManager.UpdateView(this);
         }
     }
     public void Wait()
@@ -82,10 +83,13 @@ public class Player
     public void Move(int[] direction)
     {
         int[] wantedPosition = {Position[0] + direction[0], Position[1] + direction[1]};
-        var wantedChunkPosition = ToChunkPosition(wantedPosition);
+        var wantedLocalPosition = ToLocalPosition(wantedPosition);
         var chunkPosition = GetChunkPosition(wantedPosition);
+
+        var silly = ToLocalPosition(wantedPosition);
+        System.Console.WriteLine("Local Chunk Position: " + silly[1] + ", " + silly[0]);
         
-        if (GetChunk(chunkPosition[0], chunkPosition[1], Layer).Blocking[wantedChunkPosition[0], wantedChunkPosition[1]]) return;
+        //if (GetChunk(chunkPosition[0], chunkPosition[1], Layer).Blocking[wantedLocalPosition[0], wantedLocalPosition[1]]) return;
         Position = wantedPosition;
         _turnActionComplete?.TrySetResult(true);
     }

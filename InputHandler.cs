@@ -5,11 +5,7 @@ namespace CaveGame;
 
 public class InputHandler
 {
-    public bool PlayerInputEnabled;
-    public InputHandler()
-    {
-        PlayerInputEnabled = false;
-    }
+    public bool PlayerInputEnabled = false;
 
     public void Input(Keys key)
     {

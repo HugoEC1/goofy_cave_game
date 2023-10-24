@@ -14,13 +14,13 @@ public static class MainGeneration
         var walls = new bool[height,width];
         
         SimplexNoise.Seed = seed;
-        var noiseGrid = SimplexNoise.Calc2D(width, height, xOffset, yOffset, 0.10f);
+        var noiseGrid = SimplexNoise.Calc2D(width, height, xOffset, yOffset, 0.08f);
         
         for (var y = 0; y < height; y++)
         {
             for (var x = 0; x < width; x++)
             {
-                if (noiseGrid[y,x] > 128) // making this number smaller will make less walls as noise outputs number from 0 - 256
+                if (noiseGrid[y,x] > SIMPLEX_WALL_THRESHOLD)
                 {
                     walls[y,x] = false;
                 }

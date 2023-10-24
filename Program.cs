@@ -77,7 +77,7 @@ public static class Program
         player = new Player(spawnY, spawnX, inputHandler);
         gameScreen = new GameScreen();
         Game.Instance.Screen = gameScreen;
-        gameScreen.UpdateView(player);
+        ViewManager.UpdateView(player);
         CaveGame();
     }
 

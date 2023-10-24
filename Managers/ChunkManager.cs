@@ -26,12 +26,16 @@ public static class ChunkManager
         LoadedChunks.Add(chunk);
     }
 
-    public static void LoadChunk(int chunkY, int chunkX, int layer)
+    public static async Task LoadChunk(int chunkY, int chunkX, int layer)
     {
-        LoadedChunks.Add(new Chunk(null, new [] { chunkY, chunkX }, layer, new Cave(), GetSeed()));
+        if (LoadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) == null) { return; }
+        var createChunkTask = Task.Run(() => new Chunk(null, new[] { chunkY, chunkX }, layer, new Cave(), GetSeed()));
+        var chunk = await createChunkTask;
+        if (LoadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) == null) { return; }
+        LoadedChunks.Add(chunk);
     }
 
-    public static int[] ToChunkPosition(int[] position)
+    public static int[] ToLocalPosition(int[] position)
     {
         var chunkPositionY = position[0] % CHUNK_HEIGHT;
         var chunkPositionX = position[1] % CHUNK_WIDTH;
@@ -44,7 +48,7 @@ public static class ChunkManager
         {
             chunkPositionX += CHUNK_WIDTH;
         }
-
+        
         return new[] { chunkPositionY, chunkPositionX };
     }
 
@@ -54,7 +58,7 @@ public static class ChunkManager
         int chunkX;
         if (position[0] < 0)
         {
-            chunkY = position[0] / CHUNK_HEIGHT - 1;
+            chunkY = (position[0] + 1) / CHUNK_HEIGHT - 1;
         }
         else
         {
@@ -62,7 +66,7 @@ public static class ChunkManager
         }
         if (position[1] < 0)
         {
-            chunkX = position[1] / CHUNK_WIDTH - 1;
+            chunkX = (position[1] + 1) / CHUNK_WIDTH - 1;
         }
         else
         {

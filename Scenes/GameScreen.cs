@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Entities;
 using SadConsole.Input;
 using SadConsole.UI;
@@ -60,88 +61,9 @@ public class GameScreen : ScreenObject
             _entityManager.Add(GetPlayer().Entity);
         }
     }
-    public void UpdateView(Player player)
+    public void UpdateScreen(ColoredGlyph[,] glyphs)
     {
-        var chunkPosition = GetChunkPosition(player.Position);
-        var chunk = GetChunk(chunkPosition[0], chunkPosition[1], player.Layer);
-        Chunk? chunkN = null;
-        Chunk? chunkNE = null;
-        Chunk? chunkE = null;
-        Chunk? chunkSE = null;
-        Chunk? chunkS = null;
-        Chunk? chunkSW = null;
-        Chunk? chunkW = null;
-        Chunk? chunkNW = null;
-        var yOffset = player.Position[0] - GAMEVIEW_HEIGHT / 2;
-        var xOffset = player.Position[1] - GAMEVIEW_WIDTH / 2;
-        for (var y = 0; y < GAMEVIEW_HEIGHT; y++)
-        {
-            for (var x = 0; x < GAMEVIEW_WIDTH; x++)
-            {
-                var chunkOffset = ToChunkPosition(new[] { y + yOffset, x + xOffset });
-                var chunkYOffset = chunkOffset[0];
-                var chunkXOffset = chunkOffset[1];
-                if (y + yOffset < chunkPosition[0] * CHUNK_HEIGHT)
-                {
-                    // northwest
-                    if (x + xOffset < chunkPosition[1] * CHUNK_WIDTH)
-                    {
-                        if (chunkNW == null) { chunkNW = GetChunk(chunkPosition[0] - 1, chunkPosition[1] - 1, player.Layer); }
-                        chunkNW.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                    }
-                    // northeast
-                    else if (x + xOffset >= chunkPosition[1] * CHUNK_WIDTH + CHUNK_WIDTH)
-                    {
-                        if (chunkNE == null) { chunkNE = GetChunk(chunkPosition[0] - 1, chunkPosition[1] + 1, player.Layer); }
-                        chunkNE.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                    }
-                    // north
-                    else
-                    {
-                        if (chunkN == null) { chunkN = GetChunk(chunkPosition[0] - 1, chunkPosition[1], player.Layer); }
-                        chunkN.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                    }
-                }
-                else if (y + yOffset >= chunkPosition[0] * CHUNK_HEIGHT + CHUNK_HEIGHT)
-                {
-                    // southwest
-                    if (x + xOffset < chunkPosition[1] * CHUNK_WIDTH)
-                    {
-                        if (chunkSW == null) { chunkSW = GetChunk(chunkPosition[0] + 1, chunkPosition[1] - 1, player.Layer); }
-                        chunkSW.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                    }
-                    // southeast
-                    else if (x + xOffset >= chunkPosition[1] * CHUNK_WIDTH + CHUNK_WIDTH)
-                    {
-                        if (chunkSE == null) { chunkSE = GetChunk(chunkPosition[0] + 1, chunkPosition[1] + 1, player.Layer); }
-                        chunkSE.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                    }
-                    // south
-                    else
-                    {
-                        if (chunkS == null) { chunkS = GetChunk(chunkPosition[0] + 1, chunkPosition[1], player.Layer); }
-                        chunkS.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                    }
-                }
-                // west
-                else if (x + xOffset < chunkPosition[1] * CHUNK_WIDTH)
-                {
-                    if (chunkW == null) { chunkW = GetChunk(chunkPosition[0], chunkPosition[1] - 1, player.Layer); }
-                    chunkW.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                }
-                // east
-                else if (x + xOffset >= chunkPosition[1] * CHUNK_WIDTH + CHUNK_WIDTH)
-                {
-                    if (chunkE == null) { chunkE = GetChunk(chunkPosition[0], chunkPosition[1] + 1, player.Layer); }
-                    chunkE.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                }
-                // center
-                else
-                {
-                    chunk.Tiles[chunkYOffset,chunkXOffset].Glyph.CopyAppearanceTo(_gameView.Surface[x,y]);
-                }
-            }
-        }
+        
         _gameView.IsDirty = true;
     }
     public class GameLog : Console
