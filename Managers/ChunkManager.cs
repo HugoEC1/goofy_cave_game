@@ -6,16 +6,16 @@ namespace CaveGame.Managers;
 
 public static class ChunkManager
 {
-    public static List<Chunk> LoadedChunks = new();
+    private static List<Chunk> _loadedChunks = new();
 
     public static Chunk GetChunk(int chunkY, int chunkX, int layer)
     {
-        var chunk = LoadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX);
+        var chunk = _loadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX);
 
         if (chunk == null)
         {
             chunk = new Chunk(null, new []{chunkY, chunkX}, layer, new Cave(), GetSeed());
-            LoadedChunks.Add(chunk);
+            _loadedChunks.Add(chunk);
         }
 
         return chunk;
@@ -23,16 +23,36 @@ public static class ChunkManager
 
     public static void AddChunk(Chunk chunk)
     {
-        LoadedChunks.Add(chunk);
+        _loadedChunks.Add(chunk);
     }
 
+    public static void LoadSurroundingChunks(int chunkY, int chunkX, int layer)
+    {
+        // northwest
+        _ = Task.Run(() => LoadChunk(chunkY - 1, chunkX - 1, layer));
+        // north
+        _ = Task.Run(() => LoadChunk(chunkY - 1, chunkX, layer));
+        // northeast
+        _ = Task.Run(() => LoadChunk(chunkY - 1, chunkX + 1, layer));
+        // west
+        _ = Task.Run(() => LoadChunk(chunkY, chunkX - 1, layer));
+        // east
+        _ = Task.Run(() => LoadChunk(chunkY, chunkX + 1, layer));
+        // southwest
+        _ = Task.Run(() => LoadChunk(chunkY + 1, chunkX - 1, layer));
+        // south
+        _ = Task.Run(() => LoadChunk(chunkY + 1, chunkX, layer));
+        // southeast
+        _ = Task.Run(() => LoadChunk(chunkY + 1, chunkX + 1, layer));
+    }
+    
     public static async Task LoadChunk(int chunkY, int chunkX, int layer)
     {
-        if (LoadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) == null) { return; }
+        if (_loadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) != null) { return; }
         var createChunkTask = Task.Run(() => new Chunk(null, new[] { chunkY, chunkX }, layer, new Cave(), GetSeed()));
         var chunk = await createChunkTask;
-        if (LoadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) == null) { return; }
-        LoadedChunks.Add(chunk);
+        if (_loadedChunks.Find(loadedChunk => loadedChunk.Position[0] == chunkY && loadedChunk.Position[1] == chunkX) != null) { return; }
+        _loadedChunks.Add(chunk);
     }
 
     public static int[] ToLocalPosition(int[] position)

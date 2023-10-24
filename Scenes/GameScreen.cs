@@ -58,12 +58,18 @@ public class GameScreen : ScreenObject
                 .ChangeBorderGlyph(ICellSurface.ConnectedLineThick, Color.White, Color.Black);
             
             Border border = new(this, borderParams);
-            _entityManager.Add(GetPlayer().Entity);
+            _entityManager.Add(GetPlayer().GlyphEntity);
         }
     }
     public void UpdateScreen(ColoredGlyph[,] glyphs)
     {
-        
+        for (var y = 0; y < GAMEVIEW_HEIGHT; y++)
+        {
+            for (var x = 0; x < GAMEVIEW_WIDTH; x++)
+            {
+                glyphs[x,y].CopyAppearanceTo(_gameView.Surface[x,y]);
+            }
+        }
         _gameView.IsDirty = true;
     }
     public class GameLog : Console

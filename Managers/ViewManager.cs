@@ -5,7 +5,7 @@ using static CaveGame.GameSettings;
 
 namespace CaveGame.Managers;
 
-public class ViewManager
+public static class ViewManager
 {
     public static void UpdateView(Player player)
     {

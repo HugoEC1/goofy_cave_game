@@ -5,7 +5,7 @@ public static class GameSettings
     public const int TURN_SPEED = 10;
     public const int CHUNK_HEIGHT = 128;
     public const int CHUNK_WIDTH = 128;
-    public const int SIMPLEX_WALL_THRESHOLD = 128; // making this number smaller will make less walls as noise outputs number from 0 - 256
+    public const int SIMPLEX_WALL_THRESHOLD = 100; // making this number smaller will make less walls as noise outputs number from 0 - 256
     public const int MIN_AREA_CHECK = 0;
     public const int LOAD_DISTANCE = 1;
     public const int MIN_SPAWN_AREA = 5000;

@@ -30,22 +30,6 @@ public static class MainGeneration
                 }
             }
         }
-        
-        for (var y = 0; y < height; y++)
-        {
-            for (var x = 0; x < width; x++)
-            {
-                if (walls[y,x])
-                {
-                    System.Console.Write("X");
-                }
-                else
-                {
-                    System.Console.Write(" ");
-                }
-            }
-            System.Console.WriteLine("");
-        }
 
         System.Console.WriteLine("Region Generated: " + chunkX + ", " + chunkY);
         System.Console.WriteLine("Seed: " + seed);
@@ -54,8 +38,6 @@ public static class MainGeneration
     
     // bad at method names
     // example use: find large enough area to spawn player/staircase
-    // TODO: make the method that finds starting coords recursive and to keep finding coords from unvisited tiles until entire chunk has been checked
-    // TODO: also find all empty tiles and randomly select from an array of them instead of randomly brute forcing all tiles (while excluding already visited tiles)
     public static int[,]? FindAreaThatIsOfProvidedArea(Chunk chunk, int area)
     {
         var walls = chunk.Blocking;

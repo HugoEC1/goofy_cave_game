@@ -66,6 +66,7 @@ public static class Program
             if (spawnArea != null)
             {
                 AddChunk(startChunk);
+                LoadSurroundingChunks(startChunk.Position[0], startChunk.Position[1], 0);
                 var spawnIndex = SHutil.Random(0, spawnArea.GetLength(0));
                 spawnY = spawnArea[spawnIndex, 0];
                 spawnX = spawnArea[spawnIndex, 1];
