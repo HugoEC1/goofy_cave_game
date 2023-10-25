@@ -15,7 +15,6 @@ public class Player : Entity
         TurnSpeed = TURN_SPEED;
         Health = MaxHealth;
         Speed = 10;
-        Hunger = 100;
         Position = new []{y, x};
         Layer = 0;
         GlyphEntity = new SadConsole.Entities.Entity(foreground: Color.Red, background: Color.Black, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2, GAMEVIEW_HEIGHT / 2) };

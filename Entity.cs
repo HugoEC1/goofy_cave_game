@@ -8,7 +8,6 @@ public abstract class Entity
     protected int MaxHealth;
 
     public int Health;
-    public int Hunger; 
     protected int Speed;
     public int[] Position = new int[2];
     public int Layer;
