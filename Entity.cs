@@ -5,21 +5,38 @@ namespace CaveGame;
 
 public abstract class Entity
 {
-    protected string Id = "";
+    public enum DamageTypes
+    {
+        Damage,
+        Slice,
+        Pierce,
+        Bludgeon,
+        Force,
+        Heat,
+        Chill,
+        Shock,
+        Acid,
+        Mental,
+        Entropic,
+        Axiomatic,
+        Null
+    }
+    
+    protected abstract string Id { get; }
+    public abstract int SpawnWeight { get; }
     protected string Name = "";
     protected string[] Pronouns = new string[3];
-    protected int SpawnWeight;
     protected int TurnSpeed = TURN_SPEED;
+    protected int TurnIndex;
     protected int MaxHealth;
 
-    public int Health;
+    protected int Health;
     protected int Speed;
     public int[] Position = new int[2];
     public int Layer;
     public SadConsole.Entities.Entity GlyphEntity = new (foreground: Color.Red, background: Color.Black, glyph: 177, zIndex: 0);
-    protected int TurnIndex;
-
-    public void TakeDamage(int dmg, string source)
+    
+    public void TakeDamage(int dmg, Enum type, string source)
     {
         Health -= dmg;
         if (Health < 0)
