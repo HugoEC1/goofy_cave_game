@@ -7,22 +7,21 @@ namespace CaveGame;
 
 public class Player : Entity
 {
+    protected override string Id => "swarmer";
+    public override int SpawnWeight => 10;
     private readonly InputHandler _inputHandler;
     
     public Player(int y, int x, InputHandler inputHandler)
     {
-        Id = "player";
         Name = "Player";
         Pronouns = new []{"they", "them", "their"};
         MaxHealth = 100;
-        TurnSpeed = TURN_SPEED;
         Health = MaxHealth;
         Speed = 10;
         Position = new []{y, x};
         Layer = 0;
-        GlyphEntity = new SadConsole.Entities.Entity(foreground: Color.Red, background: Color.Black, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2, GAMEVIEW_HEIGHT / 2) };
+        GlyphEntity = new SadConsole.Entities.Entity(foreground: Color.Blue, background: Color.Black, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2, GAMEVIEW_HEIGHT / 2) };
         _inputHandler = inputHandler;
-        TurnIndex = 0;
     }
 
     private TaskCompletionSource<bool>? _turnActionComplete;

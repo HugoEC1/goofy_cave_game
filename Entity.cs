@@ -26,8 +26,8 @@ public abstract class Entity
     public abstract int SpawnWeight { get; }
     protected string Name = "";
     protected string[] Pronouns = new string[3];
-    protected int TurnSpeed = TURN_SPEED;
-    protected int TurnIndex;
+    protected readonly int TurnSpeed = TURN_SPEED;
+    protected int TurnIndex = 0;
     protected int MaxHealth;
 
     protected int Health;
