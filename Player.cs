@@ -11,37 +11,18 @@ public class Player : Entity
     
     public Player(int y, int x, InputHandler inputHandler)
     {
+        Id = "player";
+        Name = "Player";
+        Pronouns = new []{"they", "them", "their"};
         MaxHealth = 100;
         TurnSpeed = TURN_SPEED;
         Health = MaxHealth;
         Speed = 10;
-        Hunger = 100;
         Position = new []{y, x};
         Layer = 0;
         GlyphEntity = new SadConsole.Entities.Entity(foreground: Color.Red, background: Color.Black, glyph: '@', zIndex: 9000) { Position = new Point(GAMEVIEW_WIDTH / 2, GAMEVIEW_HEIGHT / 2) };
         _inputHandler = inputHandler;
         TurnIndex = 0;
-    }
-    
-    public void TakeDamage(int damage, string causeId)
-    {
-        Health -= damage;
-        if(Health <= 0){
-            Die(causeId);
-        }
-    }
-    
-    private static void Die(string causeId)
-    {
-        switch (causeId) {
-            case "swarmer":
-                GetGameScreen().PrintLog("You were torn apart by a swarmer.", Color.Red);
-                break;
-            case "goldenFreddy":
-                GetGameScreen().PrintLog("WAS THAT THE BITE OF 87???", Color.Red);
-                break;
-        }
-        GetGameScreen().PrintLog("--- YOU DIED ---", Color.Red);
     }
 
     private TaskCompletionSource<bool>? _turnActionComplete;
