@@ -35,3 +35,14 @@ public abstract class Item{
         // print(yummy)
     }
 }
+
+public class TestItem : Item{
+    public TestItem(){
+        Id = "test_item";
+        Name = "Test Item";
+        Description = "A test item.";
+        StackSize = 1;
+        StackCount = 1;
+        Weight = 1;
+    }
+}
