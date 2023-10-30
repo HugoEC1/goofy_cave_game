@@ -14,7 +14,7 @@ public static class MainGeneration
         var walls = new bool[height,width];
         
         SimplexNoise.Seed = seed;
-        var noiseGrid = SimplexNoise.Calc2D(width, height, xOffset, yOffset, 0.08f);
+        var noiseGrid = SimplexNoise.Calc2D(width, height, xOffset, yOffset, 0.05f);
         
         for (var y = 0; y < height; y++)
         {
